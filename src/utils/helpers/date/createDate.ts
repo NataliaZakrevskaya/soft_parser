@@ -17,6 +17,7 @@ export const createDate = (params?: CreateDateParams) => {
   const yearShort = d.toLocaleDateString(locale, { year: '2-digit' });
   const month = d.toLocaleDateString(locale, { month: 'long' });
   const monthShort = d.toLocaleDateString(locale, { month: 'short' });
+  const monthShortUpper = monthShort.charAt(0).toUpperCase() + monthShort.slice(1);
   const monthNumber = d.getMonth() + 1;
   const monthIndex = d.getMonth();
   const timestamp = d.getTime();
@@ -31,7 +32,7 @@ export const createDate = (params?: CreateDateParams) => {
     year,
     yearShort,
     month,
-    monthShort,
+    monthShortUpper,
     monthNumber,
     monthIndex,
     timestamp,

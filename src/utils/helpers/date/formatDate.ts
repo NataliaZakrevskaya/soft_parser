@@ -13,7 +13,7 @@ export const formatDate = (date: Date, format: string) => {
     .replace(/\bDD\b/, d.dayNumber.toString().padStart(2, '0'))
     .replace(/\bD\b/, d.dayNumber.toString())
     .replace(/\bMMMM\b/, d.month)
-    .replace(/\bMMM\b/, d.monthShort)
+    .replace(/\bMMM\b/, d.monthShortUpper)
     .replace(/\bMM\b/, d.monthNumber.toString().padStart(2, '0'))
     .replace(/\bM\b/, d.monthNumber.toString());
 };

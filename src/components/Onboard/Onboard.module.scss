@@ -1,0 +1,99 @@
+.onboardWrapper {
+ margin-top: 40px;
+}
+
+.title {
+ font-weight: 600;
+ font-size: 22px;
+ line-height: 27px;
+ color: var(--color-text-title);
+ margin-bottom: 18px;
+}
+
+.onboardContent {
+ display: flex;
+ align-items: flex-start;
+ justify-content: space-between;
+}
+
+.onBoardOptionContainer {
+ display: flex;
+ flex-direction: column;
+ gap: 26px;
+}
+
+.option {
+ display: flex;
+ align-items: center;
+ gap: 19px;
+ padding: 14px 12px 14px 8px;
+ background: var(--color-background-gray);
+ border-radius: 10px;
+ max-width: 648px;
+ cursor: pointer;
+
+ &_active {
+	background-color: #153266;
+ }
+}
+
+.optionText {
+ font-weight: 400;
+ font-size: 18px;
+ line-height: 140%;
+ color: var(--color-text-gray);
+
+ &_active {
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 140%;
+	color: #fff;
+ }
+}
+
+.optionNumber {
+ min-width: 38px;
+ min-height: 38px;
+ border: 2px solid #A7A7BC;
+ border-radius: 50%;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ color: #A7A7BC;
+ font-weight: 600;
+ font-size: 22px;
+ line-height: 27px;
+
+ &_active {
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 140%;
+	color: #FFFFFF;
+	border: 2px solid #FFFFFF;
+ }
+}
+
+.onboardImage {
+ width: 584px;
+}
+
+.onboardImageOne {
+ background-image: url("../../static/images/onboardOne.png");
+ background-size: contain;
+ width: 584px;
+ height: 250px;
+}
+
+.onboardImageTwo {
+ background-image: url("../../static/images/onboardTwo.png");
+ background-size: contain;
+ width: 584px;
+ height: 367px;
+}
+
+.onboardImageThree {
+ background-image: url("../../static/images/onboardThree.png");
+ background-size: contain;
+ width: 584px;
+ height: 548px;
+}

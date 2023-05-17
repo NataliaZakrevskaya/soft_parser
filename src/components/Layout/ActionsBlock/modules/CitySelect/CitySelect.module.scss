@@ -1,0 +1,130 @@
+.cityWrapper {
+ position: relative;
+}
+
+.citySelect {
+ width: 286px;
+ height: 38px;
+ border: 1px solid var(--color-border-gray);
+ border-radius: var(--border-radius-base);
+ display: flex;
+ align-items: center;
+ font-weight: 400;
+ font-size: 16px;
+ line-height: 19px;
+ color: var(--color-text-gray);
+ background: #FFF url("../../../../../static/images/arrow-bottom.svg") no-repeat right 12px center;
+ cursor: pointer;
+ padding-left: 14px;
+
+ &_chosen {
+	color: var(--color-text);
+ }
+
+ &_open {
+	background: #FFF url("../../../../../static/images/arrow-top.svg") no-repeat right 12px center;
+
+	&:hover {
+	 background: #FFF url("../../../../../static/images/arrow-top-blue.svg") no-repeat right 12px center !important;
+	}
+ }
+
+ &:hover {
+	border: 1px solid var(--color-primary);
+	color: var(--color-primary);
+	background: #FFF url("../../../../../static/images/arrow-bottom-blue.svg") no-repeat right 12px center;
+ }
+}
+
+.scroll {
+ position: absolute;
+ top: 44px;
+ max-height: 430px;
+ width: 286px;
+ overflow: hidden;
+ background: #FFF;
+ border: 1px solid var(--color-border-gray);
+ box-shadow: 0 2px 22px rgba(28, 39, 49, 0.05);
+ border-radius: var(--border-radius-base);
+ padding: 10px 2px 10px 10px;
+}
+
+.cityList {
+ max-height: 410px;
+ padding: 1px 0;
+ width: 100%;
+ display: flex;
+ flex-direction: column;
+ gap: 10px;
+ list-style: none;
+ overflow: auto;
+
+ &::-webkit-scrollbar {
+	width: 6px;
+	background-color: #fff;
+ }
+
+ &::-webkit-scrollbar-thumb {
+	width: 2px;
+	background-color: var(--color-text-gray);
+	border-radius: 100px;
+ }
+}
+
+.cityItem {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 8px;
+ width: 254px;
+ border: 1px solid inherit;
+ border-radius: var(--border-radius-base);
+ cursor: pointer;
+
+ &_active {
+	border: 1px solid var(--color-primary);
+	border-radius: var(--border-radius-base);
+	background: var(--color-background-active);
+ }
+
+ &:hover {
+	background: var(--color-background-gray);
+	border-radius: var(--border-radius-small);
+ }
+}
+
+.cityInfo {
+ display: flex;
+ flex-direction: column;
+ align-items: flex-start;
+ gap: 4px;
+
+
+ .cityName {
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 140%;
+	color: var(--color-text);
+ }
+
+ .pvzCount {
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 135%;
+	color: #A7A7BC;
+ }
+}
+
+.input {
+ display: none;
+}
+
+.customRadio {
+ width: 20px;
+ height: 20px;
+ background-image: url("../../../../../static/images/radio.svg");
+
+ &_active {
+	background-image: url("../../../../../static/images/radioActive.svg");
+ }
+}

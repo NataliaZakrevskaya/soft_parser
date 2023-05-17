@@ -1,0 +1,84 @@
+.periodWrapper {
+ position: relative;
+}
+
+.btn {
+ cursor: pointer;
+ display: flex;
+ align-items: center;
+ gap: 6px;
+ background: #FFF;
+ border: 1px solid var(--color-border-gray);
+ border-radius: 10px;
+}
+
+.periodBtn {
+height: 38px;
+ padding: 0 20px;
+}
+
+.periodBtn:hover {
+ border: 1px solid var(--color-primary);
+ color: var(--color-primary);
+
+ & svg {
+	& path {
+	 stroke: var(--color-primary);
+	}
+ }
+}
+
+.periodBtnActive {
+ border: 1px solid var(--color-primary);
+ color: var(--color-primary);
+ background: var(--color-background-active);
+
+ & svg {
+	& path {
+	 stroke: var(--color-primary);
+	}
+ }
+}
+
+.dropdownSelect {
+ position: absolute;
+ width: 173px;
+ height: 182px;
+ padding: 0;
+ right: 0;
+ top: 62px;
+ background: #FFF;
+ box-shadow: 8px 3px 22px 10px rgba(150, 150, 150, 0.11);
+ border-radius: var(--border-radius-base);
+}
+
+.dropdownSelect li:first-child {
+ border-radius: 10px 10px 0 0;
+}
+
+.dropdownSelect li:last-child {
+ border-radius: 0 0 10px 10px;
+}
+
+.option {
+ cursor: pointer;
+ list-style: none;
+ width: 100%;
+ padding: 12px 18px;
+ font-weight: 400;
+ font-size: 16px;
+ line-height: 140%;
+ color: var(--color-text);
+
+ &_active {
+	background: var(--color-primary);
+	color: #fff;
+ }
+ &_active:hover {
+	background: var(--color-primary) !important;
+	color: #fff !important;
+ }
+}
+.option:hover {
+background: var(--color-background-gray);
+}

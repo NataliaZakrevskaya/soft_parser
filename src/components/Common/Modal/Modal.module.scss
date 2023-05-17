@@ -1,0 +1,46 @@
+.callbackModals {
+ width: 100%;
+ height: 100%;
+ background-color: rgba(0, 0, 0, 0.5);
+ position: fixed;
+ z-index: 10;
+ top: 0;
+ left: 0;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ padding: 0 10px;
+
+ .modalContent {
+	padding: 26px;
+	border-radius: var(--border-radius-largest);
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+	max-width: 100%;
+ }
+}
+
+.modalControls {
+ display: flex;
+ width: 100%;
+ align-items: center;
+ justify-content: space-between;
+}
+
+.modalTitle {
+ font-weight: 600;
+ font-size: 22px;
+ line-height: 27px;
+ text-align: center;
+ color: var(--color-text-title);
+}
+
+.closeIcon {
+ background-image: url("../../../static/images/close.svg");
+ width: 24px;
+ height: 24px;
+ cursor: pointer;
+}

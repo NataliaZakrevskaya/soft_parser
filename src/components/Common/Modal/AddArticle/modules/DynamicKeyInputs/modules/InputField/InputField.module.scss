@@ -1,0 +1,70 @@
+.fieldWrapper {
+ display: flex;
+ flex-direction: column;
+}
+
+.input {
+ width: 470px;
+ height: 48px;
+ outline: none;
+ background: #FFFF;
+ border: 1px solid var(--color-border-gray);
+ border-radius: var(--border-radius-base);
+ padding: 0 22px;
+ caret-color: #A7A7BC;
+ font-weight: 400;
+ font-size: 18px;
+ line-height: 140%;
+ color: var(--color-text);
+ font-family: Gilroy, sans-serif;
+
+ &::placeholder {
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 140%;
+	color: #A7A7BC;
+	font-family: Gilroy, sans-serif;
+ }
+}
+
+.controlsWrapper {
+ width: 100%;
+ display: flex;
+ margin-top: 8px;
+}
+
+.controlBtn {
+ display: flex;
+ align-items: center;
+ justify-content: flex-start;
+ gap: 10px;
+ font-weight: 500;
+ font-size: 16px;
+ line-height: 140%;
+ cursor: pointer;
+}
+
+.twoControls {
+ display: flex;
+ justify-content: space-between;
+}
+
+.addKey {
+ color: var(--color-primary);
+}
+
+.deleteKey {
+ color: var(--color-text-red);
+}
+
+.addIcon {
+ width: 24px;
+ height: 24px;
+ background-image: url("../../../../../../../../static/images/plus-blue.svg");
+}
+
+.deleteIcon {
+ width: 24px;
+ height: 24px;
+ background-image: url("../../../../../../../../static/images/minus.svg");
+}

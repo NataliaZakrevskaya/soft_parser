@@ -1,0 +1,100 @@
+.actionsBlockWrapper {
+ width: var(--container-width);
+ display: flex;
+ flex-direction: column;
+}
+
+.articleWrapper {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 32px;
+}
+
+.article {
+ display: flex;
+ flex-direction: column;
+ align-items: flex-start;
+ gap: 6px;
+
+ & h1 {
+	font-weight: 600;
+	font-size: 28px;
+	line-height: 34px;
+	color: #151618;
+ }
+
+ & p {
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 140%;
+	color: var(--color-text-gray);
+ }
+}
+
+.searchSettingsWrapper {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+}
+
+.cityBlockWrapper {
+ display: flex;
+ align-items: center;
+ justify-content: flex-start;
+ gap: 10px;
+}
+
+.editCityBlock {
+ cursor: pointer;
+
+ &:hover {
+	& svg {
+	 & rect {
+		fill: var(--color-border-gray);
+	 }
+	}
+ }
+}
+
+.actionsWrapper {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+}
+
+.btnWrapper {
+ display: flex;
+ align-items: center;
+ gap: 10px;
+}
+
+.btn {
+ cursor: pointer;
+ display: flex;
+ align-items: center;
+ gap: 6px;
+ background: #FFF;
+ border: 1px solid var(--color-border-gray);
+ border-radius: 10px;
+}
+
+.addArticle {
+ height: 38px;
+ padding: 0 24px;
+}
+
+.addArticle:hover {
+ border: 1px solid var(--color-primary);
+ color: var(--color-primary);
+
+ & svg {
+	& path {
+	 stroke: var(--color-primary);
+	}
+
+	& circle {
+	 stroke: var(--color-primary);
+	}
+ }
+}

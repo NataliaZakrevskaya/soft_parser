@@ -1,0 +1,68 @@
+.modalContent {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ gap: 20px;
+ margin-top: 20px;
+ width: 100%;
+ max-height: 584px;
+ overflow: hidden;
+}
+
+.inputsWrapper {
+ max-height: 584px;
+ overflow: auto;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ gap: 16px;
+ padding-right: 3px;
+
+
+ &::-webkit-scrollbar {
+  width: 6px;
+  background-color: #fff;
+ }
+
+ &::-webkit-scrollbar-thumb {
+  width: 2px;
+  background-color: var(--color-text-gray);
+  border-radius: 100px;
+ }
+}
+
+.input {
+ width: 470px;
+ height: 48px;
+ min-height: 48px;
+ outline: none;
+ background: #FFFF;
+ border: 1px solid var(--color-border-gray);
+ border-radius: var(--border-radius-base);
+ padding: 0 22px;
+ caret-color: #A7A7BC;
+ font-weight: 400;
+ font-size: 18px;
+ line-height: 140%;
+ color: var(--color-text);
+ font-family: Gilroy, sans-serif;
+
+ &::placeholder {
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 140%;
+	color: #A7A7BC;
+	font-family: Gilroy, sans-serif;
+ }
+}
+
+.buttonWrapper {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ width: 100%;
+}
+
+.button {
+ width: 227px;
+}

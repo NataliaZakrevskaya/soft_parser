@@ -1,127 +1,102 @@
-import React from 'react';
-import './Calendar.css';
-import {useCalendar} from "./hooks/useCalendar";
-import {checkDateIsEqual, createDate} from "../../utils/helpers/date";
-import ArrowLeft from "./modules/ArrowLeft";
-import ArrowRight from "./modules/ArrowRight";
+import React from 'react'
+import {DataPicker} from './DataPicker/DataPicker'
+import {formatDate} from '../../utils/helpers/date'
+import styles from './Calendar.module.scss'
+import {calendarOptions} from '../../utils/mocks'
+import {IProps} from './types'
+import cn from 'classnames'
 
+const Calendar = ({
+                    chosenPeriod,
+                    onPeriodOptionClick,
+                    closeCalendar,
+                    setSecondDayCommon,
+                    setFirstDayCommon
+                  }: IProps) => {
 
-interface CalendarProps {
-    firstDay: Date | null;
-    secondDay: Date | null;
-    changeFirstDay: (day: Date) => void;
-    changeSecondDay: (day: Date | null) => void;
-}
+  const sixDaysAgo = new Date()
+  sixDaysAgo.setDate(sixDaysAgo.getDate() - 6)
 
-export const Calendar = ({
-                             firstDay,
-                             secondDay,
-                             changeFirstDay,
-                             changeSecondDay
-                         }: CalendarProps) => {
+  const [firstDay, setFirstDay] = React.useState<Date>(sixDaysAgo)
+  const [secondDay, setSecondDay] = React.useState<Date | null>(new Date())
 
-    const locale = 'default'
-    const todayTimestamp = createDate({date: new Date()}).timestamp
-
-    const {functions, state} = useCalendar({
-        locale,
-        firstDay,
-        secondDay,
-    });
-
-    const onDayClick = (day: any) => {
-        const isFirstDay = firstDay ? checkDateIsEqual(day.date, firstDay) : false;
-        const isSecondDay = secondDay ? checkDateIsEqual(day.date, secondDay) : false;
-
-        if (firstDay && secondDay) {
-            if (isFirstDay && !isSecondDay) {
-                functions.setSelectedSecondDay(day)
-                changeSecondDay(day.date)
-            }
-
-            if (!isFirstDay && !isSecondDay) {
-                changeFirstDay(day.date)
-                changeSecondDay(null)
-            }
-        }
-
-        if (firstDay && !secondDay) {
-            const firstDayTimestamp = createDate({date: firstDay}).timestamp
-            if (firstDayTimestamp < day.timestamp) {
-                changeSecondDay(day.date)
-            } else {
-                changeSecondDay(firstDay)
-                changeFirstDay(day.date)
-            }
-        }
-
+  const changeFirstDay = (day: Date) => {
+    // setFirstDayCommon(day)
+    setFirstDay(day)
+  }
+  const changeSecondDay = (day: Date | null) => {
+    // setSecondDayCommon(day)
+    setSecondDay(day)
+  }
+  const onCalendarOptionClick = (option: string) => {
+    if(option !== null){
+      closeCalendar()
     }
+    onPeriodOptionClick(option)
+  }
+  const onCancelClick = () => {
+    onPeriodOptionClick('')
+    closeCalendar()
+  }
+  const onApplyClick = () => {
+    if(secondDay){
+      setFirstDayCommon(firstDay)
+      setSecondDayCommon(secondDay)
+      onPeriodOptionClick(`${formatDate(firstDay, 'MMM DD, YYYY')} - ${formatDate(secondDay, 'MMM DD, YYYY')}`)
+      closeCalendar()
+    } else{
+      setFirstDayCommon(firstDay)
+      onPeriodOptionClick(`${formatDate(firstDay, 'MMM DD, YYYY')}`)
+      closeCalendar()
+    }
+  }
 
-    return (
-
-        <div className='calendar'>
-            <div className='calendar__header'>
-                <div className='header__info__wrapper'>
-                    <div aria-hidden className='month__text'>
-                        {state.monthesNames[state.selectedMonth.monthIndex].month} {state.selectedYear}
-                    </div>
-                    <div className='buttons__wrapper'>
-                        <div
-                            aria-hidden
-                            className='arrow__wrapper'
-                            onClick={() => functions.onClickArrow('left')}
-                        >
-                            <ArrowLeft/>
-                        </div>
-                        <div
-                            aria-hidden
-                            className='arrow__wrapper'
-                            onClick={() => functions.onClickArrow('right')}
-                        >
-                            <ArrowRight/>
-                        </div>
-                    </div>
-
-                </div>
-
+  return (
+    <div className={styles.calendarContainer}>
+      <div className={styles.infoContainer}>
+        <div className={styles.containerOptions}>
+          {calendarOptions.map((option: any) => (
+            <div key={option.id}
+                 className={cn(styles.optionContainer, {
+                   [styles.optionContainerActive]: chosenPeriod === option.date
+                 })}
+                 onClick={() => onCalendarOptionClick(option.date)}>
+              <p
+                className={cn(styles.optionBody, {
+                  [styles.optionBodyActive]: chosenPeriod === option.date
+                })}>{option.title}</p>
             </div>
-            <div className='calendar__body'>
-                <div className='calendar__week__names'>
-                    {state.weekDaysNames.map((weekDaysName) => (
-                        <div key={weekDaysName.dayShort}>{weekDaysName.dayShort}</div>
-                    ))}
-                </div>
-                <div className='calendar__days'>
-                    {state.calendarDays.map((day) => {
-
-                        const isSelectedDay = checkDateIsEqual(day.date, firstDay) || checkDateIsEqual(day.date, secondDay);
-                        const isAdditionalDay = day.monthIndex !== state.selectedMonth.monthIndex;
-                        const innerInterval = secondDay ? day.timestamp > createDate({date: firstDay!}).timestamp && day.timestamp < createDate({date: secondDay!}).timestamp : false
-                        const isSelectedSecondDay = checkDateIsEqual(day.date, secondDay)
-                        const isOneSelectedDay = checkDateIsEqual(day.date, firstDay) && checkDateIsEqual(day.date, secondDay)
-                        const isDayAfterToday = day.timestamp > todayTimestamp
-
-                        return (
-                            <div
-                                key={`${day.dayNumber}-${day.monthIndex}`}
-                                aria-hidden
-                                onClick={() => onDayClick(day)}
-                                className={[
-                                    'calendar__day',
-                                    isSelectedDay ? 'calendar__selected__item' : '',
-                                    isSelectedSecondDay ? 'selected__item__second' : '',
-                                    isAdditionalDay ? 'calendar__additional__day' : '',
-                                    isOneSelectedDay ? 'one__selected__day' : '',
-                                    isDayAfterToday ? 'after__today__day' : '',
-                                    innerInterval ? 'calendar__inner__day' : ''
-                                ].join(' ')}
-                            >
-                                {day.dayNumber}
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
+          ))}
         </div>
-    )
+        <div className={styles.calendarWrapper}>
+          <DataPicker
+            firstDay={firstDay}
+            secondDay={secondDay}
+            changeFirstDay={changeFirstDay}
+            changeSecondDay={changeSecondDay}
+          />
+        </div>
+      </div>
+      <div className={styles.controlsContainer}>
+        <div className={styles.dateContainer}>
+          <p
+            className={styles.dateItem}>{firstDay ? formatDate(firstDay, 'MMM DD, YYYY') : ''} - {secondDay ? formatDate(secondDay, 'MMM DD, YYYY') : ''}</p>
+        </div>
+        <div className={styles.btnContainer}>
+          <button
+            className={styles.buttonCancel}
+            onClick={onCancelClick}
+          >Отмена
+          </button>
+          <button
+            className={styles.buttonApply}
+            onClick={onApplyClick}
+          >Применить
+          </button>
+        </div>
+      </div>
+    </div>
+  )
 }
+
+export default Calendar

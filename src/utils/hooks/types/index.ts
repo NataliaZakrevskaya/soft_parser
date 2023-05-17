@@ -1,0 +1,1 @@
+export type IEventHandler = (ev: UIEvent) => any

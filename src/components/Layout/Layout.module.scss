@@ -1,0 +1,14 @@
+.page {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ min-height: 100vh;
+ min-width: 100vw;
+}
+
+.main {
+ flex: 1 0 auto;
+ min-width: var(--container-width);
+ display: flex;
+ flex-direction: column;
+}

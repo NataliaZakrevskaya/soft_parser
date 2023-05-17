@@ -1,0 +1,196 @@
+.navList {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.navItemSoon {
+  font-size: 18px;
+  line-height: 22px;
+  color: #ffffff;
+}
+
+.navLink {
+  padding: 40px 0;
+  //@include link;
+  font-size: var(--fz-large);
+  line-height: var(--lh-large);
+  color: var(--color-fg);
+}
+
+.navLinkActive {
+  color: var(--color-primary) !important;
+  font-weight: var(--fw-bold);
+}
+
+.navButtonSoon {
+  color: #ffffff;
+}
+.navLinkSoon {
+  color: #ffffff;
+  &:hover {
+    color: #ffffff !important;
+  }
+}
+
+.dropdown {
+  position: absolute;
+  padding: 32px 0 40px;
+  margin-top: 1px;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border-radius: 0 0 var(--border-radius-base) var(--border-radius-base);
+  background: var(--color-bg);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.1s;
+  z-index: 100;
+}
+
+.dropdownOpen {
+  opacity: 1;
+  visibility: visible;
+}
+
+.layout {
+  display: flex;
+}
+
+.layoutAside {
+  flex: 0 0 auto;
+  width: 240px;
+  padding-right: 60px;
+  margin-right: 60px;
+  border-right: 1px solid var(--color-bg-3);
+}
+
+.layoutMain {
+  flex: 1 1 auto;
+}
+
+.asideBtn {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  line-height: 20px;
+  border-radius: var(--border-radius-base);
+  background: var(--color-bg);
+  color: var(--color-fg-2);
+  cursor: pointer;
+  transition: var(--trs-base);
+}
+
+.asideBtnActive {
+  background: var(--color-primary-disabled-light);
+  color: var(--color-primary);
+}
+
+.mainBlock {
+  display: none;
+}
+
+.mainBlockActive {
+  display: block;
+}
+
+.mainHead {
+  display: flex;
+  align-items: baseline;
+  gap: 6px 16px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.mainTitle {
+  font: var(--font-h3);
+}
+
+.mainNote {
+  font-size: var(--fz-small);
+  line-height: var(--lh-small);
+  color: var(--color-fg-3);
+}
+
+.mainBlockLayout {
+  display: flex;
+  gap: 40px;
+}
+
+.mainBlockMain {
+  flex: 1 1 auto;
+}
+
+.mainBlockAside {
+  flex: 0 0 auto;
+  width: 385px;
+  margin-left: auto;
+}
+
+.mainList {
+  display: grid;
+  gap: 16px;
+}
+
+.mainLink {
+  //@include link;
+
+  &_active {
+    //@include link-hover;
+  }
+}
+
+.banner {
+  display: block;
+  margin: 25px 0;
+  outline: none;
+  color: var(--color-fg);
+  text-decoration: none;
+  transition: var(--trs-base);
+
+  //@include flc;
+}
+
+.bannerTitle {
+  font-weight: var(--fw-medium);
+  margin-bottom: 16px;
+}
+
+.bannerImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius-base);
+}
+
+.banner:focus-visible {
+  outline: 1px solid var(--color-fg);
+}
+
+@media (any-hover: hover) {
+  .banner:hover {
+    color: var(--color-primary);
+  }
+}
+
+.note {
+  margin: 25px 0;
+  display: flex;
+  font-size: var(--fz-small);
+  line-height: var(--lh-small);
+  color: var(--color-fg-2);
+
+  //@include flc;
+}
+
+.noteIcon {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  color: var(--color-primary);
+}
+
+.noteBody {
+  flex: 1 1 auto;
+}
