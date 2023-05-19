@@ -1,3 +1,4 @@
+@import "breakpoints";
 .appContainer {
     display: flex;
     justify-content: center;
@@ -13,4 +14,10 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+@media (max-width: $screen-2xs-max) {
+    .tablesWrapper{
+        margin-top: 20px;
+    }
 }

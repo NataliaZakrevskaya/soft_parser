@@ -1,14 +1,23 @@
+@import "src/static/css/breakpoints";
+
 .page {
- display: flex;
- flex-direction: column;
- align-items: center;
- min-height: 100vh;
- min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  min-width: 100vw;
 }
 
 .main {
- flex: 1 0 auto;
- min-width: var(--container-width);
- display: flex;
- flex-direction: column;
+  flex: 1 0 auto;
+  min-width: var(--container-width);
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: $screen-2xs-max) {
+  .main {
+    min-width: var(--container-width-mobile);
+    max-width: var(--container-width-mobile);
+  }
 }

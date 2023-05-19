@@ -9,10 +9,11 @@ import DefaultPVZ from './components/Common/Modal/DefaultPVZ/DefaultPVZ'
 import AddArticle from './components/Common/Modal/AddArticle/AddArticle'
 import Table from './components/Table/Table'
 import Onboard from './components/Onboard/Onboard'
-import KeyHint from './components/Table/modules/keyHint/keyHint'
+import {useWindowSize} from "./utils/hooks/useWindowSize";
 
 export const App: React.FC = () => {
 
+  const [isMobile, setIsMobile] = useState(false)
   const [editPVZModalOpen, setEditPVZModalOpen] = useState<boolean>(false)
   const [editCityModalOpen, setEditCityModalOpen] = useState<boolean>(false)
   const [defaultPVZModalOpen, setDefaultPVZModalOpen] = useState<boolean>(false)
@@ -23,10 +24,12 @@ export const App: React.FC = () => {
   const [secondDay, setSecondDay] = useState<Date | null>(null)
   const [articles, setArticles] = useState<string[]>([
     '49582305',
-    '73582305',
-    '13782305'
+    // '73582305',
+    // '13782305'
   ])
   const [searchArticle, setSearchActive] = useState<string>('')
+
+  const {width} = useWindowSize()
 
   const openPVZModal = () => setEditPVZModalOpen(true)
   const closePVZModal = () => setEditPVZModalOpen(false)
@@ -42,17 +45,33 @@ export const App: React.FC = () => {
   const addArticle = (value: string) => setArticles([value, ...articles])
 
   useEffect(() => {
-    if(secondDay === null){
-      setChosenPeriod([firstDay.toLocaleDateString('ru-RU', {month: 'numeric', day: 'numeric', year: 'numeric'})])
-    } else{
+    if(isMobile){
+      const sixDaysAgo = new Date()
+      sixDaysAgo.setDate(sixDaysAgo.getDate() - 6)
+      const firstDay = sixDaysAgo
+      const secondDay = new Date()
       const dates = []
       while(firstDay <= secondDay!){
         dates.unshift(firstDay.toLocaleDateString('ru-RU', {month: 'numeric', day: 'numeric', year: 'numeric'}))
         firstDay.setDate(firstDay.getDate() + 1)
       }
       setChosenPeriod(dates)
+    } else{
+      if(secondDay === null){
+        setChosenPeriod([firstDay.toLocaleDateString('ru-RU', {month: 'numeric', day: 'numeric', year: 'numeric'})])
+      } else{
+        const dates = []
+        while(firstDay <= secondDay!){
+          dates.unshift(firstDay.toLocaleDateString('ru-RU', {month: 'numeric', day: 'numeric', year: 'numeric'}))
+          firstDay.setDate(firstDay.getDate() + 1)
+        }
+        setChosenPeriod(dates)
+      }
     }
-  }, [firstDay, secondDay])
+  }, [firstDay, secondDay, isMobile])
+  useEffect(() => {
+    width > 639 ? setIsMobile(false) : setIsMobile(true)
+  }, [width])
 
   return (
     <div className="appContainer">
@@ -64,22 +83,45 @@ export const App: React.FC = () => {
         searchArticle={searchArticle}
         onArticleInputChange={onArticleInputChange}
       >
-        <KeyHint/>
-        {articles.length ? (
-          <div className="tablesWrapper">
-            {articles.filter(article => article.startsWith(searchArticle)).map((article, index) => {
-              return (
-                <Table
-                  key={index}
-                  chosenPeriod={chosenPeriod}
-                  article={article}
-                />
+        {isMobile ? (
+          <>
+            {
+              articles.length && (
+                <div className="tablesWrapper">
+                  {articles.filter(article => article.startsWith(searchArticle)).map((article, index) => {
+                    return (
+                      <Table
+                        key={index}
+                        chosenPeriod={chosenPeriod}
+                        article={article}
+                      />
+                    )
+                  })}
+                </div>
               )
-            })}
-          </div>
+            }
+          </>
         ) : (
-          <Onboard openAddArticleModal={openAddArticleModal}/>
-        )}
+          <>
+            {
+              articles.length ? (
+                <div className="tablesWrapper">
+                  {articles.filter(article => article.startsWith(searchArticle)).map((article, index) => {
+                    return (
+                      <Table
+                        key={index}
+                        chosenPeriod={chosenPeriod}
+                        article={article}
+                      />
+                    )
+                  })}
+                </div>
+              ) : (
+                <Onboard openAddArticleModal={openAddArticleModal}/>
+              )
+            }
+          </>)}
+
         {
           editPVZModalOpen && (
             <Modal closeModal={closePVZModal} title={'Редактирование пунктов выдачи заказов'}>

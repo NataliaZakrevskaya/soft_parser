@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {DataPicker} from './DataPicker/DataPicker'
 import {formatDate} from '../../utils/helpers/date'
 import styles from './Calendar.module.scss'
@@ -42,14 +42,34 @@ const Calendar = ({
     if(secondDay){
       setFirstDayCommon(firstDay)
       setSecondDayCommon(secondDay)
+
+      window.sessionStorage.setItem('calendarFirstDay', JSON.stringify(firstDay))
+      window.sessionStorage.setItem('calendarSecondDay', JSON.stringify(secondDay))
+
       onPeriodOptionClick(`${formatDate(firstDay, 'MMM DD, YYYY')} - ${formatDate(secondDay, 'MMM DD, YYYY')}`)
       closeCalendar()
     } else{
+
       setFirstDayCommon(firstDay)
+
+      window.sessionStorage.setItem('calendarFirstDay', JSON.stringify(firstDay))
+
       onPeriodOptionClick(`${formatDate(firstDay, 'MMM DD, YYYY')}`)
       closeCalendar()
     }
   }
+
+  useEffect(() => {
+
+    if(window.sessionStorage.getItem('calendarFirstDay')){
+      const date = new Date(JSON.parse(window.sessionStorage.getItem('calendarFirstDay')!))
+      setFirstDay(date)
+    }
+    if(window.sessionStorage.getItem('calendarSecondDay')){
+      const date = new Date(JSON.parse(window.sessionStorage.getItem('calendarSecondDay')!))
+      setSecondDay(date)
+    }
+  }, [window.sessionStorage])
 
   return (
     <div className={styles.calendarContainer}>

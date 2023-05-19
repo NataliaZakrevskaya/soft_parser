@@ -6,7 +6,8 @@
  display: flex;
  flex-direction: column;
  gap: 16px;
- position: relative;
+ position: absolute;
+ z-index: 3;
 }
 
 .img {
@@ -40,9 +41,10 @@
 }
 
 .hintTail{
- width: 56px;
- height: 30px;
- background-image: url("../../../../static/images/hint-tail.png");
+ width: 58px;
+ height: 36px;
+ background-image: url("../../../../static/images/hint-tail.svg");
+ background-size: cover;
  position: absolute;
  bottom: -30px;
  right: calc((387px/2) - 30px)

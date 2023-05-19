@@ -4,6 +4,7 @@ import {keys} from '../../utils/mocks'
 import ArticleSettings from './modules/ArticleSettings/ArticleSettings'
 import cn from 'classnames'
 import utils from '../../static/css/utils.module.scss'
+import {useWindowSize} from "../../utils/hooks/useWindowSize";
 
 interface ITable{
   chosenPeriod: string[]
@@ -12,11 +13,14 @@ interface ITable{
 
 const Table = ({chosenPeriod, article}: ITable) => {
 
+  const [isMobile, setIsMobile] = useState<boolean>(false)
   const [openKeys, setOpenKeys] = useState<string[]>([])
   const [showScrollBar, setShowScrollBar] = useState<boolean>(false)
 
   const tableTwo = useRef<HTMLTableElement>(null)
+  const {width} = useWindowSize()
 
+  const articleDescription = 'Куртка косуха кожаная...Куртка косуха кожаная...Куртка косуха кожаная...Куртка косуха кожаная...Куртка косуха кожаная...Куртка косуха кожаная...'
   const onArrowButtonClick = (key: string) => {
     if(openKeys.includes(key)){
       setOpenKeys(openKeys.filter(keyData => keyData !== key))
@@ -34,16 +38,19 @@ const Table = ({chosenPeriod, article}: ITable) => {
       }
     }
   }, [chosenPeriod])
+  useEffect(() => {
+    width > 639 ? setIsMobile(false) : setIsMobile(true)
+  }, [width])
 
   return (
     <div className={styles.tableWrapper}>
       <table className={styles.table}>
         <tr>
           <td>
-            <ArticleSettings/>
+            {!isMobile && <ArticleSettings/>}
             <p className={utils.textEllipsis1}>
-              {article} - Куртка косуха кожаная...Куртка косуха кожаная...Куртка косуха
-              кожаная...Куртка косуха кожаная...Куртка косуха кожаная...Куртка косуха кожаная...
+              {article}
+              {!isMobile && `- ${articleDescription}`}
             </p>
           </td>
         </tr>
@@ -66,7 +73,10 @@ const Table = ({chosenPeriod, article}: ITable) => {
                         onClick={() => onArrowButtonClick(key.key)}
                       />
                     )}
-                    <p className={utils.textEllipsis1}>
+                    <p className={cn({
+                      [utils.textEllipsis1]: !isMobile,
+                      [utils.textEllipsis2]: isMobile,
+                    })}>
                       {key.key}
                     </p>
                   </div>
@@ -79,9 +89,11 @@ const Table = ({chosenPeriod, article}: ITable) => {
                     return (
                       <tr key={index}>
                         <td>
-                          <div className={styles.line}/>
-                          <div className={styles.dashedBorder}>
-                            {address.address}
+                          {!isMobile && <div className={styles.line}/>}
+                          <div className={cn(styles.dashedBorder)}>
+                            <p className={utils.textEllipsis2}>
+                              {address.address}
+                            </p>
                           </div>
                         </td>
                       </tr>

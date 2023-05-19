@@ -23,7 +23,7 @@ export const Layout = ({
 }: LayoutPropsType) => {
   return (
     <div className={styles.page}>
-      <Header/>
+      {/*<Header/>*/}
       <ActionsBlock
         openPVZModal={openPVZModal}
         openAddArticleModal={openAddArticleModal}

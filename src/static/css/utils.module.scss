@@ -1,24 +1,33 @@
+@import './breakpoints';
+
 .container {
- max-width: var(--container-width);
- min-width: var(--container-width);
- margin-left: auto;
- margin-right: auto;
+  max-width: var(--container-width);
+  min-width: var(--container-width);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @for $row from 1 through 5 {
- .textEllipsis#{$row} {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  /* stylelint-disable-next-line value-no-vendor-prefix */
-  display: -webkit-box !important;
-  -webkit-line-clamp: $row;
-  -webkit-box-orient: vertical;
-  white-space: normal;
- }
+  .textEllipsis#{$row} {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    /* stylelint-disable-next-line value-no-vendor-prefix */
+    display: -webkit-box !important;
+    -webkit-line-clamp: $row;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+  }
 }
 
 .textEllipsis {
- overflow: hidden;
- text-overflow: ellipsis;
- white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: $screen-2xs-max) {
+  .container {
+    max-width: var(--container-width-mobile);
+    min-width: var(--container-width-mobile);
+  }
 }
