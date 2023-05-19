@@ -1,13 +1,17 @@
 import React, {useState} from 'react'
 import styles from './Onboard.module.scss'
 import cn from 'classnames'
+import {Button} from '../Common/Button/Button'
 
 const options = [
   {id: 1, text: 'Нажмите «добавить артикул» и введите его в появившейся строке.'},
   {id: 2, text: 'Введите ключ. Чтобы добавить больше ключей, нажмите на три вертикальные точи слева'},
   {id: 3, text: 'Выберете города и ПВЗ, по которым хотите отследить позиции товаров'},
 ]
-const Onboard = () => {
+interface IProps{
+  openAddArticleModal: () => void
+}
+const Onboard = ({openAddArticleModal}: IProps) => {
 
   const [activeOption, setActiveOption] = useState<number | null>(null)
 
@@ -18,7 +22,9 @@ const Onboard = () => {
         <div className={styles.onBoardOptionContainer}>
           {options.map(option => {
             return (
-              <div className={cn(styles.option, {
+              <div
+                key={option.id}
+                className={cn(styles.option, {
                 [styles.option_active]: activeOption === option.id
               })}
                    onMouseOver={() => setActiveOption(option.id)}
@@ -34,6 +40,12 @@ const Onboard = () => {
               </div>
             )
           })}
+          <Button
+            text='Добавить первый артикул'
+            primary
+            className={styles.btn}
+            onClick={openAddArticleModal}
+          />
         </div>
         <div className={cn(styles.onboardImage, {
           [styles.onboardImageOne]: activeOption === 1,

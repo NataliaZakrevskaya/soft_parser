@@ -1,6 +1,7 @@
 .dots {
  position: relative;
  width: 24px;
+ min-width: 24px;
  height: 24px;
  background-image: url("../../../../static/images/dots.svg");
  cursor: pointer;
@@ -8,6 +9,7 @@
 
 .articleOptions {
  position: absolute;
+ z-index: 1;
  top: 34px;
  background: #FFFFFF;
  border: 1px solid #E8E8F1;

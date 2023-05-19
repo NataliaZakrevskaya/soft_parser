@@ -95,7 +95,13 @@ export const cities = [
       {id: 6, name: 'Бульвар Маршала Рокоссовского 6к18'},
     ]
   },
-  // {id: 6, name: 'Санкт-Петербуг', pvz: 35},
+  {
+    id: 6, name: 'Александровск-сахалинский-волгоград', pvz: [
+      {id: 1, name: 'Балашиха, Проспект Ленина 23/5'},
+      {id: 2, name: 'Бульвар Маршала Рокоссовского 6к18'},
+      {id: 3, name: 'Змитрока Бядули, Змитрока Бядули'},
+    ]
+  },
   // {id: 7, name: 'Казань', pvz: 12},
   // {id: 8, name: 'Екатеринбург', pvz: 94},
   // {id: 9, name: 'Новосибирск', pvz: 9},
@@ -132,530 +138,545 @@ export const tableArticleOptions: IArticleOption[] = [
 ]
 
 export const keys = {
-  "query": [
+  'query': [
     {
-      "key": "куртка зимняя",
-      "data": [
+      'key': 'куртка зимняя куртка зимняякуртка зимняякуртка зимняя',
+      'data': [
         {
-          "address": "Москва, Яблочкова 25к4",
-          "position": [
+          'address': 'Москва, Яблочкова 25к4',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 122,
+              'prevPosition': '-38'
+            },
+            {
+              'date': '5/17/2023',
+              'position': 2,
+              'prevPosition': '-146'
+            },
+            {
+              'date': '5/18/2023',
+              'position': 3,
+              'prevPosition': null
+            },
+            {
+              'date': '5/19/2023',
+              'position': 4
+            },
+          ]
+        },
+        {
+          'address': 'Москва, Новоостаповская 4к2',
+          'position': [
+            {
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Москва, Новоостаповская 4к2",
-          "position": [
+          'address': 'Москва, Балашиха, Проспект Ленина 23/5',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Москва, Балашиха, Проспект Ленина 23/5",
-          "position": [
+          'address': 'Москва, Бульвар Маршала Рокоссовского 6к18',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 2
             }
           ]
         },
         {
-          "address": "Москва, Бульвар Маршала Рокоссовского 6к18",
-          "position": [
+          'address': 'Москва, Лобачевского 100к1',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 2
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Москва, Лобачевского 100к1",
-          "position": [
+          'address': 'Москва Николаева 33, Электросталь',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Москва Николаева 33, Электросталь",
-          "position": [
+          'address': 'Москва, Чертановская 40',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Москва, Чертановская 40",
-          "position": [
+          'address': 'Люберцы (Московская область), улица Кирова, д. 51',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 2
             }
           ]
         },
         {
-          "address": "Люберцы (Московская область), улица Кирова, д. 51",
-          "position": [
+          'address': 'Санкт-Петербург, улица Победы, д. 13',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 2
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Санкт-Петербург, улица Победы, д. 13",
-          "position": [
+          'address': 'Санкт-Петербург, м Садовая, пр-кт. Английский, 31',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Санкт-Петербург, м Садовая, пр-кт. Английский, 31",
-          "position": [
+          'address': 'Санкт-Петербург, Серебристый бульвар, д. 21к1',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Санкт-Петербург, Серебристый бульвар, д. 21к1",
-          "position": [
+          'address': 'Казань',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Казань",
-          "position": [
+          'address': 'Новосибирск',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Новосибирск",
-          "position": [
+          'address': 'Екатеринбург',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Екатеринбург",
-          "position": [
+          'address': 'Нижний Новгород',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Нижний Новгород",
-          "position": [
+          'address': 'Волгоград',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 2
             }
           ]
         },
         {
-          "address": "Волгоград",
-          "position": [
+          'address': 'Самара',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 2
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Самара",
-          "position": [
+          'address': 'Краснодар',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Краснодар",
-          "position": [
+          'address': 'Владивосток',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
-            }
-          ]
-        },
-        {
-          "address": "Владивосток",
-          "position": [
-            {
-              "date": "5/16/2023",
-              "position": 2
+              'date': '5/16/2023',
+              'position': 2
             }
           ]
         }
       ]
     },
     {
-      "key": "куртка летняя",
-      "data": [
+      'key': 'куртка летняя',
+      'data': [
         {
-          "address": "Москва, Яблочкова 25к4",
-          "position": [
+          'address': 'Москва, Яблочкова 25к4',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Москва, Новоостаповская 4к2",
-          "position": [
+          'address': 'Москва, Новоостаповская 4к2',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Москва, Балашиха, Проспект Ленина 23/5",
-          "position": [
+          'address': 'Москва, Балашиха, Проспект Ленина 23/5',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Москва, Бульвар Маршала Рокоссовского 6к18",
-          "position": [
+          'address': 'Москва, Бульвар Маршала Рокоссовского 6к18',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 2
+              'date': '5/16/2023',
+              'position': 2
             }
           ]
         },
         {
-          "address": "Москва, Лобачевского 100к1",
-          "position": [
+          'address': 'Москва, Лобачевского 100к1',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Москва Николаева 33, Электросталь",
-          "position": [
+          'address': 'Москва Николаева 33, Электросталь',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Москва, Чертановская 40",
-          "position": [
+          'address': 'Москва, Чертановская 40',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Люберцы (Московская область), улица Кирова, д. 51",
-          "position": [
+          'address': 'Люберцы (Московская область), улица Кирова, д. 51',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 2
+              'date': '5/16/2023',
+              'position': 2
             }
           ]
         },
         {
-          "address": "Санкт-Петербург, улица Победы, д. 13",
-          "position": [
+          'address': 'Санкт-Петербург, улица Победы, д. 13',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Санкт-Петербург, м Садовая, пр-кт. Английский, 31",
-          "position": [
+          'address': 'Санкт-Петербург, м Садовая, пр-кт. Английский, 31',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Санкт-Петербург, Серебристый бульвар, д. 21к1",
-          "position": [
+          'address': 'Санкт-Петербург, Серебристый бульвар, д. 21к1',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Казань",
-          "position": [
+          'address': 'Казань',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Новосибирск",
-          "position": [
+          'address': 'Новосибирск',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Екатеринбург",
-          "position": [
+          'address': 'Екатеринбург',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Нижний Новгород",
-          "position": [
+          'address': 'Нижний Новгород',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Волгоград",
-          "position": [
+          'address': 'Волгоград',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 2
+              'date': '5/16/2023',
+              'position': 2
             }
           ]
         },
         {
-          "address": "Самара",
-          "position": [
+          'address': 'Самара',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Краснодар",
-          "position": [
+          'address': 'Краснодар',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Владивосток",
-          "position": [
+          'address': 'Владивосток',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 2
+              'date': '5/16/2023',
+              'position': 2
             }
           ]
         }
       ]
     },
     {
-      "key": "штаны",
-      "data": [
+      'key': 'штаны',
+      'data': [
         {
-          "address": "Москва, Яблочкова 25к4",
-          "position": [
+          'address': 'Москва, Яблочкова 25к4',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Москва, Новоостаповская 4к2",
-          "position": [
+          'address': 'Москва, Новоостаповская 4к2',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Москва, Балашиха, Проспект Ленина 23/5",
-          "position": [
+          'address': 'Москва, Балашиха, Проспект Ленина 23/5',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Москва, Бульвар Маршала Рокоссовского 6к18",
-          "position": [
+          'address': 'Москва, Бульвар Маршала Рокоссовского 6к18',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 2
+              'date': '5/16/2023',
+              'position': 2
             }
           ]
         },
         {
-          "address": "Москва, Лобачевского 100к1",
-          "position": [
+          'address': 'Москва, Лобачевского 100к1',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Москва Николаева 33, Электросталь",
-          "position": [
+          'address': 'Москва Николаева 33, Электросталь',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Москва, Чертановская 40",
-          "position": [
+          'address': 'Москва, Чертановская 40',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Люберцы (Московская область), улица Кирова, д. 51",
-          "position": [
+          'address': 'Люберцы (Московская область), улица Кирова, д. 51',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 2
+              'date': '5/16/2023',
+              'position': 2
             }
           ]
         },
         {
-          "address": "Санкт-Петербург, улица Победы, д. 13",
-          "position": [
+          'address': 'Санкт-Петербург, улица Победы, д. 13',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Санкт-Петербург, м Садовая, пр-кт. Английский, 31",
-          "position": [
+          'address': 'Санкт-Петербург, м Садовая, пр-кт. Английский, 31',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Санкт-Петербург, Серебристый бульвар, д. 21к1",
-          "position": [
+          'address': 'Санкт-Петербург, Серебристый бульвар, д. 21к1',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Казань",
-          "position": [
+          'address': 'Казань',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Новосибирск",
-          "position": [
+          'address': 'Новосибирск',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Екатеринбург",
-          "position": [
+          'address': 'Екатеринбург',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Нижний Новгород",
-          "position": [
+          'address': 'Нижний Новгород',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Волгоград",
-          "position": [
+          'address': 'Волгоград',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 2
+              'date': '5/16/2023',
+              'position': 2
             }
           ]
         },
         {
-          "address": "Самара",
-          "position": [
+          'address': 'Самара',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Краснодар",
-          "position": [
+          'address': 'Краснодар',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 1
+              'date': '5/16/2023',
+              'position': 1
             }
           ]
         },
         {
-          "address": "Владивосток",
-          "position": [
+          'address': 'Владивосток',
+          'position': [
             {
-              "date": "5/16/2023",
-              "position": 2
+              'date': '5/16/2023',
+              'position': 2
             }
           ]
         }

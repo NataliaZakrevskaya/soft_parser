@@ -3,7 +3,7 @@ import styles from './CitySelect.module.scss'
 import cn from 'classnames'
 import {cities, ICity} from '../../../../../utils/mocks'
 import {useOnClickOutside} from '../../../../../utils/hooks/useOnClickOutside'
-
+import utils from '../../../../../static/css/utils.module.scss'
 const CitySelect = () => {
 
   const [chosenCity, setChosenCity] = useState<string>('')
@@ -29,7 +29,9 @@ const CitySelect = () => {
         })}
         onClick={() => setOpenCitySelect(!openCitySelect)}
       >
-        {chosenCity !== '' ? chosenCity : 'Выберите города'}
+        <p className={utils.textEllipsis1}>
+          {chosenCity !== '' ? chosenCity : 'Выберите города'}
+        </p>
       </div>
       {openCitySelect && (
         <div className={styles.scroll}>

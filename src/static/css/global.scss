@@ -3,6 +3,14 @@
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    height: 100vh;
     margin-inline: auto;
+    background: #F9FBFC;
+    padding-bottom: 80px;
+}
+
+.tablesWrapper{
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }

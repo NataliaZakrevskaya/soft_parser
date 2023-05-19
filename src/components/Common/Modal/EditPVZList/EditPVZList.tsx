@@ -16,6 +16,9 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
   const [activePVZList, setActivePVZList] = useState<IPVZ[]>([])
   const [activePVZResult, setActivePVZResult] = useState<IPVZ[]>([])
   const [searchPVZ, setSearchPVZ] = useState<string>('')
+  const [disabledSaveBtn, setDisabledSaveBtn] = useState<boolean>(true)
+  console.log('activePVZList', activePVZList)
+  console.log('activePVZResult', activePVZResult)
 
   const chooseCity = (id: number) => {
     setActiveCity(id)
@@ -34,8 +37,9 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
     closeModal()
     openDefaultPVZModal()
   }
-  const onLeftMoveClick = (id: number) => {
-    setActivePVZResult(activePVZResult.filter((city: IJustCity) => city.id !== id))
+  const onLeftMoveClick = (pvz: IPVZ) => {
+    setActivePVZResult(activePVZResult.filter((city: IJustCity) => city.id !== pvz.id))
+    setActivePVZList([...activePVZList, pvz])
   }
 
   useEffect(() => {
@@ -43,10 +47,20 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
     const pvzList = pvzListByCity ? pvzListByCity.filter((pvz: IPVZ) => pvz.name.toLowerCase().includes(searchPVZ.toLowerCase())) : []
     setActivePVZList(pvzList)
   }, [activeCity, searchPVZ])
-
+  useEffect(() => {
+    if(activePVZResult.length){
+  setDisabledSaveBtn(false)
+    } else{
+      setDisabledSaveBtn(true)
+    }
+  }, [activePVZResult, activeCity])
   useEffect(() => {
     setActivePVZResult([])
   }, [activeCity])
+  useEffect(() => {
+    const filteredArr1 = activePVZList.filter(obj1 => !activePVZResult.some(obj2 => obj1.id === obj2.id));
+    setActivePVZList(filteredArr1)
+  }, [activePVZList, activePVZResult])
 
   return (
     <div className={styles.modalWrapper}>
@@ -63,6 +77,7 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
             {cities.map((city: ICity) => {
               return (
                 <li
+                  key={city.id}
                   className={cn(styles.cityItem, {
                     [styles.cityItem_active]: activeCity === city.id
                   })}
@@ -119,7 +134,7 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
                         <li
                           key={pvz.id}
                           className={styles.pvzItemResult}
-                          onClick={() => onLeftMoveClick(pvz.id)}
+                          onClick={() => onLeftMoveClick(pvz)}
                         >
                           <div className={styles.moveLeftIcon}/>
                           <p className={styles.itemText}>{pvz.name}</p>
@@ -147,7 +162,7 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
             text="Отмена"
             onClick={closeModal}
             alternative/>
-          <Button text="Сохранить" primary/>
+          <Button text="Сохранить" primary disabled={disabledSaveBtn}/>
         </div>
       </div>
     </div>

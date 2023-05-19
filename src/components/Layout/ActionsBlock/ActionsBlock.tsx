@@ -12,9 +12,18 @@ interface ActionsBlockPropsType{
   openAddArticleModal: () => void
   setFirstDay: (day: Date) => void
   setSecondDay: (day: Date | null) => void
+  searchArticle: string
+  onArticleInputChange: (value: string) => void
 }
 
-const ActionsBlock = ({openPVZModal, openAddArticleModal, setFirstDay, setSecondDay}: ActionsBlockPropsType) => {
+const ActionsBlock = ({
+                        openPVZModal,
+                        openAddArticleModal,
+                        setFirstDay,
+                        setSecondDay,
+                        searchArticle,
+                        onArticleInputChange
+}: ActionsBlockPropsType) => {
 
   return (
     <div className={styles.actionsBlockWrapper}>
@@ -23,7 +32,10 @@ const ActionsBlock = ({openPVZModal, openAddArticleModal, setFirstDay, setSecond
           <h1>Трекер позиций</h1>
           <p>Отслеживайте позиции товара в поиске по ключевому слову</p>
         </div>
-        <ArticleSearch/>
+        <ArticleSearch
+          searchArticle={searchArticle}
+          onArticleInputChange={onArticleInputChange}
+        />
       </div>
       <div className={styles.searchSettingsWrapper}>
         <div className={styles.cityBlockWrapper}>

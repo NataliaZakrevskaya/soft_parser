@@ -1,10 +1,16 @@
-import React, {ChangeEvent, useState} from 'react'
+import React, {ChangeEvent} from 'react'
 import styles from './ArticleSearch.module.scss'
 
-const ArticleSearch = () => {
+interface IArticleProps{
+  searchArticle: string
+  onArticleInputChange: (value: string) => void
+}
 
-  const [searchArticle, setSearchActive] = useState<string>('')
-  const onArticleInputChange = (e: ChangeEvent<HTMLInputElement>) => setSearchActive(e.target.value)
+const ArticleSearch = ({searchArticle, onArticleInputChange}: IArticleProps) => {
+
+  const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onArticleInputChange(e.target.value)
+  }
 
   return (
     <input
@@ -12,7 +18,7 @@ const ArticleSearch = () => {
       placeholder="Поиск артикула"
       value={searchArticle}
       className={styles.articleSearchInput}
-      onChange={onArticleInputChange}
+      onChange={onInputChange}
     />
   )
 }

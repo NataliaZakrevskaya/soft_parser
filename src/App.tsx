@@ -6,9 +6,10 @@ import EditPVZList from './components/Common/Modal/EditPVZList/EditPVZList'
 import EditCityList from './components/Common/Modal/EditCityList/EditCityList'
 import DefaultCity from './components/Common/Modal/DefaultCity/DefaultCity'
 import DefaultPVZ from './components/Common/Modal/DefaultPVZ/DefaultPVZ'
-import Table from './components/Table/Table'
 import AddArticle from './components/Common/Modal/AddArticle/AddArticle'
-import TableTwo from './components/Table/TableTwo'
+import Table from './components/Table/Table'
+import Onboard from './components/Onboard/Onboard'
+import KeyHint from './components/Table/modules/keyHint/keyHint'
 
 export const App: React.FC = () => {
 
@@ -20,6 +21,12 @@ export const App: React.FC = () => {
   const [chosenPeriod, setChosenPeriod] = useState<string[]>([])
   const [firstDay, setFirstDay] = useState<Date>(new Date())
   const [secondDay, setSecondDay] = useState<Date | null>(null)
+  const [articles, setArticles] = useState<string[]>([
+    '49582305',
+    '73582305',
+    '13782305'
+  ])
+  const [searchArticle, setSearchActive] = useState<string>('')
 
   const openPVZModal = () => setEditPVZModalOpen(true)
   const closePVZModal = () => setEditPVZModalOpen(false)
@@ -31,13 +38,16 @@ export const App: React.FC = () => {
   const closeDefaultCityModal = () => setDefaultCityModalOpen(false)
   const openAddArticleModal = () => setAddArticleOpen(true)
   const closeAddArticleModal = () => setAddArticleOpen(false)
+  const onArticleInputChange = (value: string) => setSearchActive(value)
+  const addArticle = (value: string) => setArticles([value, ...articles])
+
   useEffect(() => {
     if(secondDay === null){
       setChosenPeriod([firstDay.toLocaleDateString('ru-RU', {month: 'numeric', day: 'numeric', year: 'numeric'})])
     } else{
       const dates = []
       while(firstDay <= secondDay!){
-        dates.push(firstDay.toLocaleDateString('ru-RU', {month: 'numeric', day: 'numeric', year: 'numeric'}))
+        dates.unshift(firstDay.toLocaleDateString('ru-RU', {month: 'numeric', day: 'numeric', year: 'numeric'}))
         firstDay.setDate(firstDay.getDate() + 1)
       }
       setChosenPeriod(dates)
@@ -51,9 +61,25 @@ export const App: React.FC = () => {
         openAddArticleModal={openAddArticleModal}
         setFirstDay={setFirstDay}
         setSecondDay={setSecondDay}
+        searchArticle={searchArticle}
+        onArticleInputChange={onArticleInputChange}
       >
-        {/*<Onboard/>*/}
-        <TableTwo chosenPeriod={chosenPeriod}/>
+        <KeyHint/>
+        {articles.length ? (
+          <div className="tablesWrapper">
+            {articles.filter(article => article.startsWith(searchArticle)).map((article, index) => {
+              return (
+                <Table
+                  key={index}
+                  chosenPeriod={chosenPeriod}
+                  article={article}
+                />
+              )
+            })}
+          </div>
+        ) : (
+          <Onboard openAddArticleModal={openAddArticleModal}/>
+        )}
         {
           editPVZModalOpen && (
             <Modal closeModal={closePVZModal} title={'Редактирование пунктов выдачи заказов'}>
@@ -90,7 +116,10 @@ export const App: React.FC = () => {
         {
           addArticleOpen && (
             <Modal closeModal={closeAddArticleModal} title={'Добавление нового артикула'}>
-              <AddArticle closeModal={closeAddArticleModal}/>
+              <AddArticle
+                closeModal={closeAddArticleModal}
+                addArticle={addArticle}
+              />
             </Modal>
           )
         }

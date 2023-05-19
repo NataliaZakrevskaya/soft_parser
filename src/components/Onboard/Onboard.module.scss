@@ -65,12 +65,13 @@
  line-height: 27px;
 
  &_active {
-	font-weight: 500;
-	font-size: 18px;
-	line-height: 140%;
 	color: #FFFFFF;
 	border: 2px solid #FFFFFF;
  }
+}
+
+.btn{
+ width: 257px;
 }
 
 .onboardImage {

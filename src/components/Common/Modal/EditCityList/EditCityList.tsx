@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from 'react'
 import styles from './EditCityList.module.scss'
-import {IJustCity, justCities} from '../../../../utils/mocks'
+import {ICity, IJustCity, justCities} from '../../../../utils/mocks'
 import {Button} from '../../Button/Button'
 
 interface ModalPropsType{
@@ -13,6 +13,7 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
   const [activeCityResult, setActiveCityResult] = useState<IJustCity[]>([])
   const [searchCity, setSearchCity] = useState<string>('')
   const [cities, setCities] = useState<IJustCity[]>(justCities)
+  const [disabledSaveBtn, setDisabledSaveBtn] = useState<boolean>(true)
 
   const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchCity(e.target.value)
@@ -24,14 +25,26 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
     closeModal()
     openDefaultCityModal()
   }
-  const onLeftMoveClick = (id: number) => {
-    setActiveCityResult(activeCityResult.filter((city: IJustCity) => city.id !== id))
+  const onLeftMoveClick = (city: IJustCity) => {
+    setActiveCityResult(activeCityResult.filter((activeCity: IJustCity) => activeCity.id !== city.id))
+    setCities([...cities, city])
   }
 
+  useEffect(() => {
+    const filteredArr1 = cities.filter(obj1 => !activeCityResult.some(obj2 => obj1.id === obj2.id))
+    setCities(filteredArr1)
+  }, [cities, activeCityResult])
   useEffect(() => {
     const res = justCities.filter((city: IJustCity) => city.name.toLowerCase().includes(searchCity.toLowerCase()))
     setCities(res)
   }, [searchCity])
+  useEffect(() => {
+    if(activeCityResult.length){
+      setDisabledSaveBtn(false)
+    } else{
+      setDisabledSaveBtn(true)
+    }
+  }, [activeCityResult])
 
   return (
     <div className={styles.modalWrapper}>
@@ -83,7 +96,7 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
                       >
                         <div
                           className={styles.moveLeftIcon}
-                          onClick={() => onLeftMoveClick(city.id)}
+                          onClick={() => onLeftMoveClick(city)}
                         />
                         <p className={styles.itemText}>{city.name}</p>
                       </li>
@@ -110,7 +123,11 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
             text="Отмена"
             onClick={closeModal}
             alternative/>
-          <Button text="Сохранить" primary/>
+          <Button
+            text="Сохранить"
+            primary
+            disabled={disabledSaveBtn}
+          />
         </div>
       </div>
     </div>
