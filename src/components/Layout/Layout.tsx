@@ -3,13 +3,14 @@ import styles from './Layout.module.scss'
 import ActionsBlock from './ActionsBlock/ActionsBlock'
 
 interface LayoutPropsType{
-  openPVZModal: () => void
-  openAddArticleModal: () => void
+  openPVZModal?: () => void
+  openAddArticleModal?: () => void
   setFirstDay: (day: Date) => void
   setSecondDay: (day: Date | null) => void
   children: any
-  searchArticle: string
-  onArticleInputChange: (value: string) => void
+  searchArticle?: string
+  onArticleInputChange?: (value: string) => void
+  fullVersion: boolean
 }
 
 export const Layout = ({
@@ -19,7 +20,8 @@ export const Layout = ({
                          setSecondDay,
                          children,
                          searchArticle,
-                         onArticleInputChange
+                         onArticleInputChange,
+                         fullVersion
 }: LayoutPropsType) => {
   return (
     <div className={styles.page}>
@@ -31,6 +33,7 @@ export const Layout = ({
         setSecondDay={setSecondDay}
         searchArticle={searchArticle}
         onArticleInputChange={onArticleInputChange}
+        fullVersion={fullVersion}
       />
       <main className={styles.main}>{children}</main>
     </div>

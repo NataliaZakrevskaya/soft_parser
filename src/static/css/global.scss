@@ -1,23 +1,36 @@
 @import "breakpoints";
+
 .appContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    margin-inline: auto;
-    background: #F9FBFC;
-    padding-bottom: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin-inline: auto;
+  background: #F9FBFC;
+  padding-bottom: 80px;
 }
 
-.tablesWrapper{
-    margin-top: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.tablesWrapper {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.change-version-btn{
+  width: 250px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border-radius: var(--border-radius-base);
+  background: #2A65CB;
+  margin-top: 40px;
 }
 
 @media (max-width: $screen-2xs-max) {
-    .tablesWrapper{
-        margin-top: 20px;
-    }
+  .tablesWrapper {
+    margin-top: 20px;
+  }
 }

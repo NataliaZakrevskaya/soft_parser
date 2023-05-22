@@ -17,8 +17,6 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
   const [activePVZResult, setActivePVZResult] = useState<IPVZ[]>([])
   const [searchPVZ, setSearchPVZ] = useState<string>('')
   const [disabledSaveBtn, setDisabledSaveBtn] = useState<boolean>(true)
-  console.log('activePVZList', activePVZList)
-  console.log('activePVZResult', activePVZResult)
 
   const chooseCity = (id: number) => {
     setActiveCity(id)
@@ -42,25 +40,25 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
     setActivePVZList([...activePVZList, pvz])
   }
 
-  useEffect(() => {
-    const pvzListByCity = cities.find(city => city.id === activeCity)?.pvz
-    const pvzList = pvzListByCity ? pvzListByCity.filter((pvz: IPVZ) => pvz.name.toLowerCase().includes(searchPVZ.toLowerCase())) : []
-    setActivePVZList(pvzList)
-  }, [activeCity, searchPVZ])
-  useEffect(() => {
-    if(activePVZResult.length){
-  setDisabledSaveBtn(false)
-    } else{
-      setDisabledSaveBtn(true)
-    }
-  }, [activePVZResult, activeCity])
-  useEffect(() => {
-    setActivePVZResult([])
-  }, [activeCity])
-  useEffect(() => {
-    const filteredArr1 = activePVZList.filter(obj1 => !activePVZResult.some(obj2 => obj1.id === obj2.id));
-    setActivePVZList(filteredArr1)
-  }, [activePVZList, activePVZResult])
+  // useEffect(() => {
+  //   const pvzListByCity = cities.find(city => city.id === activeCity)?.pvz
+  //   const pvzList = pvzListByCity ? pvzListByCity.filter((pvz: IPVZ) => pvz.name.toLowerCase().includes(searchPVZ.toLowerCase())) : []
+  //   setActivePVZList(pvzList)
+  // }, [activeCity, searchPVZ])
+  // useEffect(() => {
+  //   if(activePVZResult.length){
+  // setDisabledSaveBtn(false)
+  //   } else{
+  //     setDisabledSaveBtn(true)
+  //   }
+  // }, [activePVZResult, activeCity])
+  // useEffect(() => {
+  //   setActivePVZResult([])
+  // }, [activeCity])
+  // useEffect(() => {
+  //   const filteredArr1 = activePVZList.filter(obj1 => !activePVZResult.some(obj2 => obj1.id === obj2.id));
+  //   setActivePVZList(filteredArr1)
+  // }, [activePVZList, activePVZResult])
 
   return (
     <div className={styles.modalWrapper}>

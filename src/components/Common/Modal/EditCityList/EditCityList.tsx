@@ -1,7 +1,9 @@
 import React, {ChangeEvent, useEffect, useState} from 'react'
 import styles from './EditCityList.module.scss'
-import {ICity, IJustCity, justCities} from '../../../../utils/mocks'
 import {Button} from '../../Button/Button'
+import {nanoid} from "nanoid";
+import {geoIpi} from "../../../../api/geo/geo-api";
+import {ResponseCity} from "../../../../api/geo/types";
 
 interface ModalPropsType{
   closeModal: () => void
@@ -10,34 +12,39 @@ interface ModalPropsType{
 
 const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
 
-  const [activeCityResult, setActiveCityResult] = useState<IJustCity[]>([])
+  const [activeCityResult, setActiveCityResult] = useState<ResponseCity[]>([])
   const [searchCity, setSearchCity] = useState<string>('')
-  const [cities, setCities] = useState<IJustCity[]>(justCities)
+  const [cities, setCities] = useState<ResponseCity[]>([])
+  const [shownCities, setShownCities] = useState<ResponseCity[]>([])
   const [disabledSaveBtn, setDisabledSaveBtn] = useState<boolean>(true)
 
   const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchCity(e.target.value)
   }
-  const chooseCity = (city: IJustCity) => {
+  const chooseCity = (city: ResponseCity) => {
     setActiveCityResult([city, ...activeCityResult])
+    const shownCityWithoutChosen = shownCities.filter((mappedCity: ResponseCity) => mappedCity._id !== city._id)
+    setShownCities(shownCityWithoutChosen)
   }
   const onDefaultClick = () => {
     closeModal()
     openDefaultCityModal()
   }
-  const onLeftMoveClick = (city: IJustCity) => {
-    setActiveCityResult(activeCityResult.filter((activeCity: IJustCity) => activeCity.id !== city.id))
-    setCities([...cities, city])
+  const onLeftMoveClick = (city: ResponseCity) => {
+    setActiveCityResult(activeCityResult.filter((activeCity: ResponseCity) => activeCity._id !== city._id))
+    setShownCities([...shownCities, city])
   }
 
   useEffect(() => {
-    const filteredArr1 = cities.filter(obj1 => !activeCityResult.some(obj2 => obj1.id === obj2.id))
-    setCities(filteredArr1)
-  }, [cities, activeCityResult])
+    geoIpi.fetchCities().then(res => {
+      setCities(res.data)
+      setShownCities(res.data)
+    })
+  }, [])
   useEffect(() => {
-    const res = justCities.filter((city: IJustCity) => city.name.toLowerCase().includes(searchCity.toLowerCase()))
-    setCities(res)
-  }, [searchCity])
+    const res = cities.filter((city: ResponseCity) => city.city.toLowerCase().includes(searchCity.toLowerCase())).filter(obj1 => !activeCityResult.some(obj2 => obj1._id === obj2._id))
+    setShownCities(res)
+  }, [searchCity, activeCityResult])
   useEffect(() => {
     if(activeCityResult.length){
       setDisabledSaveBtn(false)
@@ -61,14 +68,14 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
             />
             <div className={styles.scroll}>
               <ul className={styles.searchCityList}>
-                {cities.map((city: IJustCity) => {
+                {shownCities.map((city: ResponseCity) => {
                   return (
                     <>
                       <li
-                        key={city.id}
+                        key={`${city._id}${nanoid()}`}
                         className={styles.cityItem}
                       >
-                        <p className={styles.itemText}>{city.name}</p>
+                        <p className={styles.itemText}>{city.city}</p>
                         <div
                           className={styles.moveRightIcon}
                           onClick={() => chooseCity(city)}
@@ -87,18 +94,18 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
           <div className={styles.scrollResult}>
             {activeCityResult.length ? (
               <ul className={styles.searchCityResultList}>
-                {activeCityResult.map(city => {
+                {activeCityResult.map((city: ResponseCity) => {
                   return (
                     <>
                       <li
-                        key={city.id}
+                        key={`${city._id}${nanoid()}`}
                         className={styles.cityItemResult}
                       >
                         <div
                           className={styles.moveLeftIcon}
                           onClick={() => onLeftMoveClick(city)}
                         />
-                        <p className={styles.itemText}>{city.name}</p>
+                        <p className={styles.itemText}>{city.city}</p>
                       </li>
 
                       <div className={styles.separator}/>

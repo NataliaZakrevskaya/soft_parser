@@ -148,7 +148,7 @@ export const keys = {
             {
               'date': '5/16/2023',
               'position': 122,
-              'prevPosition': '-38'
+              'prevPosition': '+38'
             },
             {
               'date': '5/17/2023',

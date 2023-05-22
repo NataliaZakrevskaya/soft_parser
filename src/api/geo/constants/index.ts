@@ -1,0 +1,1 @@
+export const FETCH_ALL_CITIES = '/geo/towns/all'

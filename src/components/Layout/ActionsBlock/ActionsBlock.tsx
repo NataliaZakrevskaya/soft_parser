@@ -9,12 +9,13 @@ import CitySelect from './modules/CitySelect/CitySelect'
 import {useWindowSize} from "../../../utils/hooks/useWindowSize";
 
 interface ActionsBlockPropsType{
-  openPVZModal: () => void
-  openAddArticleModal: () => void
+  openPVZModal?: () => void
+  openAddArticleModal?: () => void
   setFirstDay: (day: Date) => void
   setSecondDay: (day: Date | null) => void
-  searchArticle: string
-  onArticleInputChange: (value: string) => void
+  searchArticle?: string
+  onArticleInputChange?: (value: string) => void
+  fullVersion: boolean
 }
 
 const ActionsBlock = ({
@@ -23,7 +24,8 @@ const ActionsBlock = ({
                         setFirstDay,
                         setSecondDay,
                         searchArticle,
-                        onArticleInputChange
+                        onArticleInputChange,
+                        fullVersion
                       }: ActionsBlockPropsType) => {
 
   const [isMobile, setIsMobile] = useState<boolean>(false)
@@ -41,9 +43,9 @@ const ActionsBlock = ({
           <h1>Трекер позиций</h1>
           <p>Отслеживайте позиции товара в поиске по ключевому слову</p>
         </div>
-        {!isMobile && (
+        {onArticleInputChange && fullVersion && (
           <ArticleSearch
-            searchArticle={searchArticle}
+            searchArticle={searchArticle!}
             onArticleInputChange={onArticleInputChange}
           />
         )}
