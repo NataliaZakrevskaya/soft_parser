@@ -1,31 +1,38 @@
-import React, {ChangeEvent, useEffect, useState} from 'react'
+import React, {ChangeEvent, useEffect, useMemo, useState} from 'react'
 import styles from './EditPVZList.module.scss'
-import {cities, ICity, IJustCity, IPVZ} from '../../../../utils/mocks'
 import cn from 'classnames'
 import {Button} from '../../Button/Button'
-
-interface ModalPropsType{
-  closeModal: () => void
-  openCityModal: () => void
-  openDefaultPVZModal: () => void
-}
+import {ResponseAddress, ResponseCity} from "../../../../api/geo/types";
+import {geoIpi} from "../../../../api/geo/geo-api";
+import {ChangeType, ModalPropsType} from "./types";
 
 const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalPropsType) => {
 
-  const [activeCity, setActiveCity] = useState<number>(1)
-  const [activePVZList, setActivePVZList] = useState<IPVZ[]>([])
-  const [activePVZResult, setActivePVZResult] = useState<IPVZ[]>([])
+  const [cities, setCities] = useState<ResponseCity[]>([])
+  const [activeCity, setActiveCity] = useState<string>('')
+  const [activePVZList, setActivePVZList] = useState<ResponseAddress[]>([])
   const [searchPVZ, setSearchPVZ] = useState<string>('')
-  const [disabledSaveBtn, setDisabledSaveBtn] = useState<boolean>(true)
+  const [sessionChanges, setSessionChanges] = useState<ChangeType[]>([])
+  const [disabledSaveBtn, setDisabledSaveBtn] = useState<boolean>(false)
 
-  const chooseCity = (id: number) => {
-    setActiveCity(id)
+  const chooseCity = (cityName: string) => {
+    setActiveCity(cityName)
+    setSearchPVZ('')
   }
-  const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchPVZ(e.target.value)
-  }
-  const choosePVZ = (newPvz: IPVZ) => {
-    setActivePVZResult([newPvz, ...activePVZResult])
+  const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => setSearchPVZ(e.target.value)
+  const choosePVZ = (newPvz: ResponseAddress) => {
+    setSessionChanges((prev: ChangeType[]) => {
+        const existingChange = prev.find(item => item.city === activeCity)
+        if(!existingChange){
+          return [...prev, {city: activeCity, pwz: [newPvz]}]
+        } else{
+          return [...prev.filter(item => item.city !== activeCity), {
+            city: existingChange.city,
+            pwz: [...existingChange.pwz, newPvz]
+          }]
+        }
+      }
+    )
   }
   const onEditCityClick = () => {
     closeModal()
@@ -35,30 +42,52 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
     closeModal()
     openDefaultPVZModal()
   }
-  const onLeftMoveClick = (pvz: IPVZ) => {
-    setActivePVZResult(activePVZResult.filter((city: IJustCity) => city.id !== pvz.id))
-    setActivePVZList([...activePVZList, pvz])
+  const deletePVZ = (pvz: ResponseAddress) => {
+    setSessionChanges((prev: ChangeType[]) => {
+      const existingChange = prev.find(item => item.pwz.includes(pvz))
+      if(existingChange){
+        return [...prev.filter(item => !item.pwz.includes(pvz)), {
+          city: existingChange.city,
+          pwz: existingChange.pwz.filter(item => item._id !== pvz._id)
+        }]
+      } else{
+        return prev
+      }
+    })
   }
 
-  // useEffect(() => {
-  //   const pvzListByCity = cities.find(city => city.id === activeCity)?.pvz
-  //   const pvzList = pvzListByCity ? pvzListByCity.filter((pvz: IPVZ) => pvz.name.toLowerCase().includes(searchPVZ.toLowerCase())) : []
-  //   setActivePVZList(pvzList)
-  // }, [activeCity, searchPVZ])
-  // useEffect(() => {
-  //   if(activePVZResult.length){
-  // setDisabledSaveBtn(false)
-  //   } else{
-  //     setDisabledSaveBtn(true)
-  //   }
-  // }, [activePVZResult, activeCity])
-  // useEffect(() => {
-  //   setActivePVZResult([])
-  // }, [activeCity])
-  // useEffect(() => {
-  //   const filteredArr1 = activePVZList.filter(obj1 => !activePVZResult.some(obj2 => obj1.id === obj2.id));
-  //   setActivePVZList(filteredArr1)
-  // }, [activePVZList, activePVZResult])
+  useEffect(() => {
+    geoIpi.fetchCities().then(res => {
+      setCities(res.data.towns)
+    })
+  }, [])
+  useEffect(() => {
+    const fetchData = async() => {
+      if(activeCity){
+        geoIpi.fetchAddressesByTown(activeCity).then(res => {
+          setActivePVZList(res.data.addresses)
+        })
+      }
+    }
+    fetchData()
+  }, [activeCity])
+  useEffect(() => {
+    const changes = !!sessionChanges.length
+    const emptyPVZ = sessionChanges.some((change: ChangeType) => !change.pwz.length)
+    setDisabledSaveBtn(!changes || emptyPVZ)
+  }, [sessionChanges])
+
+  const filteredPvzList = useMemo(() => {
+    return activePVZList
+      .filter(activeItem => activeItem.address
+        .toLowerCase()
+        .includes(searchPVZ.toLowerCase()))
+      .filter(activeItem => !sessionChanges
+        .find(sessionItem => sessionItem.city === activeCity)?.pwz?.find(item => item._id === activeItem._id))
+  }, [activePVZList, searchPVZ, sessionChanges, activeCity])
+  const sessionList = useMemo(() => {
+    return sessionChanges.find(item => item.city === activeCity)?.pwz || []
+  }, [sessionChanges, activeCity])
 
   return (
     <div className={styles.modalWrapper}>
@@ -71,21 +100,23 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
             <div className={styles.editIcon}/>
             <p className={styles.editText}>Редактировать города</p>
           </div>
-          <ul className={styles.cityList}>
-            {cities.map((city: ICity) => {
-              return (
-                <li
-                  key={city.id}
-                  className={cn(styles.cityItem, {
-                    [styles.cityItem_active]: activeCity === city.id
-                  })}
-                  onClick={() => chooseCity(city.id)}
-                >
-                  {city.name}
-                </li>
-              )
-            })}
-          </ul>
+          <div className={styles.scrollCity}>
+            <ul className={styles.cityList}>
+              {cities.map((city: ResponseCity) => {
+                return (
+                  <li
+                    key={city._id}
+                    className={cn(styles.cityItem, {
+                      [styles.cityItem_active]: activeCity === city.city
+                    })}
+                    onClick={() => chooseCity(city.city)}
+                  >
+                    {city.city}
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
         </div>
         <div className={styles.pvzBlock}>
           <div className={styles.pvzSearch}>
@@ -100,14 +131,14 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
               />
               <div className={styles.scroll}>
                 <ul className={styles.searchPVZList}>
-                  {activePVZList.map(pvz => {
+                  {filteredPvzList.map((pvz) => {
                     return (
                       <>
                         <li
-                          key={pvz.id}
+                          key={pvz._id}
                           className={styles.pvzItem}
                         >
-                          <p className={styles.itemText}>{pvz.name}</p>
+                          <p className={styles.itemText}>{pvz.address}</p>
                           <div
                             className={styles.moveRightIcon}
                             onClick={() => choosePVZ(pvz)}
@@ -124,18 +155,18 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
           <div className={styles.pvzResult}>
             <div className={styles.resultTitle}>Мои ПВЗ</div>
             <div className={styles.scrollResult}>
-              {activePVZResult.length ? (
+              {sessionList.length ? (
                 <ul className={styles.searchPVZResultList}>
-                  {activePVZResult.map(pvz => {
+                  {sessionList.map(pvz => {
                     return (
                       <>
                         <li
-                          key={pvz.id}
+                          key={pvz._id}
                           className={styles.pvzItemResult}
-                          onClick={() => onLeftMoveClick(pvz)}
+                          onClick={() => deletePVZ(pvz)}
                         >
                           <div className={styles.moveLeftIcon}/>
-                          <p className={styles.itemText}>{pvz.name}</p>
+                          <p className={styles.itemText}>{pvz.address}</p>
                         </li>
                         <div className={styles.separator}/>
                       </>

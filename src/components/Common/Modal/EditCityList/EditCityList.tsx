@@ -37,8 +37,8 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
 
   useEffect(() => {
     geoIpi.fetchCities().then(res => {
-      setCities(res.data)
-      setShownCities(res.data)
+      setCities(res.data.towns)
+      setShownCities(res.data.towns)
     })
   }, [])
   useEffect(() => {

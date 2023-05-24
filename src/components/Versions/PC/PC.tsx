@@ -19,6 +19,7 @@ interface IProps{
 const Pc = ({changeVersion, fullVersion, isMobile}: IProps) => {
 
   const [state, dispatch] = useReducer(modalReducer, initialState)
+  const [searchArticle, setSearchActive] = useState<string>('')
   const [chosenPeriod, setChosenPeriod] = useState<string[]>([])
   const [firstDay, setFirstDay] = useState<Date>(new Date())
   const [secondDay, setSecondDay] = useState<Date | null>(null)
@@ -27,8 +28,6 @@ const Pc = ({changeVersion, fullVersion, isMobile}: IProps) => {
     '73582305',
     '13782305'
   ])
-
-  const [searchArticle, setSearchActive] = useState<string>('')
 
   const openPVZModal = () => dispatch(modalReducerActions.openPVZModal())
   const closePVZModal = () => dispatch(modalReducerActions.closePVZModal())

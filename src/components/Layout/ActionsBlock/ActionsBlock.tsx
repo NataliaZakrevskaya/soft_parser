@@ -43,7 +43,7 @@ const ActionsBlock = ({
           <h1>Трекер позиций</h1>
           <p>Отслеживайте позиции товара в поиске по ключевому слову</p>
         </div>
-        {onArticleInputChange && fullVersion && (
+        {onArticleInputChange && !isMobile && (
           <ArticleSearch
             searchArticle={searchArticle!}
             onArticleInputChange={onArticleInputChange}
