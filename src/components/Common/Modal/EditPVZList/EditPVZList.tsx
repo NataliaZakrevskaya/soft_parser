@@ -3,7 +3,7 @@ import styles from './EditPVZList.module.scss'
 import cn from 'classnames'
 import {Button} from '../../Button/Button'
 import {ResponseAddress, ResponseCity} from "../../../../api/geo/types";
-import {geoIpi} from "../../../../api/geo/geo-api";
+import {geoApi} from "../../../../api/geo/geo-api";
 import {ChangeType, ModalPropsType} from "./types";
 
 const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalPropsType) => {
@@ -57,14 +57,14 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
   }
 
   useEffect(() => {
-    geoIpi.fetchCities().then(res => {
+    geoApi.fetchCities().then(res => {
       setCities(res.data.towns)
     })
   }, [])
   useEffect(() => {
     const fetchData = async() => {
       if(activeCity){
-        geoIpi.fetchAddressesByTown(activeCity).then(res => {
+        geoApi.fetchAddressesByTown(activeCity).then(res => {
           setActivePVZList(res.data.addresses)
         })
       }

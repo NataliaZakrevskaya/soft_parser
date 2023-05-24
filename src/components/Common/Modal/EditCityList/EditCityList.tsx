@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react'
 import styles from './EditCityList.module.scss'
 import {Button} from '../../Button/Button'
 import {nanoid} from "nanoid";
-import {geoIpi} from "../../../../api/geo/geo-api";
+import {geoApi} from "../../../../api/geo/geo-api";
 import {ResponseCity} from "../../../../api/geo/types";
 
 interface ModalPropsType{
@@ -36,7 +36,7 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
   }
 
   useEffect(() => {
-    geoIpi.fetchCities().then(res => {
+    geoApi.fetchCities().then(res => {
       setCities(res.data.towns)
       setShownCities(res.data.towns)
     })

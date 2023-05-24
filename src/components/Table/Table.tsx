@@ -1,10 +1,8 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import styles from './Table.module.scss'
-import {keys} from '../../utils/mocks'
-import ArticleSettings from './modules/ArticleSettings/ArticleSettings'
-import cn from 'classnames'
-import utils from '../../static/css/utils.module.scss'
 import {useWindowSize} from "../../utils/hooks/useWindowSize";
+import KeysTable from "./modules/KeysTable/KeysTable";
+import DataTable from "./modules/DataTable/DataTable";
 
 interface ITable{
   chosenPeriod: string[]
@@ -13,14 +11,8 @@ interface ITable{
 
 const Table = ({chosenPeriod, article}: ITable) => {
 
-  const [isMobile, setIsMobile] = useState<boolean>(false)
   const [openKeys, setOpenKeys] = useState<string[]>([])
-  const [showScrollBar, setShowScrollBar] = useState<boolean>(false)
 
-  const tableTwo = useRef<HTMLTableElement>(null)
-  const {width} = useWindowSize()
-
-  const articleDescription = 'Куртка косуха кожаная...Куртка косуха кожаная...Куртка косуха кожаная...Куртка косуха кожаная...Куртка косуха кожаная...Куртка косуха кожаная...'
   const onArrowButtonClick = (key: string) => {
     if(openKeys.includes(key)){
       setOpenKeys(openKeys.filter(keyData => keyData !== key))
@@ -29,137 +21,15 @@ const Table = ({chosenPeriod, article}: ITable) => {
     }
   }
 
-  useEffect(() => {
-    if(tableTwo.current){
-      if(tableTwo.current.offsetWidth > 840){
-        setShowScrollBar(true)
-      } else{
-        setShowScrollBar(false)
-      }
-    }
-  }, [chosenPeriod])
-  useEffect(() => {
-    width > 639 ? setIsMobile(false) : setIsMobile(true)
-  }, [width])
-
   return (
     <div className={styles.tableWrapper}>
-      <table className={styles.table}>
-        <tr>
-          <td>
-            {!isMobile && <ArticleSettings/>}
-            <p className={utils.textEllipsis1}>
-              {article}
-              {!isMobile && `- ${articleDescription}`}
-            </p>
-          </td>
-        </tr>
-        {keys.query.map((key, index) => {
-          return (
-            <>
-              <tr className={cn({
-                [styles.openRow]: openKeys.includes(key.key)
-              })}>
-                <td>
-                  <div>
-                    {openKeys.includes(key.key) ? (
-                      <div
-                        className={styles.arrowTop}
-                        onClick={() => onArrowButtonClick(key.key)}
-                      />
-                    ) : (
-                      <div
-                        className={styles.arrowBottom}
-                        onClick={() => onArrowButtonClick(key.key)}
-                      />
-                    )}
-                    <p className={cn({
-                      [utils.textEllipsis1]: !isMobile,
-                      [utils.textEllipsis2]: isMobile,
-                    })}>
-                      {key.key}
-                    </p>
-                  </div>
-                  <div className={styles.delete}/>
-                </td>
-              </tr>
-              {key.data.length && openKeys.includes(key.key) && (
-                <div className={styles.pvzBlock}>
-                  {key.data.map((address, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>
-                          {!isMobile && <div className={styles.line}/>}
-                          <div className={cn(styles.dashedBorder)}>
-                            <p className={utils.textEllipsis2}>
-                              {address.address}
-                            </p>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </div>
-              )}
-            </>
-          )
-        })}
-      </table>
-      <table className={styles.wrapperTable}>
-        <div className={styles.scrollInner}>
-          <table className={cn(styles.tableTwo, {
-            [styles.tableShowScroll]: showScrollBar
-          })}
-                 ref={tableTwo}>
-            <tr className={cn({
-              [styles.tableHideScroll]: !showScrollBar
-            })}>
-              {
-                chosenPeriod.map((date, index) => <td key={index}>{date}</td>)
-              }
-            </tr>
-            {keys.query.map((key, index) => {
-              return (
-                <>
-                  <tr className={cn({
-                    [styles.openRowTwo]: openKeys.includes(key.key)
-                  })}>
-                    {
-                      chosenPeriod.map((date, index) => {
-                        return (
-                          <td key={index}>
-                            <p>{key.data[0].position[0].position}</p>
-                            {key.data[0].position[0].prevPosition && (
-                              <p className={cn(styles.range, {
-                                [styles.range_positive]: key.data[0].position[0].prevPosition.startsWith('+'),
-                                [styles.range_negative]: key.data[0].position[0].prevPosition.startsWith('-')
-                              })}>{key.data[0].position[0].prevPosition}</p>
-                            )}
-                          </td>
-                        )
-                      })
-                    }
-                  </tr>
-                  {key.data.length && openKeys.includes(key.key) && (
-                    <div className={styles.pvzBlockTwo}>
-                      {key.data.map((address, index) => {
-                        return (
-                          <tr key={index}>
-                            {
-                              chosenPeriod.map((date, index) => <td key={index}>124</td>)
-                            }
-                          </tr>
-                        )
-                      })}
-                    </div>
-                  )}
-                </>
-              )
-            })}
-          </table>
-        </div>
-      </table>
-
+      <KeysTable
+        article={article}
+        onArrowButtonClick={onArrowButtonClick}
+        openKeys={openKeys}/>
+      <DataTable
+        chosenPeriod={chosenPeriod}
+        openKeys={openKeys}/>
     </div>
   )
 }

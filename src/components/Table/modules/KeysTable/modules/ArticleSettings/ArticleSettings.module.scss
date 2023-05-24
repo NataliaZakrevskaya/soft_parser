@@ -3,7 +3,7 @@
  width: 24px;
  min-width: 24px;
  height: 24px;
- background-image: url("../../../../static/images/dots.svg");
+ background-image: url("../../../../../../static/images/dots.svg");
  cursor: pointer;
 }
 
@@ -57,14 +57,14 @@
  height: 20px;
 
  &_plus {
-	background-image: url("../../../../static/images/plus.svg");
+	background-image: url("../../../../../../static/images/plus.svg");
  }
 
  &_export {
-	background-image: url("../../../../static/images/download.svg");
+	background-image: url("../../../../../../static/images/download.svg");
  }
 
  &_delete {
-	background-image: url("../../../../static/images/delete.svg");
+	background-image: url("../../../../../../static/images/delete.svg");
  }
 }

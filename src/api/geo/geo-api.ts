@@ -2,7 +2,7 @@ import axios from "axios";
 import {FetchAddressesByTownResponse, FetchCitiesResponse} from "./types";
 import {FETCH_ALL_CITIES, FETCH_BY_TOWN} from "./constants";
 
-export const geoIpi = {
+export const geoApi = {
   async fetchCities(){
     return await axios.get<FetchCitiesResponse>(FETCH_ALL_CITIES).then(res => res.data)
   },
