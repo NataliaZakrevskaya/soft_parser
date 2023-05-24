@@ -5,6 +5,7 @@ import {Button} from '../../Button/Button'
 import {ResponseAddress, ResponseCity} from "../../../../api/geo/types";
 import {geoApi} from "../../../../api/geo/geo-api";
 import {ChangeType, ModalPropsType} from "./types";
+import {userApi} from "../../../../api/user/user-api";
 
 const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalPropsType) => {
 
@@ -60,8 +61,12 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
     geoApi.fetchCities().then(res => {
       setCities(res.data.towns)
     })
+    userApi.fetchUser('test@mail.ru').then(res => {
+      console.log(res.data)
+    })
   }, [])
-  useEffect(() => {
+  useEffect(
+      () => {
     const fetchData = async() => {
       if(activeCity){
         geoApi.fetchAddressesByTown(activeCity).then(res => {

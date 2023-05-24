@@ -1,12 +1,19 @@
 import axios from "axios";
-import {FetchAddressesByTownResponse, FetchCitiesResponse} from "../geo/types";
-import {FETCH_ALL_CITIES, FETCH_BY_TOWN} from "../geo/constants";
+import {FetchCitiesResponse} from "../geo/types";
+import {CREATE_PROFILE_URL, FETCH_PROFILE_URL} from "./constants";
+import {CreateUserResponse} from "./types";
 
 export const userApi = {
-  async fetchCities(){
-    return await axios.get<FetchCitiesResponse>(FETCH_ALL_CITIES).then(res => res.data)
+  async createUser(){
+    return await axios.post<CreateUserResponse>(CREATE_PROFILE_URL, {
+      telegramId: '',
+      email: 'test1@mail.ru'
+    }).then(res => res.data)
   },
-  // async fetchAddressesByTown(city: string){
-  //   return await axios.get<FetchAddressesByTownResponse>(`${FETCH_BY_TOWN}${city}`).then(res => res.data)
+  async fetchUser(email: string){
+    return await axios.get<CreateUserResponse>(`${FETCH_PROFILE_URL}${email}`).then(res => res.data)
+  },
+  // async updateUser(email: string){
+  //   return await axios.get<CreateUserResponse>(`${FETCH_PROFILE_URL}${email}`).then(res => res.data)
   // },
 }

@@ -2,7 +2,6 @@
   "name": "data-picker",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://134.122.74.0:5004",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
