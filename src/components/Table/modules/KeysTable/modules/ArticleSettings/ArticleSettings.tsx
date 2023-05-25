@@ -3,8 +3,11 @@ import styles from './ArticleSettings.module.scss'
 import {IArticleOption, tableArticleOptions} from '../../../../../../utils/mocks'
 import cn from 'classnames'
 import {useOnClickOutside} from '../../../../../../utils/hooks/useOnClickOutside'
-
-const ArticleSettings = () => {
+interface IProps {
+  addEmptyRow: () => void
+  addKeyDisabled: boolean
+}
+const ArticleSettings = ({addEmptyRow, addKeyDisabled}: IProps) => {
   const [articleSettingsOpen, setArticleSettingsOpen] = useState<boolean>(false)
 
   const parentEl = useRef<HTMLDivElement>(null)
@@ -12,6 +15,13 @@ const ArticleSettings = () => {
   useOnClickOutside([parentEl], () => {
     setArticleSettingsOpen(false)
   })
+  const onOptionClick = (id: number) => {
+    if(id === 1 && !addKeyDisabled){
+      addEmptyRow()
+    } else {
+      return false
+    }
+  }
 
   return (
     <div
@@ -26,10 +36,14 @@ const ArticleSettings = () => {
               <>
                 <li
                   key={option.id}
-                  className={styles.option}
+                  className={cn(styles.option, {
+                    [styles.option_disabled]: option.id === 1 && addKeyDisabled
+                  })}
+                  onClick={() => onOptionClick(option.id)}
                 >
                   <div className={cn(styles.optionIcon, {
                     [styles.optionIcon_plus]: option.id === 1,
+                    [styles.optionIcon_disabled]: option.id === 1 && addKeyDisabled,
                     [styles.optionIcon_export]: option.id === 2,
                     [styles.optionIcon_delete]: option.id === 3,
                   })}/>

@@ -11,6 +11,7 @@
 .main {
   flex: 1 0 auto;
   min-width: var(--container-width);
+  width: 80vw;
   display: flex;
   flex-direction: column;
 }

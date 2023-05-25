@@ -1,4 +1,3 @@
-import Header from './Header/Header'
 import styles from './Layout.module.scss'
 import ActionsBlock from './ActionsBlock/ActionsBlock'
 

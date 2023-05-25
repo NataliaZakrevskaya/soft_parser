@@ -4,6 +4,8 @@ import {Button} from '../../Button/Button'
 import {nanoid} from "nanoid";
 import {geoApi} from "../../../../api/geo/geo-api";
 import {ResponseCity} from "../../../../api/geo/types";
+import {userApi} from "../../../../api/user/user-api";
+import {Town} from "../../../../api/user/types";
 
 interface ModalPropsType{
   closeModal: () => void
@@ -12,7 +14,7 @@ interface ModalPropsType{
 
 const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
 
-  const [activeCityResult, setActiveCityResult] = useState<ResponseCity[]>([])
+  const [activeCityResult, setActiveCityResult] = useState<Town[]>([])
   const [searchCity, setSearchCity] = useState<string>('')
   const [cities, setCities] = useState<ResponseCity[]>([])
   const [shownCities, setShownCities] = useState<ResponseCity[]>([])
@@ -22,7 +24,19 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
     setSearchCity(e.target.value)
   }
   const chooseCity = (city: ResponseCity) => {
-    setActiveCityResult([city, ...activeCityResult])
+    console.log('cityR', city)
+    console.log('activeR', activeCityResult)
+    const changedCity = {
+      _id: city._id,
+      city: city.city,
+      pwz: city.addresses.map(address => {
+        return ({
+          _id: address
+        })
+      })
+    }
+    console.log('changedCity', changedCity)
+    setActiveCityResult([changedCity, ...activeCityResult])
     const shownCityWithoutChosen = shownCities.filter((mappedCity: ResponseCity) => mappedCity._id !== city._id)
     setShownCities(shownCityWithoutChosen)
   }
@@ -31,7 +45,7 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
     openDefaultCityModal()
   }
   const onLeftMoveClick = (city: ResponseCity) => {
-    setActiveCityResult(activeCityResult.filter((activeCity: ResponseCity) => activeCity._id !== city._id))
+    // setActiveCityResult(activeCityResult.filter((activeCity: ResponseCity) => activeCity._id !== city._id))
     setShownCities([...shownCities, city])
   }
 
@@ -39,6 +53,9 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
     geoApi.fetchCities().then(res => {
       setCities(res.data.towns)
       setShownCities(res.data.towns)
+    })
+    userApi.fetchUser('test@mail.ru').then(res => {
+      setActiveCityResult(res.data.towns)
     })
   }, [])
   useEffect(() => {
@@ -94,7 +111,7 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
           <div className={styles.scrollResult}>
             {activeCityResult.length ? (
               <ul className={styles.searchCityResultList}>
-                {activeCityResult.map((city: ResponseCity) => {
+                {activeCityResult.map((city: Town) => {
                   return (
                     <>
                       <li
@@ -103,7 +120,7 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
                       >
                         <div
                           className={styles.moveLeftIcon}
-                          onClick={() => onLeftMoveClick(city)}
+                          // onClick={() => onLeftMoveClick(city)}
                         />
                         <p className={styles.itemText}>{city.city}</p>
                       </li>

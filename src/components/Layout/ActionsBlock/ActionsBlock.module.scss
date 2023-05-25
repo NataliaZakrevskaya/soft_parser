@@ -1,5 +1,7 @@
 .actionsBlockWrapper {
-  width: var(--container-width);
+  //width: var(--container-width);
+  width: 80vw;
+  min-width: var(--container-width);
   display: flex;
   flex-direction: column;
 }

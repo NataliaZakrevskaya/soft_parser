@@ -7,9 +7,10 @@ import {useWindowSize} from "../../../../utils/hooks/useWindowSize";
 interface IProps{
   chosenPeriod: string[]
   openKeys: string[]
+  localKeys: any
 }
 
-const DataTable = ({chosenPeriod, openKeys}: IProps) => {
+const DataTable = ({chosenPeriod, openKeys, localKeys}: IProps) => {
 
   const [showScrollBar, setShowScrollBar] = useState<boolean>(false)
   const [isMobile, setIsMobile] = useState<boolean>(false)
@@ -51,7 +52,7 @@ const DataTable = ({chosenPeriod, openKeys}: IProps) => {
           </tr>
           </thead>
           <tbody className={styles.tableBody}>
-          {keys.query.map((key, index) => {
+          {localKeys.map((key: any, index: number) => {
             return (
               <div key={index}>
                 <tr className={cn({
@@ -64,21 +65,21 @@ const DataTable = ({chosenPeriod, openKeys}: IProps) => {
                           key={index}
                           className={styles.cell}
                         >
-                          <p>{key.data[0].position[0].position}</p>
-                          {key.data[0].position[0].prevPosition && (
+                          <p>{key.data.length > 0 ? key?.data[0]?.position[0]?.position : '-'}</p>
+                          {key.data[0]?.position[0]?.prevPosition && (
                             <p className={cn(styles.range, {
-                              [styles.range_positive]: key.data[0].position[0].prevPosition.startsWith('+'),
-                              [styles.range_negative]: key.data[0].position[0].prevPosition.startsWith('-')
-                            })}>{key.data[0].position[0].prevPosition}</p>
+                              [styles.range_positive]: key?.data[0]?.position[0]?.prevPosition.startsWith('+'),
+                              [styles.range_negative]: key?.data[0]?.position[0]?.prevPosition.startsWith('-')
+                            })}>{key?.data[0]?.position[0]?.prevPosition}</p>
                           )}
                         </td>
                       )
                     })
                   }
                 </tr>
-                {key.data.length && openKeys.includes(key.key) && (
+                {key.data.length > 0 && openKeys.includes(key.key) && (
                   <div className={styles.pvzBlockTwo}>
-                    {key.data.map((address, index) => {
+                    {key.data.map((address: any, index: any) => {
                       return (
                         <tr key={index}>
                           {

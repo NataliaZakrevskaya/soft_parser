@@ -1,6 +1,9 @@
+import {IPWZ} from "../../../components/Common/Modal/EditPVZList/types";
+
 export interface Town {
+    _id: string
     city: string
-    pwz: string[]
+    pwz: IPWZ[]
 }
 
 export interface CreateUserResponse {

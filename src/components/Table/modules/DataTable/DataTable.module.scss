@@ -1,7 +1,6 @@
 @import "src/static/css/breakpoints";
 
 .cell {
-  //min-height: 50px;
   height: 50px;
   font-weight: 500;
   font-size: 16px;
@@ -23,7 +22,7 @@
 }
 
 .scrollInner {
-  max-width: 841px;
+  max-width: 57vw;
   overflow-x: scroll;
   direction: rtl;
   border: 1px solid var(--color-border-gray);

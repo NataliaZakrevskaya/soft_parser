@@ -2,34 +2,54 @@ import React, {ChangeEvent, useEffect, useMemo, useState} from 'react'
 import styles from './EditPVZList.module.scss'
 import cn from 'classnames'
 import {Button} from '../../Button/Button'
-import {ResponseAddress, ResponseCity} from "../../../../api/geo/types";
+import {ResponseAddress} from "../../../../api/geo/types";
 import {geoApi} from "../../../../api/geo/geo-api";
-import {ChangeType, ModalPropsType} from "./types";
+import {ChangeType, IPWZ, ModalPropsType} from "./types";
 import {userApi} from "../../../../api/user/user-api";
+import {Town} from "../../../../api/user/types";
 
 const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalPropsType) => {
 
-  const [cities, setCities] = useState<ResponseCity[]>([])
-  const [activeCity, setActiveCity] = useState<string>('')
+  const [cities, setCities] = useState<Town[]>([])
+  const [activeCity, setActiveCity] = useState<Town | null>(null)
   const [activePVZList, setActivePVZList] = useState<ResponseAddress[]>([])
   const [searchPVZ, setSearchPVZ] = useState<string>('')
   const [sessionChanges, setSessionChanges] = useState<ChangeType[]>([])
   const [disabledSaveBtn, setDisabledSaveBtn] = useState<boolean>(false)
-
-  const chooseCity = (cityName: string) => {
-    setActiveCity(cityName)
+  const chooseCity = (city: Town) => {
+    setActiveCity(city)
     setSearchPVZ('')
   }
   const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => setSearchPVZ(e.target.value)
+
+  const updatePwz = async(data: any) => {
+    console.log('data', data)
+    userApi.updateUser('test@mail.ru', data)
+  }
+  const onSaveClick = () => {
+    let changes = {
+      towns: sessionChanges
+    }
+    updatePwz(changes)
+    closeModal()
+  }
   const choosePVZ = (newPvz: ResponseAddress) => {
-    setSessionChanges((prev: ChangeType[]) => {
-        const existingChange = prev.find(item => item.city === activeCity)
+
+    setSessionChanges((prev) => {
+        if(!activeCity) return prev
+
+        const existingChange = prev.find(item => item.city === activeCity?.city)
         if(!existingChange){
-          return [...prev, {city: activeCity, pwz: [newPvz]}]
+          return [...prev, {
+            _id: activeCity?._id,
+            city: activeCity?.city,
+            pwz: [{_id: newPvz._id, name: newPvz.address}]
+          }]
         } else{
-          return [...prev.filter(item => item.city !== activeCity), {
+          return [...prev.filter(item => item.city !== activeCity?.city), {
+            _id: activeCity?._id,
             city: existingChange.city,
-            pwz: [...existingChange.pwz, newPvz]
+            pwz: [...existingChange.pwz, {_id: newPvz._id, name: newPvz.address}]
           }]
         }
       }
@@ -43,11 +63,13 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
     closeModal()
     openDefaultPVZModal()
   }
-  const deletePVZ = (pvz: ResponseAddress) => {
+  const deletePVZ = (pvz: IPWZ) => {
     setSessionChanges((prev: ChangeType[]) => {
+      if(!activeCity) return prev
       const existingChange = prev.find(item => item.pwz.includes(pvz))
       if(existingChange){
         return [...prev.filter(item => !item.pwz.includes(pvz)), {
+          _id: existingChange._id,
           city: existingChange.city,
           pwz: existingChange.pwz.filter(item => item._id !== pvz._id)
         }]
@@ -58,24 +80,22 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
   }
 
   useEffect(() => {
-    geoApi.fetchCities().then(res => {
-      setCities(res.data.towns)
-    })
     userApi.fetchUser('test@mail.ru').then(res => {
-      console.log(res.data)
+      setCities(res.data.towns)
+      setSessionChanges(res.data.towns)
     })
   }, [])
   useEffect(
-      () => {
-    const fetchData = async() => {
-      if(activeCity){
-        geoApi.fetchAddressesByTown(activeCity).then(res => {
-          setActivePVZList(res.data.addresses)
-        })
+    () => {
+      const fetchData = async() => {
+        if(activeCity){
+          geoApi.fetchAddressesByTown(activeCity.city).then(res => {
+            setActivePVZList(res.data.addresses)
+          })
+        }
       }
-    }
-    fetchData()
-  }, [activeCity])
+      fetchData()
+    }, [activeCity])
   useEffect(() => {
     const changes = !!sessionChanges.length
     const emptyPVZ = sessionChanges.some((change: ChangeType) => !change.pwz.length)
@@ -84,14 +104,14 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
 
   const filteredPvzList = useMemo(() => {
     return activePVZList
-      .filter(activeItem => activeItem.address
+      .filter((activeItem: ResponseAddress) => activeItem.address
         .toLowerCase()
         .includes(searchPVZ.toLowerCase()))
       .filter(activeItem => !sessionChanges
-        .find(sessionItem => sessionItem.city === activeCity)?.pwz?.find(item => item._id === activeItem._id))
+        .find(sessionItem => sessionItem.city === activeCity?.city)?.pwz?.find(item => item._id === activeItem._id))
   }, [activePVZList, searchPVZ, sessionChanges, activeCity])
   const sessionList = useMemo(() => {
-    return sessionChanges.find(item => item.city === activeCity)?.pwz || []
+    return sessionChanges.find(item => item.city === activeCity?.city)?.pwz || []
   }, [sessionChanges, activeCity])
 
   return (
@@ -107,14 +127,14 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
           </div>
           <div className={styles.scrollCity}>
             <ul className={styles.cityList}>
-              {cities.map((city: ResponseCity) => {
+              {cities.map((city: Town, index) => {
                 return (
                   <li
-                    key={city._id}
+                    key={index}
                     className={cn(styles.cityItem, {
-                      [styles.cityItem_active]: activeCity === city.city
+                      [styles.cityItem_active]: activeCity?.city === city.city
                     })}
-                    onClick={() => chooseCity(city.city)}
+                    onClick={() => chooseCity(city)}
                   >
                     {city.city}
                   </li>
@@ -136,14 +156,14 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
               />
               <div className={styles.scroll}>
                 <ul className={styles.searchPVZList}>
-                  {filteredPvzList.map((pvz) => {
+                  {filteredPvzList.map((pvz: any) => {
                     return (
                       <>
                         <li
                           key={pvz._id}
                           className={styles.pvzItem}
                         >
-                          <p className={styles.itemText}>{pvz.address}</p>
+                          <p className={styles.itemText}>{pvz.address ? pvz.address : pvz.name!}</p>
                           <div
                             className={styles.moveRightIcon}
                             onClick={() => choosePVZ(pvz)}
@@ -162,7 +182,7 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
             <div className={styles.scrollResult}>
               {sessionList.length ? (
                 <ul className={styles.searchPVZResultList}>
-                  {sessionList.map(pvz => {
+                  {sessionList.map((pvz: IPWZ) => {
                     return (
                       <>
                         <li
@@ -171,7 +191,7 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
                           onClick={() => deletePVZ(pvz)}
                         >
                           <div className={styles.moveLeftIcon}/>
-                          <p className={styles.itemText}>{pvz.address}</p>
+                          <p className={styles.itemText}>{pvz.name}</p>
                         </li>
                         <div className={styles.separator}/>
                       </>
@@ -196,7 +216,12 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
             text="Отмена"
             onClick={closeModal}
             alternative/>
-          <Button text="Сохранить" primary disabled={disabledSaveBtn}/>
+          <Button
+            text="Сохранить"
+            primary
+            disabled={disabledSaveBtn}
+            onClick={onSaveClick}
+          />
         </div>
       </div>
     </div>
