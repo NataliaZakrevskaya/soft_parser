@@ -675,9 +675,3 @@ export interface IPVZ{
   id: number,
   name: string
 }
-
-export interface ICity{
-  id: number,
-  name: string,
-  pvz: IPVZ[]
-}

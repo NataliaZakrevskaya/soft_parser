@@ -23,7 +23,6 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
   const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => setSearchPVZ(e.target.value)
 
   const updatePwz = async(data: any) => {
-    console.log('data', data)
     userApi.updateUser('test@mail.ru', data)
   }
   const onSaveClick = () => {

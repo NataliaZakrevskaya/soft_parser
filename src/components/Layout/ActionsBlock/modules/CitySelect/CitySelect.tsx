@@ -1,11 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react'
 import styles from './CitySelect.module.scss'
 import cn from 'classnames'
-import {ICity} from '../../../../../utils/mocks'
 import {useOnClickOutside} from '../../../../../utils/hooks/useOnClickOutside'
 import utils from '../../../../../static/css/utils.module.scss'
-import {userApi} from "../../../../../api/user/user-api";
-import {Town} from "../../../../../api/user/types";
+import {userApi} from '../../../../../api/user/user-api'
+import {Town} from '../../../../../api/user/types'
+
 const CitySelect = () => {
 
   const [chosenCity, setChosenCity] = useState<Town>({

@@ -1,12 +1,16 @@
-// interface Address{
-//   address: string
-//   cityName: string
-// }
+interface Address{
+  address: string
+  cityName?: string
+  pickupType?: number
+  url?: string
+  urls?: string
+  _id: string
+}
 
 export interface ResponseCity{
   _id: string
   city: string
-  addresses: string[]
+  addresses: Address[]
 }
 
 export interface FetchCitiesResponse{

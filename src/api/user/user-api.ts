@@ -1,6 +1,6 @@
 import axios from "axios";
 import {FetchCitiesResponse} from "../geo/types";
-import {CREATE_PROFILE_URL, FETCH_PROFILE_URL, UPDATE_PROFILE_URL} from "./constants";
+import {CREATE_PROFILE_URL, DEFAULT_PROFILE_URL, FETCH_PROFILE_URL, UPDATE_PROFILE_URL} from './constants'
 import {CreateUserResponse} from "./types";
 
 export const userApi = {
@@ -20,5 +20,8 @@ export const userApi = {
         'Accept': 'application/json'
       }
     }).then(res => res.data)
+  },
+  async setDefaultSettings(email: string){
+    return await axios.put<CreateUserResponse>(`${DEFAULT_PROFILE_URL}${email}`).then(res => res.data)
   },
 }

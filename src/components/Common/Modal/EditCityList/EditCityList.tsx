@@ -24,18 +24,16 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
     setSearchCity(e.target.value)
   }
   const chooseCity = (city: ResponseCity) => {
-    console.log('cityR', city)
-    console.log('activeR', activeCityResult)
     const changedCity = {
       _id: city._id,
       city: city.city,
       pwz: city.addresses.map(address => {
         return ({
-          _id: address
+          _id: address._id,
+          name: address.address
         })
       })
     }
-    console.log('changedCity', changedCity)
     setActiveCityResult([changedCity, ...activeCityResult])
     const shownCityWithoutChosen = shownCities.filter((mappedCity: ResponseCity) => mappedCity._id !== city._id)
     setShownCities(shownCityWithoutChosen)
@@ -44,9 +42,30 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
     closeModal()
     openDefaultCityModal()
   }
-  const onLeftMoveClick = (city: ResponseCity) => {
-    // setActiveCityResult(activeCityResult.filter((activeCity: ResponseCity) => activeCity._id !== city._id))
-    setShownCities([...shownCities, city])
+  const onLeftMoveClick = (city: Town) => {
+    const changedCity = {
+      _id: city._id,
+      city: city.city,
+      addresses: city.pwz.map(pwz => {
+        return ({
+          _id: pwz._id,
+          address: pwz.name!
+        })
+      })
+    }
+    setActiveCityResult(activeCityResult.filter((activeCity: Town) => activeCity._id !== city._id))
+    setShownCities([...shownCities, changedCity])
+  }
+  const updatePwz = async(data: any) => {
+    console.log('data', data)
+    userApi.updateUser('test@mail.ru', data)
+  }
+  const onSaveClick = () => {
+    let changes = {
+      towns: activeCityResult
+    }
+    updatePwz(changes)
+    closeModal()
   }
 
   useEffect(() => {
@@ -120,7 +139,7 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
                       >
                         <div
                           className={styles.moveLeftIcon}
-                          // onClick={() => onLeftMoveClick(city)}
+                          onClick={() => onLeftMoveClick(city)}
                         />
                         <p className={styles.itemText}>{city.city}</p>
                       </li>
@@ -151,6 +170,7 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
             text="Сохранить"
             primary
             disabled={disabledSaveBtn}
+            onClick={onSaveClick}
           />
         </div>
       </div>
