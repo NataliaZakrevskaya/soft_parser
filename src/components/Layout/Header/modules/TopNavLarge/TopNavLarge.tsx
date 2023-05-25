@@ -1,62 +1,45 @@
 import cn from 'classnames'
-import {useEffect, useRef, useState} from 'react'
+import React, {FC, useEffect, useRef, useState} from 'react'
+import utils from '../../../../../static/css/utils.module.scss'
+import telegramIcon from '../../../../../static/images/header/telegram-bot-icon.png'
+import trackerIcon from '../../../../../static/images/header/tracker.png'
 import styles from './TopNavLarge.module.scss'
-import {hrefEnum} from '../../../../../utils/enums'
-import {IProps} from './types'
-import {useOnResize} from '../../../../../utils/hooks/useOnResize'
 import {useOnEscape} from '../../../../../utils/hooks/useOnEscape'
 import {useOnClickOutside} from '../../../../../utils/hooks/useOnClickOutside'
-import utils from '../../../../../static/css/utils.module.scss'
+import {Button} from '../../../../Common/Button/Button'
+import {mainCatalog, mainHubs, mainServices, telegramBots} from '../../../../../utils/mocks'
 
 let openTimeout: ReturnType<typeof setTimeout>
 let closeTimeout: ReturnType<typeof setTimeout>
 let openTimeoutL2: ReturnType<typeof setTimeout>
 
-export const TopNavLarge: React.FC<IProps> = ({nav, onClick}) => {
-
-  const [open, setOpen] = useState(false)
-  const [openNavItem, setOpenNavItem] = useState<number | null | string>('1')
-
+export const TopNavLarge = () => {
+  // const router = useRouter()
+  const [open, setOpen] = useState<string | boolean>(false)
   const [touch, setTouch] = useState(false)
+
   const dropdownRef = useRef(null)
   const triggerRef = useRef(null)
 
   useEffect(() => {
-    setTouch(!(window && window.matchMedia('(any-hover: hover)').matches))
-  }, [])
-
-  useEffect(() => {
     if(open){
-      setOpenNavItem('1')
       document.body.classList.add('state--top-nav-open')
     } else{
       document.body.classList.remove('state--top-nav-open')
     }
   }, [open])
 
-  useOnResize(() => {
-    if(window.innerWidth <= 639){
-      setOpen(false)
-    }
-  })
+  useEffect(() => {
+    setTouch(!(window && window.matchMedia('(any-hover: hover)').matches))
+  }, [])
 
-  useOnEscape(() => {
-    setOpen(false)
-    setOpenNavItem('1')
-  })
-
-  useOnClickOutside([dropdownRef, triggerRef], () => {
-    setOpen(false)
-    setOpenNavItem('1')
-  })
-
-  const handleMouseMove = () => {
+  const handleMouseMove = (navItem: string | boolean) => {
     if(touch){
       return
     }
     clearTimeout(openTimeout)
     openTimeout = setTimeout(() => {
-      setOpen(true)
+      setOpen(navItem)
     }, 0)
   }
 
@@ -78,6 +61,243 @@ export const TopNavLarge: React.FC<IProps> = ({nav, onClick}) => {
     }, 100)
   }
 
+  useOnEscape(() => {
+    setOpen(false)
+  })
+
+  useOnClickOutside([dropdownRef, triggerRef], () => {
+    setOpen(false)
+  })
+
+  const handleClickRoot = () => {
+    // router.push(hrefEnum.catalog)
+  }
+
+  return (
+    <nav className={styles.nav}>
+      <div className={styles.navList}>
+        <div className={styles.navItem}>
+          <button
+            type="button"
+            className={cn(styles.navItemBtn, {
+              [styles.navItemBtn_open]: open === '1'
+            })}
+            ref={triggerRef}
+            // classNameIcon={cn(styles.navItemBtn_icon, {
+            //   [styles.navItemBtn_iconOpen]: open
+            // })}
+            // onClick={() => setOpenServices(!openServices)}
+            // icon='singleArrowTopBlue'
+            onClick={handleClickRoot}
+            onMouseEnter={handleMouseEnter}
+            onMouseMove={() => handleMouseMove('1')}
+            onMouseLeave={handleMouseLeave}
+          >
+            Сервисы
+          </button>
+        </div>
+        <div className={styles.navItem}>
+          <button
+            type="button"
+            className={cn(styles.navItemBtn, {
+              [styles.navItemBtn_open]: open === '2'
+            })}
+            // classNameIcon={cn(styles.navItemBtn_icon, {
+            //   [styles.navItemBtn_iconOpen]: openHubs
+            // })}
+            // onClick={() => setOpenHubs(!openHubs)}
+            // icon='singleArrowTopBlue'
+            onClick={handleClickRoot}
+            onMouseEnter={handleMouseEnter}
+            onMouseMove={() => handleMouseMove('2')}
+            onMouseLeave={handleMouseLeave}
+          >
+            Хабы
+          </button>
+        </div>
+        <div className={styles.navItem}>
+          <button
+            type="button"
+            className={cn(styles.navItemBtn, {
+              [styles.navItemBtn_open]: open === '3'
+            })}
+            // classNameIcon={cn(styles.navItemBtn_icon, {
+            //   [styles.navItemBtn_iconOpen]: openCatalog
+            // })}
+            // onClick={() => setOpenCatalog(!openCatalog)}
+            // icon='singleArrowTopBlue'
+            onClick={handleClickRoot}
+            onMouseEnter={handleMouseEnter}
+            onMouseMove={() => handleMouseMove('3')}
+            onMouseLeave={handleMouseLeave}
+          >
+            Каталог
+          </button>
+        </div>
+        <div className={styles.navItemBtn}>
+          <a href="" className={styles.navLink}>
+            Блог
+          </a>
+        </div>
+      </div>
+      <div
+        className={cn(styles.dropdown, {
+          [styles.dropdownOpen]: open
+        })}
+        ref={dropdownRef}
+        onMouseEnter={handleMouseEnter}
+        onMouseMove={() => handleMouseMove(open)}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div className={utils.container}>
+          <div className={styles.layout}>
+            {open === '1' && <ServicesDropdown/>}
+            {open === '2' && <HubsDropdown/>}
+            {open === '3' && <CatalogDropdown touch={touch}/>}
+          </div>
+        </div>
+      </div>
+    </nav>
+  )
+}
+
+interface IServicesDropdownProps{
+}
+
+const ServicesDropdown: FC<IServicesDropdownProps> = () => {
+  return (
+    <>
+      <div className={styles.layoutAsideServices}>
+        <div className={styles.layoutAsideServices_title}>Основные сервисы</div>
+        <div className={styles.layoutAsideServices_itemsWrapper}>
+          {mainServices?.map((item) => (
+            <a key={item?.title} className={styles.layoutAsideServices_item} href={item?.link}>
+              <div className={styles.layoutAsideServices_itemMain}>
+                {item?.image ? (
+                  <img
+                    src={item?.image}
+                    className={styles.layoutAsideServices_item_image}
+                    alt=""
+                  />
+                ) : (
+                  <div className={styles.layoutAsideServices_item_emptyImgBlock}/>
+                )}
+                <div className={styles.layoutAsideServices_item_textWrapper}>
+                  <div className={cn(styles.layoutAsideServices_item_textTitle, {
+                    [styles.layoutAsideServices_item_textTitleDraft]: item?.isDraft
+                  })}>{item?.title || ''}</div>
+                  <div className={cn(styles.layoutAsideServices_item_textSubtitle, {
+                    [styles.layoutAsideServices_item_textSubtitleDraft]: item?.isDraft
+                  })}>{item?.subtitle || ''}</div>
+                </div>
+                {item?.isDraft && (
+                  <div className={styles.layoutAsideServices_item_draft}>В разработке</div>
+                )}
+              </div>
+              <Button className={styles.layoutAsideServices_item_arrow} icon="arrowRight"/>
+            </a>
+          ))}
+        </div>
+      </div>
+      <div className={styles.layoutMainServices}>
+        <div className={styles.layoutMainServices_titleWrapper}>
+          <div className={styles.layoutMainServices_title}>Телеграм-боты</div>
+          <img
+            src={telegramIcon}
+            className={styles.layoutMainServices_telegramBotIcon}
+            alt=""
+          />
+        </div>
+        <div className={styles.layoutMainServices_itemsWrapper}>
+          {telegramBots?.map((item) => (
+            <a key={item?.name} className={styles.layoutMainServices_item} href={item?.link}>{item?.name}</a>
+          ))}
+        </div>
+      </div>
+      <div className={styles.mainBlockAsideServices}>
+        <div className={styles.mainBlockAsideServices_banner}>
+          <div className={styles.mainBlockAsideServices_banner_title}>
+            Мониторинг позиций
+            <br/>
+            <span className={styles.text_blue}>бесплатно</span> 1 месяц
+          </div>
+          <img
+            src={trackerIcon}
+            className={styles.mainBlockAsideServices_banner_image}
+            alt=""
+          />
+          <Button primary>Попробовать сейчас</Button>
+        </div>
+      </div>
+    </>
+  )
+}
+
+interface IHubsDropdownProps{
+}
+
+const HubsDropdown: FC<IHubsDropdownProps> = () => {
+  return (
+    <>
+      <div className={styles.layoutAsideHubs}>
+        <div className={styles.layoutAsideHubs_title}>Хабы</div>
+        <div className={styles.layoutAsideHubs_itemsWrapper}>
+          {mainHubs?.map((item) => (
+            <a key={item?.title} className={styles.layoutAsideHubs_item} href={item?.link}>
+              <div className={styles.layoutAsideHubs_itemMain}>
+                {item?.image ? (
+                  <img
+                    src={item?.image}
+                    className={styles.layoutAsideHubs_item_image}
+                    alt=""
+                  />
+                ) : (
+                  <div className={styles.layoutAsideHubs_item_emptyImgBlock}/>
+                )}
+                <div className={styles.layoutAsideHubs_item_textWrapper}>
+                  <div className={cn(styles.layoutAsideHubs_item_textTitle, {
+                    [styles.layoutAsideHubs_item_textTitleDraft]: item?.isDraft
+                  })}>{item?.title || ''}</div>
+                  <div className={cn(styles.layoutAsideHubs_item_textSubtitle, {
+                    [styles.layoutAsideHubs_item_textSubtitleDraft]: item?.isDraft
+                  })}>{item?.subtitle || ''}</div>
+                </div>
+                {item?.isDraft && (
+                  <div className={styles.layoutAsideHubs_item_draft}>В разработке</div>
+                )}
+              </div>
+              <Button className={styles.layoutAsideHubs_item_arrow} icon="arrowRight"/>
+            </a>
+          ))}
+        </div>
+      </div>
+      <div className={styles.mainBlockAsideHubs}>
+        <div className={styles.mainBlockAsideHubs_banner}>
+          <div className={styles.mainBlockAsideHubs_banner_title}>
+            Мониторинг позиций
+            <br/>
+            <span className={styles.text_blue}>бесплатно</span> 1 месяц
+          </div>
+          <img
+            src={trackerIcon}
+            className={styles.mainBlockAsideHubs_banner_image}
+            alt=""
+          />
+          <Button primary>Попробовать сейчас</Button>
+        </div>
+      </div>
+    </>
+  )
+}
+
+interface ICatalogDropdownProps{
+  touch: boolean
+}
+
+const CatalogDropdown: FC<ICatalogDropdownProps> = ({touch}) => {
+  // const router = useRouter()
+  const [openNavItem, setOpenNavItem] = useState<number | null | string>('1')
+
   const handleMouseMoveL2 = (itemId: any) => {
     if(touch){
       return
@@ -91,138 +311,80 @@ export const TopNavLarge: React.FC<IProps> = ({nav, onClick}) => {
   const handleMouseLeaveL2 = () => {
     clearTimeout(openTimeoutL2)
   }
-  // const handleClickRoot = () => {
-  //   router.push(hrefEnum.catalog)
-  // }
-  //
-  // const handleClickParentElement = (slug: string, href: string) => {
-  //   router.push(`${hrefEnum.catalog}/${href}`)
-  //   setOpenNavItem(slug)
-  // }
+
+  const handleClickRoot = () => {
+    // router.push(hrefEnum.catalog)
+  }
+
+  const handleClickParentElement = (slug: string, href: string) => {
+    // router.push(`${hrefEnum.catalog}/${href}`)
+    setOpenNavItem(slug)
+  }
 
   return (
-    <nav className={styles.nav}>
-      <div className={styles.navList}>
-        <div className={styles.navItem}>
+    <>
+      <div className={styles.layoutAsideCatalog}>
+        {mainCatalog?.map((item) => (
           <button
             type="button"
-            className={cn(styles.navLink, {[styles.navLinkActive]: open})}
-            ref={triggerRef}
-            onClick={() => false}
-            onMouseEnter={handleMouseEnter}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
+            key={item.name}
+            className={cn(styles.layoutAsideCatalog_item, {
+              [styles.layoutAsideCatalog_itemActive]: openNavItem === item.id.toString(),
+            })}
+            onClick={() => {
+              handleClickParentElement(item.id.toString(), item.link || '')
+            }}
+            onMouseMove={() => {
+              handleMouseMoveL2(item.id)
+            }}
+            onMouseLeave={() => {
+              handleMouseLeaveL2()
+            }}
           >
-            Каталог
+            {item.name}
           </button>
-        </div>
-        <div className={styles.navItem}>
-          <a href={hrefEnum.blog} className={styles.navLink}>
-            Блог
-          </a>
-        </div>
-        <div className={styles.navItem}>
-          <a href={hrefEnum.support} className={styles.navLink}>
-            Поддержка
-          </a>
-        </div>
+        ))}
       </div>
-
-      <div
-        className={cn(styles.dropdown, {[styles.dropdownOpen]: open})}
-        ref={dropdownRef}
-        onMouseEnter={handleMouseEnter}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-      >
-        <div className={utils.container}>
-          <div className={styles.layout}>
-            <div className={styles.layoutAside}>
-              {nav?.map((item: any) => (
-                <button
-                  key={item.id}
-                  className={cn(styles.asideBtn, {
-                    [styles.asideBtnActive]: openNavItem === item.id.toString(),
-                  })}
-                  type="button"
-                  onClick={() => false}
-                  onMouseMove={() => {
-                    handleMouseMoveL2(item.id)
-                  }}
-                  onMouseLeave={() => {
-                    handleMouseLeaveL2()
-                  }}
-                >
-                  {item.title}
-                </button>
-              ))}
-            </div>
-            <div className={styles.layoutMain}>
-              {nav?.map((item: any) => (
-                <div
-                  key={item.id}
-                  className={cn(styles.mainBlock, {
-                    [styles.mainBlockActive]: openNavItem === item.id.toString(),
-                  })}
-                >
-                  <div className={styles.mainHead}>
-                    <div className={styles.mainTitle}>{item.title}</div>
-                    <div className={styles.mainNote}>{item.items?.length || 0} категорий</div>
-                  </div>
-                  <div className={styles.mainBlockLayout}>
-                    <div className={styles.mainBlockMain}>
-                      <div className={styles.mainList}>
-                        {item?.items?.map((subItem: any) => {
-                          return (
-                            <a
-                              key={subItem.id}
-                              className={styles.mainLink}
-                              href={`${hrefEnum.catalog}/${subItem.fullPath}`}
-                              onClick={() => {
-                                setOpen(false)
-                              }}
-                            >
-                              {subItem.title}
-                            </a>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className={styles.mainBlockAside}>
-              {nav?.length > 0 && <a
-                key={nav[0]?.banners[0]?.id || ''}
-                href={nav[0]?.banners[0]?.href || ''}
-                className={styles.banner}
-                target={nav[0]?.banners[0]?.target || '_blank'}
-              >
-                <div className={styles.bannerTitle}>{nav[0]?.banners[0]?.title}</div>
-                {nav[0]?.banners[0]?.image && (
+      <div className={styles.layoutMainCatalog}>
+        <div className={styles.layoutMainCatalog_title}>Специалисты</div>
+        <div className={styles.layoutMainCatalog_itemsWrapper}>
+          {mainCatalog?.filter((item) => openNavItem === item.id.toString())?.[0]?.['services']?.map((item) => (
+            <a key={item?.title} className={styles.layoutMainCatalog_item} href={item?.link}>
+              <div className={styles.layoutMainCatalog_itemMain}>
+                {item?.image ? (
                   <img
-                    className={styles.bannerImage}
-                    src={nav[0]?.banners[0]?.image}
+                    src={item?.image}
+                    className={styles.layoutMainCatalog_item_image}
                     alt=""
-                    width={385}
-                    height={200}
-                    loading="lazy"
                   />
+                ) : (
+                  <div className={styles.layoutMainCatalog_item_emptyImgBlock}/>
                 )}
-              </a>}
-              {/*{true && (*/}
-              {/*  <div className={styles.note}>*/}
-              {/*    <Icon className={styles.noteIcon} icon="note" />*/}
-              {/*    <div className={styles.noteBody}>*/}
-              {/*      /!*{item.note}*!/Пройди бесплатный курс по инфографике и узнай простые методики создания карточек товара. Удобный шаблон технического задания в подарок.*/}
-              {/*    </div>*/}
-              {/*  </div>*/}
-              {/*)}*/}
-            </div>
-          </div>
+                <div className={styles.layoutMainCatalog_item_textWrapper}>
+                  <div className={cn(styles.layoutMainCatalog_item_textTitle, {
+                    [styles.layoutMainCatalog_item_textTitleDraft]: item?.isDraft
+                  })}>{item?.title || ''}</div>
+                  <div className={cn(styles.layoutMainCatalog_item_textSubtitle, {
+                    [styles.layoutMainCatalog_item_textSubtitleDraft]: item?.isDraft
+                  })}>{item?.subtitle || ''}</div>
+                </div>
+                {item?.isDraft && (
+                  <div className={styles.layoutMainCatalog_item_draft}>В разработке</div>
+                )}
+              </div>
+              <Button className={styles.layoutMainCatalog_item_arrow} icon="arrowRight"/>
+            </a>
+          ))}
         </div>
       </div>
-    </nav>
+      <div className={styles.mainBlockAsideCatalog}>
+        <div className={styles.mainBlockAsideCatalog_title}>Остальное в разделе</div>
+        <div className={styles.mainBlockAsideCatalog_itemsWrapper}>
+          {mainCatalog?.filter((item) => item?.name === 'Специалисты')?.[0]?.['otherServices']?.map((item) => (
+            <a key={item?.name} href={item?.link} className={styles.mainBlockAsideCatalog_item}>{item?.name}</a>
+          ))}
+        </div>
+      </div>
+    </>
   )
 }

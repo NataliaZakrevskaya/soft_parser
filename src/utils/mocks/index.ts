@@ -661,6 +661,203 @@ export const keys = {
   ]
 }
 
+export const mainServices = [
+  {
+    image: '/images/header/main-services-1-icon.png',
+    title: 'Мониторинг позиций',
+    subtitle: 'Сравнение позиций по ПВЗ + расширенный отчет',
+    link: '',
+    isDraft: false,
+  },
+  {
+    image: '/images/header/main-services-2-icon.png',
+    title: 'Поиск и подбор ключевых слов',
+    subtitle: 'Для SEO-оптимизации карточек товаров',
+    link: '',
+    isDraft: true,
+  },
+]
+
+export const telegramBots = [
+  {
+    name: 'Мониторинг позиций по ПВЗ',
+    link: '',
+  },
+  {
+    name: 'СПП калькулятор',
+    link: '',
+  },
+  {
+    name: 'Шпион за чужими артикулами',
+    link: '',
+  },
+]
+
+export const mainHubs = [
+  {
+    image: '/images/header/main-services-1-icon.png',
+    title: 'Фулфилмент',
+    subtitle: 'Расширенный с сравнением позиций по ПВЗ',
+    link: '',
+    isDraft: false,
+  },
+  {
+    image: '/images/header/main-services-1-icon.png',
+    title: 'Финансы',
+    subtitle: 'Расширенный поиск ключевых слов',
+    link: '',
+    isDraft: false,
+  },
+  {
+    image: '/images/header/main-services-1-icon.png',
+    title: 'Дизайнеры',
+    subtitle: 'Расширенный поиск ключевых слов',
+    link: '',
+    isDraft: false,
+  },
+  {
+    image: '/images/header/main-services-1-icon.png',
+    title: 'Менеджеры маркетплейсов',
+    subtitle: 'Расширенный с сравнением позиций по ПВЗ',
+    link: '',
+    isDraft: true,
+  },
+  {
+    image: '/images/header/main-services-1-icon.png',
+    title: 'SEO-Хаб',
+    subtitle: 'Расширенный поиск ключевых слов',
+    link: '',
+    isDraft: false,
+  },
+]
+
+export const mainCatalog = [
+  {
+    id: '1',
+    name: 'Специалисты',
+    link: '',
+    services: [
+      {
+        image: '/images/header/main-services-1-icon.png',
+        title: 'Дизайнеры карточек товара',
+        subtitle: 'Закажите карточки товаров с высокой конверсией и узнаваемостью',
+        link: '',
+        isDraft: false,
+      },
+      {
+        image: '/images/header/main-services-1-icon.png',
+        title: 'Менеджеры личного кабинета',
+        subtitle: 'Сотрудничайте с опытными специалистами для роста продаж и масштабирования',
+        link: '',
+        isDraft: false,
+      },
+      {
+        image: '/images/header/main-services-1-icon.png',
+        title: 'SEO-специалисты',
+        subtitle: 'Выводите карточки в топ выдачи вместе с профессионалами',
+        link: '',
+        isDraft: false,
+      },
+    ],
+    otherServices: [
+      {
+        name: 'Фотографы товаров',
+        link: '',
+      },
+      {
+        name: 'Организаторы фотосетов товаров под ключ',
+        link: '',
+      },
+      {
+        name: 'Дизайнеры упаковки',
+        link: '',
+      },
+      {
+        name: 'Таргетологи для маркетплейсов',
+        link: '',
+      },
+      {
+        name: 'Фотомодели для товаров',
+        link: '',
+      },
+      {
+        name: 'Специалисты видео продакшна товаров',
+        link: '',
+      },
+    ]
+  },
+  {
+    id: '2',
+    name: 'Услуги',
+    link: '',
+    services: [
+      {
+        image: '/images/header/main-services-1-icon.png',
+        title: 'Фулфилменты',
+        subtitle: 'Лучшие компании для партнерства с честным прайсом и рейтингом',
+        link: '',
+        isDraft: false,
+      },
+      {
+        image: '/images/header/main-services-1-icon.png',
+        title: 'Финансовые организации',
+        subtitle: 'Сделают ваши карточку товара узнаваемой и более конверсионной',
+        link: '',
+        isDraft: true,
+      },
+    ]
+  },
+  {
+    id: '3',
+    name: 'Товары',
+    link: '',
+    services: [
+      {
+        image: '/images/header/main-services-1-icon.png',
+        title: 'Фулфилменты',
+        subtitle: 'Лучшие компании для партнерства с честным прайсом и рейтингом',
+        link: '',
+        isDraft: false,
+      },
+    ]
+  },
+  {
+    id: '4',
+    name: 'Инструменты',
+    link: '',
+    services: [
+      {
+        image: '/images/header/main-services-1-icon.png',
+        title: 'Фулфилменты',
+        subtitle: 'Лучшие компании для партнерства с честным прайсом и рейтингом',
+        link: '',
+        isDraft: false,
+      },
+      {
+        image: '/images/header/main-services-1-icon.png',
+        title: 'Финансовые организации',
+        subtitle: 'Сделают ваши карточку товара узнаваемой и более конверсионной',
+        link: '',
+        isDraft: true,
+      },
+    ]
+  },
+  {
+    id: '5',
+    name: 'Информация',
+    link: '',
+    services: [
+      {
+        image: '/images/header/main-services-1-icon.png',
+        title: 'Фулфилменты',
+        subtitle: 'Лучшие компании для партнерства с честным прайсом и рейтингом',
+        link: '',
+        isDraft: false,
+      },
+    ]
+  },
+]
+
 export interface IArticleOption{
   id: number
   name: string

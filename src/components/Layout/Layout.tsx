@@ -1,5 +1,7 @@
 import styles from './Layout.module.scss'
 import ActionsBlock from './ActionsBlock/ActionsBlock'
+import {Header} from './Header/Header'
+import {Sidebar} from './Sidebar/Sidebar'
 
 interface LayoutPropsType{
   openPVZModal?: () => void
@@ -21,10 +23,13 @@ export const Layout = ({
                          searchArticle,
                          onArticleInputChange,
                          fullVersion
-}: LayoutPropsType) => {
+                       }: LayoutPropsType) => {
   return (
     <div className={styles.page}>
-      {/*<Header/>*/}
+      <div className={styles.overlay}></div>
+
+      <Sidebar />
+      <Header/>
       <ActionsBlock
         openPVZModal={openPVZModal}
         openAddArticleModal={openAddArticleModal}
