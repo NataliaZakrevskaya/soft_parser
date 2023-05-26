@@ -2,8 +2,8 @@ import cn from 'classnames'
 
 import styles from './Sidebar.module.scss'
 import {FC, useEffect, useRef, useState} from 'react'
-import {useOnClickOutside} from '../../../utils/hooks/useOnClickOutside'
 import {Icon} from '../../Common/Icon/Icon'
+import {useOnClickOutside} from "@utils/hooks/useOnClickOutside";
 
 const sidebar = [
   {
@@ -131,8 +131,8 @@ interface IMenuItemProps{
 
 const MenuItem: FC<IMenuItemProps> = ({open, item}) => {
   const {id, icon, name, list} = item
-  const isItemChecked = false
-  const isItemInListCheched = false
+  const isItemChecked = true
+  const isItemInListCheched = true
   const [itemList, setItemList] = useState([])
   const [openItemList, setOpenItemList] = useState<boolean>(false)
 

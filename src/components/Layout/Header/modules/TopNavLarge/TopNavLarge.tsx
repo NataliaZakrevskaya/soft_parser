@@ -1,13 +1,11 @@
 import cn from 'classnames'
 import React, {FC, useEffect, useRef, useState} from 'react'
-import utils from '../../../../../static/css/utils.module.scss'
-import telegramIcon from '../../../../../static/images/header/telegram-bot-icon.png'
-import trackerIcon from '../../../../../static/images/header/tracker.png'
+import utils from '@static/css/utils.module.scss'
 import styles from './TopNavLarge.module.scss'
-import {useOnEscape} from '../../../../../utils/hooks/useOnEscape'
-import {useOnClickOutside} from '../../../../../utils/hooks/useOnClickOutside'
+import {useOnClickOutside} from '@utils/hooks/useOnClickOutside'
 import {Button} from '../../../../Common/Button/Button'
-import {mainCatalog, mainHubs, mainServices, telegramBots} from '../../../../../utils/mocks'
+import {mainCatalog, mainHubs, mainServices, telegramBots} from '@mocks/index'
+import {useOnEscape} from "@utils/hooks/useOnEscape";
 
 let openTimeout: ReturnType<typeof setTimeout>
 let closeTimeout: ReturnType<typeof setTimeout>
@@ -15,7 +13,7 @@ let openTimeoutL2: ReturnType<typeof setTimeout>
 
 export const TopNavLarge = () => {
   // const router = useRouter()
-  const [open, setOpen] = useState<string | boolean>(false)
+  const [open, setOpen] = useState<string | boolean>('3')
   const [touch, setTouch] = useState(false)
 
   const dropdownRef = useRef(null)
@@ -175,7 +173,7 @@ const ServicesDropdown: FC<IServicesDropdownProps> = () => {
               <div className={styles.layoutAsideServices_itemMain}>
                 {item?.image ? (
                   <img
-                    src={item?.image}
+                    src={item.image}
                     className={styles.layoutAsideServices_item_image}
                     alt=""
                   />
@@ -202,11 +200,11 @@ const ServicesDropdown: FC<IServicesDropdownProps> = () => {
       <div className={styles.layoutMainServices}>
         <div className={styles.layoutMainServices_titleWrapper}>
           <div className={styles.layoutMainServices_title}>Телеграм-боты</div>
-          <img
-            src={telegramIcon}
-            className={styles.layoutMainServices_telegramBotIcon}
-            alt=""
-          />
+          {/*<img*/}
+          {/*  src={telegramIcon}*/}
+          {/*  className={styles.layoutMainServices_telegramBotIcon}*/}
+          {/*  alt=""*/}
+          {/*/>*/}
         </div>
         <div className={styles.layoutMainServices_itemsWrapper}>
           {telegramBots?.map((item) => (
@@ -222,7 +220,7 @@ const ServicesDropdown: FC<IServicesDropdownProps> = () => {
             <span className={styles.text_blue}>бесплатно</span> 1 месяц
           </div>
           <img
-            src={trackerIcon}
+            src='/images/header/tracker.png'
             className={styles.mainBlockAsideServices_banner_image}
             alt=""
           />
@@ -279,7 +277,7 @@ const HubsDropdown: FC<IHubsDropdownProps> = () => {
             <span className={styles.text_blue}>бесплатно</span> 1 месяц
           </div>
           <img
-            src={trackerIcon}
+            src='/images/header/tracker.png'
             className={styles.mainBlockAsideHubs_banner_image}
             alt=""
           />
@@ -324,7 +322,7 @@ const CatalogDropdown: FC<ICatalogDropdownProps> = ({touch}) => {
   return (
     <>
       <div className={styles.layoutAsideCatalog}>
-        {mainCatalog?.map((item) => (
+        {mainCatalog?.map((item: any) => (
           <button
             type="button"
             key={item.name}
@@ -348,7 +346,7 @@ const CatalogDropdown: FC<ICatalogDropdownProps> = ({touch}) => {
       <div className={styles.layoutMainCatalog}>
         <div className={styles.layoutMainCatalog_title}>Специалисты</div>
         <div className={styles.layoutMainCatalog_itemsWrapper}>
-          {mainCatalog?.filter((item) => openNavItem === item.id.toString())?.[0]?.['services']?.map((item) => (
+          {mainCatalog?.filter((item: any) => openNavItem === item.id.toString())?.[0]?.['services']?.map((item) => (
             <a key={item?.title} className={styles.layoutMainCatalog_item} href={item?.link}>
               <div className={styles.layoutMainCatalog_itemMain}>
                 {item?.image ? (
@@ -380,7 +378,7 @@ const CatalogDropdown: FC<ICatalogDropdownProps> = ({touch}) => {
       <div className={styles.mainBlockAsideCatalog}>
         <div className={styles.mainBlockAsideCatalog_title}>Остальное в разделе</div>
         <div className={styles.mainBlockAsideCatalog_itemsWrapper}>
-          {mainCatalog?.filter((item) => item?.name === 'Специалисты')?.[0]?.['otherServices']?.map((item) => (
+          {mainCatalog?.filter((item: any) => item?.name === 'Специалисты')?.[0]?.['otherServices']?.map((item: any) => (
             <a key={item?.name} href={item?.link} className={styles.mainBlockAsideCatalog_item}>{item?.name}</a>
           ))}
         </div>

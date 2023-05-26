@@ -1,5 +1,7 @@
 // export const calendarOptions = ['Сегодня', 'Вчера', 'Последние 4 дня', 'Пользовательский']
-import {formatDate} from '../helpers/date'
+import {formatDate} from '../utils/helpers/date'
+
+import Qwe from '@static/images/add-key-hover.svg'
 
 const oneDayAgo = new Date()
 oneDayAgo.setDate(oneDayAgo.getDate() - 1)

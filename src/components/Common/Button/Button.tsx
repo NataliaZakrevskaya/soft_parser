@@ -2,6 +2,7 @@ import {forwardRef} from 'react'
 import styles from './Button.module.scss'
 import {IProps} from './types'
 import cn from 'classnames'
+import {Icon} from "@components/Common/Icon/Icon";
 
 export const Button: React.FC<IProps> = forwardRef(
   (
@@ -64,6 +65,7 @@ export const Button: React.FC<IProps> = forwardRef(
         rel={rel}
       >
         {(text || children) && <span>{text || children}</span>}
+        {icon && <Icon className={cn(styles.icon, classNameIcon)} icon={icon}/>}
       </Tag>
     )
   },

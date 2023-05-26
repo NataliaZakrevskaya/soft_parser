@@ -310,6 +310,7 @@ export const Header = (props: { fullWidth?: boolean }) => {
               <>
                 <Button
                   text="Регистрация"
+                  alternative
                   onClick={registration}
                 />
                 <Button

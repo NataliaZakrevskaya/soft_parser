@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import styles from './Table.module.scss'
 import KeysTable from "./modules/KeysTable/KeysTable";
 import DataTable from "./modules/DataTable/DataTable";
-import {keys} from "../../utils/mocks";
+import {keys} from "../../mocks";
 
 interface ITable{
   chosenPeriod: string[]

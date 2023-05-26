@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react'
 import styles from './ArticleSettings.module.scss'
-import {IArticleOption, tableArticleOptions} from '../../../../../../utils/mocks'
+import {IArticleOption, tableArticleOptions} from '../../../../../../mocks'
 import cn from 'classnames'
 import {useOnClickOutside} from '../../../../../../utils/hooks/useOnClickOutside'
 interface IProps {

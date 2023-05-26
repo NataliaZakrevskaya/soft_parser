@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styles from "./KeysTable.module.scss";
 import ArticleSettings from "./modules/ArticleSettings/ArticleSettings";
 import utils from "../../../../static/css/utils.module.scss";
-import {articleDescription} from "../../../../utils/mocks";
+import {articleDescription} from "../../../../mocks";
 import cn from "classnames";
 import {useWindowSize} from "../../../../utils/hooks/useWindowSize";
 

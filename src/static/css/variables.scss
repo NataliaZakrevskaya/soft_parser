@@ -6,6 +6,8 @@
  --container-padding-mobile: 16px;
 
  /* colors */
+ --color-bg: var(--color-white);
+ --color-white: #fff;
  --color-primary: #357efe;
  --color-primary-active: #2432e8;
  --color-background-gray: #F6F6FA;
@@ -18,6 +20,12 @@
  --color-background-active: #EBF2FF;
  --color-primary-disabled-dark: #abbed1;
  --color-primary-disabled-light: #eef5fc;
+ --overlay-bg: rgb(0 0 0 / 60%);
+ /* transitions */
+ --trs-base: 0.15s;
+ --trs-dropdown: 0.25s;
+ --trs-collapse: 0.3s;
+ --trs-overlay: 0.25s;
 
  /* border radius */
  --border-radius-small: 8px;

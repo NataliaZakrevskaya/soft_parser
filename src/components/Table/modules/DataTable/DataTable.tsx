@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styles from "./DataTable.module.scss";
 import cn from "classnames";
-import {keys} from "../../../../utils/mocks";
+import {keys} from "../../../../mocks";
 import {useWindowSize} from "../../../../utils/hooks/useWindowSize";
 
 interface IProps{

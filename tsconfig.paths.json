@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@components/*": ["./components/*"],
+      "@static/*": ["./static/*"],
+      "@images/*": ["./static/images/*"],
+      "@api/*": ["./api/*"],
+      "@utils/*": ["./utils/*"],
+      "@mocks/*": ["./mocks/*"]
+    }
+  }
+}

@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react'
 import cn from 'classnames'
 import styles from './PeriodSelect.module.scss'
 import CalendarIcon from '../svg/CalendarIcon'
-import {calendarOptions} from '../../../../../utils/mocks'
+import {calendarOptions} from '../../../../../mocks'
 import Calendar from '../../../../Calendar/Calendar'
 import {useOnClickOutside} from '../../../../../utils/hooks/useOnClickOutside'
 

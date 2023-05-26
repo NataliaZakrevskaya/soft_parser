@@ -1,0 +1,67 @@
+/* selection */
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-color);
+}
+
+/* basic */
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--color-fg);
+  background: var(--color-bg);
+  font: var(--font-base);
+  position: relative;
+  overflow-x: clip;
+
+  & img[src=""] {
+    display: none;
+  }
+}
+
+.ql-editor {
+  background: none !important;
+  transition: var(--trs-base) !important;;
+  min-height: 300px !important;;
+}
+
+.ql-align-right {
+  text-align: right;
+}
+
+.ql-align-left {
+  text-align: left;
+}
+
+.ql-align-center {
+  text-align: center;
+}
+
+.ql-align-justify {
+  text-align: justify;
+}
+
+.ql-toolbar.ql-snow{
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: 1px solid #E8E8F1 !important;
+  border-radius: 10px 10px 0 0 !important;
+}
+.ql-container.ql-snow{
+  border: none !important;
+}
+
+.slider {
+  height: 6px;
+}
+
+.driver-card {
+  width: 394px !important;
+  height: 134px !important;
+  background: transparent !important;
+  // имейте ввиду, что больше 400px будет показано с прокруткой
+}

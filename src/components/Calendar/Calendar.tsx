@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import {DataPicker} from './DataPicker/DataPicker'
 import {formatDate} from '../../utils/helpers/date'
 import styles from './Calendar.module.scss'
-import {calendarOptions} from '../../utils/mocks'
+import {calendarOptions} from '../../mocks'
 import {IProps} from './types'
 import cn from 'classnames'
 
