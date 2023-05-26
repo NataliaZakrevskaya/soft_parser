@@ -34,6 +34,12 @@
   visibility: visible;
 }
 
+@media (max-width: 1500px) {
+  .main {
+    margin-left: 100px;
+  }
+}
+
 @media (max-width: $screen-2xs-max) {
   .main {
     min-width: var(--container-width-mobile);

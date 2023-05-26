@@ -7,6 +7,7 @@ import PeriodSelect from './modules/PeriodSelect/PeriodSelect'
 import ArticleSearch from './modules/ArticleSearch/ArticleSearch'
 import CitySelect from './modules/CitySelect/CitySelect'
 import {useWindowSize} from "../../../utils/hooks/useWindowSize";
+import {Town} from "@api/user/types";
 
 interface ActionsBlockPropsType{
   openPVZModal?: () => void
@@ -16,6 +17,8 @@ interface ActionsBlockPropsType{
   searchArticle?: string
   onArticleInputChange?: (value: string) => void
   fullVersion: boolean
+  chosenCity: Town
+  chooseCity: (city: Town) => void
 }
 
 const ActionsBlock = ({
@@ -25,7 +28,9 @@ const ActionsBlock = ({
                         setSecondDay,
                         searchArticle,
                         onArticleInputChange,
-                        fullVersion
+                        fullVersion,
+                        chosenCity,
+                        chooseCity
                       }: ActionsBlockPropsType) => {
 
   const [isMobile, setIsMobile] = useState<boolean>(false)
@@ -51,11 +56,17 @@ const ActionsBlock = ({
         )}
       </div>
       {isMobile ? (
-        <CitySelect/>
+        <CitySelect
+          chosenCity={chosenCity}
+          chooseCity={chooseCity}
+        />
       ) : (
         <div className={styles.searchSettingsWrapper}>
           <div className={styles.cityBlockWrapper}>
-            <CitySelect/>
+            <CitySelect
+              chosenCity={chosenCity}
+              chooseCity={chooseCity}
+            />
             <div className={styles.editCityBlock}>
               <PointerIcon onClick={openPVZModal}/>
             </div>

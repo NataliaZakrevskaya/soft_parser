@@ -9,14 +9,23 @@ import DefaultCity from "../../Common/Modal/DefaultCity/DefaultCity";
 import DefaultPVZ from "../../Common/Modal/DefaultPVZ/DefaultPVZ";
 import AddArticle from "../../Common/Modal/AddArticle/AddArticle";
 import Onboard from "../../Onboard/Onboard";
+import {Town} from "@api/user/types";
 
 interface IProps{
   changeVersion?: () => void
   fullVersion: boolean
   isMobile: boolean
+  chosenCity: Town
+  chooseCity: (city: Town) => void
 }
 
-const Pc = ({changeVersion, fullVersion, isMobile}: IProps) => {
+const Pc = ({changeVersion,
+              fullVersion,
+              isMobile,
+              chosenCity,
+              chooseCity
+}: IProps) => {
+
 
   const [state, dispatch] = useReducer(modalReducer, initialState)
   const [searchArticle, setSearchActive] = useState<string>('')
@@ -64,6 +73,8 @@ const Pc = ({changeVersion, fullVersion, isMobile}: IProps) => {
       searchArticle={searchArticle!}
       onArticleInputChange={onArticleInputChange!}
       fullVersion={fullVersion}
+      chosenCity={chosenCity}
+      chooseCity={chooseCity}
     >
       {
         articles.length ? (

@@ -2,6 +2,7 @@ import styles from './Layout.module.scss'
 import ActionsBlock from './ActionsBlock/ActionsBlock'
 import {Header} from './Header/Header'
 import {Sidebar} from './Sidebar/Sidebar'
+import {Town} from "@api/user/types";
 
 interface LayoutPropsType{
   openPVZModal?: () => void
@@ -12,6 +13,8 @@ interface LayoutPropsType{
   searchArticle?: string
   onArticleInputChange?: (value: string) => void
   fullVersion: boolean
+  chosenCity: Town
+  chooseCity: (city: Town) => void
 }
 
 export const Layout = ({
@@ -22,7 +25,9 @@ export const Layout = ({
                          children,
                          searchArticle,
                          onArticleInputChange,
-                         fullVersion
+                         fullVersion,
+                         chosenCity,
+                         chooseCity
                        }: LayoutPropsType) => {
   return (
     <div className={styles.page}>
@@ -38,6 +43,8 @@ export const Layout = ({
         searchArticle={searchArticle}
         onArticleInputChange={onArticleInputChange}
         fullVersion={fullVersion}
+        chosenCity={chosenCity}
+        chooseCity={chooseCity}
       />
       <main className={styles.main}>{children}</main>
     </div>

@@ -866,6 +866,11 @@ export const userInitial = {
   towns: [],
   _id: ''
 }
+export const chosenCityInitial = {
+  _id: '',
+  city: '',
+  pwz: []
+}
 
 export interface IArticleOption{
   id: number

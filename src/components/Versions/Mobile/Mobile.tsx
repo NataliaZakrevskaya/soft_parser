@@ -2,13 +2,20 @@ import React, {useEffect, useState} from 'react';
 import FullVersionPlug from "./modules/fullVersionPlug/fullVersionPlug";
 import Table from "../../Table/Table";
 import {Layout} from "../../Layout/Layout";
+import {Town} from "@api/user/types";
 
 interface IProps{
   fullVersion: boolean
   changeVersion: () => void
+  chosenCity: Town
+  chooseCity: (city: Town) => void
 }
 
-const Mobile = ({changeVersion, fullVersion}: IProps) => {
+const Mobile = ({changeVersion,
+                  fullVersion,
+                  chosenCity,
+                  chooseCity
+}: IProps) => {
 
     const [chosenPeriod, setChosenPeriod] = useState<string[]>([])
     const [firstDay, setFirstDay] = useState<Date>(new Date())
@@ -47,6 +54,8 @@ const Mobile = ({changeVersion, fullVersion}: IProps) => {
           searchArticle={searchArticle}
           onArticleInputChange={onArticleInputChange}
           fullVersion={fullVersion}
+          chosenCity={chosenCity}
+          chooseCity={chooseCity}
         >
           {showPlug && <FullVersionPlug
             changeVersion={changeVersion}

@@ -6,13 +6,12 @@ import utils from '../../../../../static/css/utils.module.scss'
 import {userApi} from '../../../../../api/user/user-api'
 import {Town} from '../../../../../api/user/types'
 
-const CitySelect = () => {
+interface IProps {
+  chosenCity: Town
+  chooseCity: (city: Town) => void
+}
+const CitySelect = ({chosenCity, chooseCity}: IProps) => {
 
-  const [chosenCity, setChosenCity] = useState<Town>({
-    _id: '',
-    city: '',
-    pwz: []
-  })
   const [cities, setCities] = useState<Town[]>([])
   const [openCitySelect, setOpenCitySelect] = useState<boolean>(false)
 
@@ -23,7 +22,7 @@ const CitySelect = () => {
   })
 
   const onCityOptionClick = (city: Town) => {
-    setChosenCity(city)
+    chooseCity(city)
     setOpenCitySelect(false)
   }
 
