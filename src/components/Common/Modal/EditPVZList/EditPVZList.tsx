@@ -1,15 +1,16 @@
-import React, {ChangeEvent, useEffect, useMemo, useState} from 'react'
+import React, {ChangeEvent, useContext, useEffect, useMemo, useState} from 'react'
 import styles from './EditPVZList.module.scss'
 import cn from 'classnames'
 import {Button} from '../../Button/Button'
-import {ResponseAddress} from "../../../../api/geo/types";
-import {geoApi} from "../../../../api/geo/geo-api";
+import {ResponseAddress} from "@api/geo/types";
+import {geoApi} from "@api/geo/geo-api";
 import {ChangeType, IPWZ, ModalPropsType} from "./types";
-import {userApi} from "../../../../api/user/user-api";
-import {Town} from "../../../../api/user/types";
+import {userApi} from "@api/user/user-api";
+import {Town} from "@api/user/types";
+import {UserContext, UserContextType} from "../../../../App";
 
 const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalPropsType) => {
-
+const {user} = useContext(UserContext) as UserContextType
   const [cities, setCities] = useState<Town[]>([])
   const [activeCity, setActiveCity] = useState<Town | null>(null)
   const [activePVZList, setActivePVZList] = useState<ResponseAddress[]>([])
@@ -79,10 +80,8 @@ const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalProp
   }
 
   useEffect(() => {
-    userApi.fetchUser('test@mail.ru').then(res => {
-      setCities(res.data.towns)
-      setSessionChanges(res.data.towns)
-    })
+      setCities(user.towns)
+      setSessionChanges(user.towns)
   }, [])
   useEffect(
     () => {

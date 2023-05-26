@@ -1,21 +1,18 @@
-import React, {ChangeEvent, useEffect, useState} from 'react'
+import React, {ChangeEvent, useContext, useEffect, useState} from 'react'
 import styles from './AddArticle.module.scss'
 import {Button} from '../../Button/Button'
 import DynamicKeyInputs, {IInput} from './modules/DynamicKeyInputs/DynamicKeyInputs'
-import {UserResponse} from "@api/user/types";
-import {userApi} from "@api/user/user-api";
-import {userInitial} from "@mocks/index";
 import {nanoid} from "nanoid";
 import {statisticsApi} from "@api/statistics/statistics-api";
+import {UserContext, UserContextType} from "../../../../App";
 
 interface IModalProps{
   closeModal: () => void
-  addArticle: (value: string) => void
 }
 
-const AddArticle = ({closeModal, addArticle}: IModalProps) => {
+const AddArticle = ({closeModal}: IModalProps) => {
+  const {user} = useContext(UserContext) as UserContextType
   const [article, setArticle] = useState<string>('')
-  const [userInfo, setUserInfo] = useState<UserResponse>(userInitial)
   const [disabledAddBtn, setDisabledAddBtn] = useState(true)
   const [inputs, setInputs] = useState<IInput[]>([{id: nanoid(), value: ''}])
 
@@ -38,19 +35,15 @@ const AddArticle = ({closeModal, addArticle}: IModalProps) => {
 
   const createArticle = async () => {
     const requestData = {
-      telegramId: userInfo.telegramId,
-      email: userInfo.email,
+      telegramId: user.telegramId,
+      email: user.email,
       article: article,
       keys: inputs.map((input: IInput) => input.value),
-      towns: userInfo.towns
+      towns: user.towns
     }
-    console.log('requestData',requestData)
-    statisticsApi.createArticle(requestData).then(res => {
-      console.log(res.data)
-    })
+    statisticsApi.createArticle(requestData)
   }
   const onAddClick = () => {
-    // addArticle(article)
     createArticle()
     closeModal()
   }
@@ -62,11 +55,6 @@ const AddArticle = ({closeModal, addArticle}: IModalProps) => {
       setDisabledAddBtn(true)
     }
   }, [article])
-  useEffect(() => {
-    userApi.fetchUser('test@mail.ru').then(res => {
-      setUserInfo(res.data)
-    })
-  }, [])
 
   return (
     <div className={styles.modalContent}>

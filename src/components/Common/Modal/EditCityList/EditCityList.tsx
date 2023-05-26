@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from 'react'
+import React, {ChangeEvent, useContext, useEffect, useState} from 'react'
 import styles from './EditCityList.module.scss'
 import {Button} from '../../Button/Button'
 import {nanoid} from "nanoid";
@@ -6,6 +6,7 @@ import {geoApi} from "../../../../api/geo/geo-api";
 import {ResponseCity} from "../../../../api/geo/types";
 import {userApi} from "../../../../api/user/user-api";
 import {Town} from "../../../../api/user/types";
+import {UserContext, UserContextType} from "../../../../App";
 
 interface ModalPropsType{
   closeModal: () => void
@@ -13,7 +14,7 @@ interface ModalPropsType{
 }
 
 const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
-
+  const {user} = useContext(UserContext) as UserContextType
   const [activeCityResult, setActiveCityResult] = useState<Town[]>([])
   const [searchCity, setSearchCity] = useState<string>('')
   const [cities, setCities] = useState<ResponseCity[]>([])
@@ -72,9 +73,7 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
       setCities(res.data.towns)
       setShownCities(res.data.towns)
     })
-    userApi.fetchUser('test@mail.ru').then(res => {
-      setActiveCityResult(res.data.towns)
-    })
+    setActiveCityResult(user.towns)
   }, [])
   useEffect(() => {
     const res = cities.filter((city: ResponseCity) => city.city.toLowerCase().includes(searchCity.toLowerCase())).filter(obj1 => !activeCityResult.some(obj2 => obj1._id === obj2._id))

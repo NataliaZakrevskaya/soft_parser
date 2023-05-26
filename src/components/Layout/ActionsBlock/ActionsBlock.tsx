@@ -16,9 +16,6 @@ interface ActionsBlockPropsType{
   setSecondDay: (day: Date | null) => void
   searchArticle?: string
   onArticleInputChange?: (value: string) => void
-  fullVersion: boolean
-  chosenCity: Town
-  chooseCity: (city: Town) => void
 }
 
 const ActionsBlock = ({
@@ -28,9 +25,6 @@ const ActionsBlock = ({
                         setSecondDay,
                         searchArticle,
                         onArticleInputChange,
-                        fullVersion,
-                        chosenCity,
-                        chooseCity
                       }: ActionsBlockPropsType) => {
 
   const [isMobile, setIsMobile] = useState<boolean>(false)
@@ -56,17 +50,11 @@ const ActionsBlock = ({
         )}
       </div>
       {isMobile ? (
-        <CitySelect
-          chosenCity={chosenCity}
-          chooseCity={chooseCity}
-        />
+        <CitySelect/>
       ) : (
         <div className={styles.searchSettingsWrapper}>
           <div className={styles.cityBlockWrapper}>
-            <CitySelect
-              chosenCity={chosenCity}
-              chooseCity={chooseCity}
-            />
+            <CitySelect/>
             <div className={styles.editCityBlock}>
               <PointerIcon onClick={openPVZModal}/>
             </div>

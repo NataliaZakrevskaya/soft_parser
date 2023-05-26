@@ -7,14 +7,10 @@ import {Town} from "@api/user/types";
 interface IProps{
   fullVersion: boolean
   changeVersion: () => void
-  chosenCity: Town
-  chooseCity: (city: Town) => void
 }
 
 const Mobile = ({changeVersion,
                   fullVersion,
-                  chosenCity,
-                  chooseCity
 }: IProps) => {
 
     const [chosenPeriod, setChosenPeriod] = useState<string[]>([])
@@ -54,8 +50,6 @@ const Mobile = ({changeVersion,
           searchArticle={searchArticle}
           onArticleInputChange={onArticleInputChange}
           fullVersion={fullVersion}
-          chosenCity={chosenCity}
-          chooseCity={chooseCity}
         >
           {showPlug && <FullVersionPlug
             changeVersion={changeVersion}

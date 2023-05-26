@@ -2,6 +2,7 @@
 import {formatDate} from '../utils/helpers/date'
 
 import Qwe from '@static/images/add-key-hover.svg'
+import {Town, UserResponse} from "@api/user/types";
 
 const oneDayAgo = new Date()
 oneDayAgo.setDate(oneDayAgo.getDate() - 1)
@@ -859,30 +860,19 @@ export const mainCatalog = [
     ]
   },
 ]
-
-export const userInitial = {
+export const chosenCityInitial: Town = {
+  _id: '',
+  city: '',
+  pwz: []
+}
+export const userInitial: UserResponse = {
   email: '',
   telegramId: '',
   towns: [],
   _id: ''
 }
-export const chosenCityInitial = {
-  _id: '',
-  city: '',
-  pwz: []
-}
 
 export interface IArticleOption{
   id: number
-  name: string
-}
-
-export interface IJustCity{
-  id: number,
-  name: string
-}
-
-export interface IPVZ{
-  id: number,
   name: string
 }

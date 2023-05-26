@@ -1,17 +1,15 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import styles from './CitySelect.module.scss'
 import cn from 'classnames'
-import {useOnClickOutside} from '../../../../../utils/hooks/useOnClickOutside'
+import {useOnClickOutside} from '@utils/hooks/useOnClickOutside'
 import utils from '../../../../../static/css/utils.module.scss'
-import {userApi} from '../../../../../api/user/user-api'
-import {Town} from '../../../../../api/user/types'
+import {userApi} from '@api/user/user-api'
+import {Town} from '@api/user/types'
+import {ChosenCityContext, ChosenCityContextType} from "../../../../../App";
 
-interface IProps {
-  chosenCity: Town
-  chooseCity: (city: Town) => void
-}
-const CitySelect = ({chosenCity, chooseCity}: IProps) => {
+const CitySelect = () => {
 
+  const {chosenCity, chooseCity} = useContext(ChosenCityContext) as ChosenCityContextType
   const [cities, setCities] = useState<Town[]>([])
   const [openCitySelect, setOpenCitySelect] = useState<boolean>(false)
 

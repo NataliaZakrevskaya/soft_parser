@@ -1,4 +1,4 @@
-import {IPWZ} from "../../../components/Common/Modal/EditPVZList/types";
+import {IPWZ} from "@components/Common/Modal/EditPVZList/types";
 
 export interface Town {
     _id: string

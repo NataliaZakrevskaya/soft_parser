@@ -9,23 +9,17 @@ import DefaultCity from "../../Common/Modal/DefaultCity/DefaultCity";
 import DefaultPVZ from "../../Common/Modal/DefaultPVZ/DefaultPVZ";
 import AddArticle from "../../Common/Modal/AddArticle/AddArticle";
 import Onboard from "../../Onboard/Onboard";
-import {Town} from "@api/user/types";
 
 interface IProps{
   changeVersion?: () => void
   fullVersion: boolean
   isMobile: boolean
-  chosenCity: Town
-  chooseCity: (city: Town) => void
 }
 
 const Pc = ({changeVersion,
               fullVersion,
-              isMobile,
-              chosenCity,
-              chooseCity
+              isMobile
 }: IProps) => {
-
 
   const [state, dispatch] = useReducer(modalReducer, initialState)
   const [searchArticle, setSearchActive] = useState<string>('')
@@ -37,7 +31,6 @@ const Pc = ({changeVersion,
     '73582305',
     '13782305'
   ])
-
   const openPVZModal = () => dispatch(modalReducerActions.openPVZModal())
   const closePVZModal = () => dispatch(modalReducerActions.closePVZModal())
   const openCityModal = () => dispatch(modalReducerActions.openCityModal())
@@ -73,8 +66,6 @@ const Pc = ({changeVersion,
       searchArticle={searchArticle!}
       onArticleInputChange={onArticleInputChange!}
       fullVersion={fullVersion}
-      chosenCity={chosenCity}
-      chooseCity={chooseCity}
     >
       {
         articles.length ? (
@@ -138,7 +129,6 @@ const Pc = ({changeVersion,
           <Modal closeModal={closeAddArticleModal} title={'Добавление нового артикула'}>
             <AddArticle
               closeModal={closeAddArticleModal}
-              addArticle={addArticle}
             />
           </Modal>
         )
