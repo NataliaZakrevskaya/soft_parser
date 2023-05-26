@@ -4,6 +4,7 @@
   min-width: var(--container-width);
   display: flex;
   flex-direction: column;
+  margin-top: 24px;
 }
 
 .articleWrapper {
@@ -100,6 +101,9 @@
   }
 }
 
+@media (max-width: 1500px) {
+
+}
 @media (max-width: 639px) {
   .actionsBlockWrapper {
     width: var(--container-width-mobile);

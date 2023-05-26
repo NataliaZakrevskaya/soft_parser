@@ -1,31 +1,28 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useRef} from 'react'
 import InputField from './modules/InputField/InputField'
-import {nanoid} from 'nanoid'
 import styles from './DynamicKeyInputs.module.scss'
 
-interface IInput{
+export interface IInput{
   id: string
   value: string
 }
 
-const DynamicKeyInputs = () => {
+interface IProps{
+  inputs: IInput[]
+  handleInputChange: (id: string, value: string) => void
+  addInput: () => void
+  deleteInput: (id: string) => void
+}
 
-  const [inputs, setInputs] = useState<IInput[]>([{id: nanoid(), value: ''}])
+const DynamicKeyInputs = ({
+                            inputs,
+                            handleInputChange,
+                            addInput,
+                            deleteInput
+}: IProps) => {
+
 
   const scrollEl = useRef<HTMLDivElement>(null)
-
-  const handleInputChange = (id: string, value: string) => {
-    const newInputs = [...inputs]
-    const inputIndex = newInputs.findIndex(input => input.id === id)
-    newInputs[inputIndex].value = value
-    setInputs(newInputs)
-  }
-  const addInput = () => {
-    setInputs([...inputs, {id: nanoid(), value: ''}])
-  }
-  const deleteInput = (id: string) => {
-    setInputs(inputs.filter((input: IInput) => input.id !== id))
-  }
 
   useEffect(() => {
     scrollEl.current?.scrollIntoView( { behavior: 'smooth' } );

@@ -5,12 +5,12 @@ export interface Town {
     city: string
     pwz: IPWZ[]
 }
-
+export interface UserResponse{
+    email: string,
+    telegramId: string,
+    towns: Town[],
+    _id: string
+}
 export interface CreateUserResponse {
-    data: {
-        email: string,
-        telegramId: string,
-        towns: Town[],
-        _id: string
-    },
+    data: UserResponse
 }

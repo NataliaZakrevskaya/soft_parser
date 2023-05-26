@@ -860,6 +860,13 @@ export const mainCatalog = [
   },
 ]
 
+export const userInitial = {
+  email: '',
+  telegramId: '',
+  towns: [],
+  _id: ''
+}
+
 export interface IArticleOption{
   id: number
   name: string

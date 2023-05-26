@@ -57,7 +57,6 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
     setShownCities([...shownCities, changedCity])
   }
   const updatePwz = async(data: any) => {
-    console.log('data', data)
     userApi.updateUser('test@mail.ru', data)
   }
   const onSaveClick = () => {
