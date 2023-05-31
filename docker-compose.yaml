@@ -1,9 +1,9 @@
 version: '3.8'
 
-networks:
-  geo_default:
-    external:
-      name: geo_default
+# networks:
+#   geo_default:
+#     external:
+#       name: geo_default
 
 services:
   api:
@@ -11,9 +11,12 @@ services:
     build:
       context: ./web
       dockerfile: Dockerfile
-      target: production
+      target: development
     command: npm run start
     ports:
       - 3000:3000
-    networks:
-      - geo_default
+    volumes:
+      - ./web:/usr/scr/app
+      - ./node_modules:/usr/scr/app/node_modules
+    # networks:
+    #   - geo_default
