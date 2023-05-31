@@ -1,5 +1,4 @@
-import React, {useEffect, useReducer, useState} from 'react';
-import {Layout} from "../../Layout/Layout";
+import React, {useContext, useEffect, useReducer, useState} from 'react';
 import Table from "../../Table/Table";
 import Modal from "../../Common/Modal/Modal";
 import EditPVZList from "../../Common/Modal/EditPVZList/EditPVZList";
@@ -9,28 +8,26 @@ import DefaultCity from "../../Common/Modal/DefaultCity/DefaultCity";
 import DefaultPVZ from "../../Common/Modal/DefaultPVZ/DefaultPVZ";
 import AddArticle from "../../Common/Modal/AddArticle/AddArticle";
 import Onboard from "../../Onboard/Onboard";
+import Layout from "../../../Enter/components/Layout/Layout";
+import ActionsBlock from "@components/Layout/ActionsBlock/ActionsBlock";
+import {PeriodContext} from "../../../App";
+import {PeriodContextType} from "../../../types";
+import {IProps} from "@components/Versions/PC/types";
+import Loading from "@components/Common/Loading/Loading";
 
-interface IProps{
-  changeVersion?: () => void
-  fullVersion: boolean
-  isMobile: boolean
-}
-
-const Pc = ({changeVersion,
+const Pc = ({
+              tablesData,
+              changeVersion,
               fullVersion,
               isMobile
-}: IProps) => {
+            }: IProps) => {
 
+  const {setPeriod} = useContext(PeriodContext) as PeriodContextType
   const [state, dispatch] = useReducer(modalReducer, initialState)
   const [searchArticle, setSearchActive] = useState<string>('')
-  const [chosenPeriod, setChosenPeriod] = useState<string[]>([])
   const [firstDay, setFirstDay] = useState<Date>(new Date())
   const [secondDay, setSecondDay] = useState<Date | null>(null)
-  const [articles, setArticles] = useState<string[]>([
-    '49582305',
-    '73582305',
-    '13782305'
-  ])
+
   const openPVZModal = () => dispatch(modalReducerActions.openPVZModal())
   const closePVZModal = () => dispatch(modalReducerActions.closePVZModal())
   const openCityModal = () => dispatch(modalReducerActions.openCityModal())
@@ -42,39 +39,39 @@ const Pc = ({changeVersion,
   const openAddArticleModal = () => dispatch(modalReducerActions.openAddArticleModal())
   const closeAddArticleModal = () => dispatch(modalReducerActions.closeAddArticleModal())
   const onArticleInputChange = (value: string) => setSearchActive(value)
-  const addArticle = (value: string) => setArticles([value, ...articles])
 
   useEffect(() => {
     if(secondDay === null){
-      setChosenPeriod([firstDay.toLocaleDateString('ru-RU', {month: 'numeric', day: 'numeric', year: 'numeric'})])
+      setPeriod([firstDay.toLocaleDateString('ru-RU', {month: 'numeric', day: 'numeric', year: 'numeric'})])
     } else{
       const dates = []
       while(firstDay <= secondDay!){
         dates.unshift(firstDay.toLocaleDateString('ru-RU', {month: 'numeric', day: 'numeric', year: 'numeric'}))
         firstDay.setDate(firstDay.getDate() + 1)
       }
-      setChosenPeriod(dates)
+      setPeriod(dates)
     }
   }, [firstDay, secondDay])
 
   return (
-    <Layout
-      openPVZModal={openPVZModal}
-      openAddArticleModal={openAddArticleModal}
-      setFirstDay={setFirstDay}
-      setSecondDay={setSecondDay}
-      searchArticle={searchArticle!}
-      onArticleInputChange={onArticleInputChange!}
-      fullVersion={fullVersion}
-    >
+    <Layout>
+      <ActionsBlock
+        openPVZModal={openPVZModal}
+        openAddArticleModal={openAddArticleModal}
+        setFirstDay={setFirstDay}
+        setSecondDay={setSecondDay}
+        searchArticle={searchArticle!}
+        onArticleInputChange={onArticleInputChange!}/>
       {
-        articles.length ? (
+        tablesData.length ? (
           <div className="tablesWrapper">
-            {articles.filter(article => article.startsWith(searchArticle)).map((article, index) => {
+            {tablesData
+              .filter(article => article.article.startsWith(searchArticle))
+              .map((article, index) => {
+                if(article.keys.length === 0) return null
               return (
                 <Table
                   key={index}
-                  chosenPeriod={chosenPeriod}
                   article={article}
                 />
               )
@@ -112,7 +109,7 @@ const Pc = ({changeVersion,
       }
       {
         state.defaultCityModalOpen && (
-          <Modal closeModal={closeCityModal} title={'Внимание!'}>
+          <Modal closeModal={closeDefaultCityModal} title={'Внимание!'}>
             <DefaultCity closeModal={closeDefaultCityModal}/>
           </Modal>
         )

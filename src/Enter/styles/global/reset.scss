@@ -1,0 +1,128 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
+}
+
+input[type='text'],
+input[type='number'],
+input[type='email'],
+input[type='tel'],
+input[type='password'],
+input[type='search'],
+input[type='date'],
+textarea {
+  appearance: textfield;
+  appearance: none;
+}
+
+.slick-list {
+  overflow: visible !important;
+}
+
+.slick-track {
+  padding-top: 40px;
+  display: flex;
+  align-items: flex-end;
+}
+
+input,
+button,
+select,
+textarea {
+  margin: 0;
+}
+
+legend {
+  padding: 0;
+  margin: 0;
+}
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+::-webkit-details-marker,
+::marker {
+  display: none;
+  opacity: 0;
+}
+
+::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button::-moz-focus-inner {
+  border: none;
+}
+
+button {
+  appearance: none;
+  border: none;
+  padding: 0;
+  font-family: var(--ff-base);
+  font-weight: var(--fw-base);
+  font-size: inherit;
+  line-height: inherit;
+  outline: none;
+  background: transparent;
+  text-align: left;
+}
+
+img {
+  border: none;
+  font-size: var(--fz-small);
+  line-height: var(--lh-small);
+}
+
+iframe {
+  border: none;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body.ios,
+body.ios * {
+  cursor: pointer;
+}
+
+main {
+  display: block;
+}
+
+@media (any-hover: none) {
+  * {
+    outline: none;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li {
+  margin: 0;
+}
+
+[data-rsbs-overlay],
+[data-rsbs-backdrop],
+[data-rsbs-root]:after {
+z-index: 100 !important;
+}

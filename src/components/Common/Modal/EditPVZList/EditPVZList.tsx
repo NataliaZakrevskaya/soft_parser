@@ -7,10 +7,11 @@ import {geoApi} from "@api/geo/geo-api";
 import {ChangeType, IPWZ, ModalPropsType} from "./types";
 import {userApi} from "@api/user/user-api";
 import {Town} from "@api/user/types";
-import {UserContext, UserContextType} from "../../../../App";
+import {UserContext} from "../../../../App";
+import {UserContextType} from "../../../../types";
 
 const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalPropsType) => {
-const {user} = useContext(UserContext) as UserContextType
+const {user, addUser} = useContext(UserContext) as UserContextType
   const [cities, setCities] = useState<Town[]>([])
   const [activeCity, setActiveCity] = useState<Town | null>(null)
   const [activePVZList, setActivePVZList] = useState<ResponseAddress[]>([])
@@ -22,9 +23,9 @@ const {user} = useContext(UserContext) as UserContextType
     setSearchPVZ('')
   }
   const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => setSearchPVZ(e.target.value)
-
   const updatePwz = async(data: any) => {
-    userApi.updateUser('test@mail.ru', data)
+    await userApi.updateUser(data)
+    await userApi.fetchUser().then(res => addUser(res.data))
   }
   const onSaveClick = () => {
     let changes = {

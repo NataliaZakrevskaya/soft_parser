@@ -112,7 +112,7 @@ export const articleDescription = 'Куртка косуха кожаная...К
 
 export const tableArticleOptions: IArticleOption[] = [
   {id: 1, name: 'Добавить ключ'},
-  {id: 2, name: 'Экспортировать'},
+  // {id: 2, name: 'Экспортировать'},
   {id: 3, name: 'Удалить артикул'},
 ]
 

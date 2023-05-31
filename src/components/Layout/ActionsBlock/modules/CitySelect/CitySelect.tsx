@@ -3,11 +3,13 @@ import styles from './CitySelect.module.scss'
 import cn from 'classnames'
 import {useOnClickOutside} from '@utils/hooks/useOnClickOutside'
 import utils from '../../../../../static/css/utils.module.scss'
-import {userApi} from '@api/user/user-api'
 import {Town} from '@api/user/types'
-import {ChosenCityContext, ChosenCityContextType} from "../../../../../App";
+import {ChosenCityContext, UserContext} from "../../../../../App";
+import {ChosenCityContextType, UserContextType} from "../../../../../types";
 
 const CitySelect = () => {
+
+  const {user} = useContext(UserContext) as UserContextType
 
   const {chosenCity, chooseCity} = useContext(ChosenCityContext) as ChosenCityContextType
   const [cities, setCities] = useState<Town[]>([])
@@ -18,17 +20,14 @@ const CitySelect = () => {
   useOnClickOutside([parentEl], () => {
     setOpenCitySelect(false)
   })
-
   const onCityOptionClick = (city: Town) => {
     chooseCity(city)
     setOpenCitySelect(false)
   }
 
   useEffect(() => {
-    userApi.fetchUser('test@mail.ru').then(res => {
-      setCities(res.data.towns)
-    })
-  }, [])
+    setCities(user.towns)
+  }, [user.towns])
 
   return (
     <div className={styles.cityWrapper} ref={parentEl}>
@@ -40,7 +39,7 @@ const CitySelect = () => {
         onClick={() => setOpenCitySelect(!openCitySelect)}
       >
         <p className={utils.textEllipsis1}>
-          {chosenCity._id !== '' ? chosenCity.city : 'Выберите города'}
+          {chosenCity._id !== '' ? chosenCity.city : 'Выберите город'}
         </p>
       </div>
       {openCitySelect && (

@@ -1,29 +1,23 @@
-import React, {ChangeEvent, useContext, useEffect, useState} from 'react'
+import React, {ChangeEvent, useContext, useEffect, useMemo, useState} from 'react'
 import styles from './EditCityList.module.scss'
 import {Button} from '../../Button/Button'
 import {nanoid} from "nanoid";
-import {geoApi} from "../../../../api/geo/geo-api";
-import {ResponseCity} from "../../../../api/geo/types";
-import {userApi} from "../../../../api/user/user-api";
-import {Town} from "../../../../api/user/types";
-import {UserContext, UserContextType} from "../../../../App";
-
-interface ModalPropsType{
-  closeModal: () => void
-  openDefaultCityModal: () => void
-}
-
+import {geoApi} from "@api/geo/geo-api";
+import {ResponseCity} from "@api/geo/types";
+import {userApi} from "@api/user/user-api";
+import {Town} from "@api/user/types";
+import {UserContext} from "../../../../App";
+import {ModalPropsType} from './types'
+import {UserContextType} from "../../../../types";
 const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
-  const {user} = useContext(UserContext) as UserContextType
+
+  const {user, addUser} = useContext(UserContext) as UserContextType
   const [activeCityResult, setActiveCityResult] = useState<Town[]>([])
   const [searchCity, setSearchCity] = useState<string>('')
   const [cities, setCities] = useState<ResponseCity[]>([])
-  const [shownCities, setShownCities] = useState<ResponseCity[]>([])
   const [disabledSaveBtn, setDisabledSaveBtn] = useState<boolean>(true)
 
-  const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchCity(e.target.value)
-  }
+  const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => setSearchCity(e.target.value)
   const chooseCity = (city: ResponseCity) => {
     const changedCity = {
       _id: city._id,
@@ -36,49 +30,32 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
       })
     }
     setActiveCityResult([changedCity, ...activeCityResult])
-    const shownCityWithoutChosen = shownCities.filter((mappedCity: ResponseCity) => mappedCity._id !== city._id)
-    setShownCities(shownCityWithoutChosen)
   }
   const onDefaultClick = () => {
     closeModal()
     openDefaultCityModal()
   }
   const onLeftMoveClick = (city: Town) => {
-    const changedCity = {
-      _id: city._id,
-      city: city.city,
-      addresses: city.pwz.map(pwz => {
-        return ({
-          _id: pwz._id,
-          address: pwz.name!
-        })
-      })
-    }
     setActiveCityResult(activeCityResult.filter((activeCity: Town) => activeCity._id !== city._id))
-    setShownCities([...shownCities, changedCity])
   }
-  const updatePwz = async(data: any) => {
-    userApi.updateUser('test@mail.ru', data)
+  const updateUser = async(data: any) => {
+    await userApi.updateUser(data)
+    await userApi.fetchUser().then(res => addUser(res.data))
   }
   const onSaveClick = () => {
     let changes = {
       towns: activeCityResult
     }
-    updatePwz(changes)
+    updateUser(changes)
     closeModal()
   }
 
   useEffect(() => {
     geoApi.fetchCities().then(res => {
       setCities(res.data.towns)
-      setShownCities(res.data.towns)
     })
     setActiveCityResult(user.towns)
   }, [])
-  useEffect(() => {
-    const res = cities.filter((city: ResponseCity) => city.city.toLowerCase().includes(searchCity.toLowerCase())).filter(obj1 => !activeCityResult.some(obj2 => obj1._id === obj2._id))
-    setShownCities(res)
-  }, [searchCity, activeCityResult])
   useEffect(() => {
     if(activeCityResult.length){
       setDisabledSaveBtn(false)
@@ -86,6 +63,15 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
       setDisabledSaveBtn(true)
     }
   }, [activeCityResult])
+
+  const filteredCities = useMemo(() => {
+    return cities
+      .filter((city: ResponseCity) => city.city
+        .toLowerCase()
+        .includes(searchCity.toLowerCase()))
+      .filter((city: ResponseCity) => !activeCityResult
+        .find((cityResult: Town) => cityResult.city === city.city))
+  }, [cities, searchCity, activeCityResult])
 
   return (
     <div className={styles.modalWrapper}>
@@ -102,7 +88,7 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
             />
             <div className={styles.scroll}>
               <ul className={styles.searchCityList}>
-                {shownCities.map((city: ResponseCity) => {
+                {filteredCities.map((city: ResponseCity) => {
                   return (
                     <>
                       <li

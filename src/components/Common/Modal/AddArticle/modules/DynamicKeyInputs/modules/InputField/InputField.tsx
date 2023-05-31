@@ -5,16 +5,16 @@ import cn from 'classnames'
 interface IInput{
   value: string
   onChange: (inputValue: string) => void
-  lastInput: boolean
+  showAddInput: boolean
   showDelete: boolean
   addInput: () => void
   deleteInput: () => void
 }
 
-const InputField = ({value, onChange, lastInput, addInput, showDelete, deleteInput}: IInput) => {
+const InputField = ({value, onChange, showAddInput, addInput, showDelete, deleteInput}: IInput) => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value)
+    if(e.target.value.length < 100) onChange(e.target.value)
   }
 
   return (
@@ -26,9 +26,9 @@ const InputField = ({value, onChange, lastInput, addInput, showDelete, deleteInp
         className={styles.input}
         onChange={handleChange}
       />
-      {(showDelete || lastInput) && (
+      {(showDelete || showAddInput) && (
         <div className={cn(styles.controlsWrapper, {
-          [styles.twoControls]: showDelete && lastInput
+          [styles.twoControls]: showDelete && showAddInput
         })}>
           {showDelete && (
             <button
@@ -39,7 +39,7 @@ const InputField = ({value, onChange, lastInput, addInput, showDelete, deleteInp
               Удалить
             </button>
           )}
-          {lastInput && (
+          {showAddInput && (
             <button
               onClick={addInput}
               className={cn(styles.controlBtn, styles.addKey)}

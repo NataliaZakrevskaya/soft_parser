@@ -1,16 +1,20 @@
+@import "src/static/css/breakpoints";
 .actionsBlockWrapper {
-  //width: var(--container-width);
   width: 80vw;
   min-width: var(--container-width);
   display: flex;
   flex-direction: column;
   margin-top: 24px;
+  //flex: 1 0 auto;
 }
 
 .articleWrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  column-gap: 20px;
+  row-gap: 6px;
   margin-bottom: 32px;
 }
 
@@ -39,6 +43,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  column-gap: 20px;
+  row-gap: 6px;
+  flex-wrap: wrap;
 }
 
 .cityBlockWrapper {
@@ -101,14 +108,25 @@
   }
 }
 
-@media (max-width: 1500px) {
+@media (max-width: 1600px) {
   .actionsBlockWrapper {
-    margin-left: 100px;
+    //margin-left: 100px;
+    min-width: 0;
   }
 }
+//@media (max-width: 999px) {
+//  .searchSettingsWrapper {
+//    display: flex;
+//    flex-direction: column;
+//    align-items: flex-start;
+//    justify-content: flex-start;
+//    gap: 20px;
+//  }
+//}
 @media (max-width: 639px) {
   .actionsBlockWrapper {
     width: var(--container-width-mobile);
+    min-width: var(--container-width-mobile);
     padding-inline: var(--container-padding-mobile);
   }
   .article {

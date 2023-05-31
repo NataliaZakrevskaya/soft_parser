@@ -5,6 +5,7 @@ import styles from './Calendar.module.scss'
 import {calendarOptions} from '../../mocks'
 import {IProps} from './types'
 import cn from 'classnames'
+import {Button} from "@components/Common/Button/Button";
 
 const Calendar = ({
                     chosenPeriod,
@@ -103,16 +104,18 @@ const Calendar = ({
             className={styles.dateItem}>{firstDay ? formatDate(firstDay, 'MMM DD, YYYY') : ''} - {secondDay ? formatDate(secondDay, 'MMM DD, YYYY') : ''}</p>
         </div>
         <div className={styles.btnContainer}>
-          <button
+          <Button
+            text='Отмена'
             className={styles.buttonCancel}
+            alternative
             onClick={onCancelClick}
-          >Отмена
-          </button>
-          <button
+          />
+          <Button
+            text='Применить'
             className={styles.buttonApply}
+            primary
             onClick={onApplyClick}
-          >Применить
-          </button>
+          />
         </div>
       </div>
     </div>

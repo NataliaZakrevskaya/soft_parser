@@ -1,0 +1,133 @@
+/* selection */
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-color);
+}
+
+/* basic */
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--color-fg);
+  background: var(--color-bg);
+  font: var(--font-base);
+  position: relative;
+  overflow-x: clip;
+
+  & img[src=""] {
+    display: none;
+  }
+}
+
+.ql-editor {
+  background: none !important;
+  transition: var(--trs-base) !important;;
+  min-height: 300px !important;;
+}
+
+.ql-align-right {
+  text-align: right;
+}
+
+.ql-align-left {
+  text-align: left;
+}
+
+.ql-align-center {
+  text-align: center;
+}
+
+.ql-align-justify {
+  text-align: justify;
+}
+
+.ql-toolbar.ql-snow{
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: 1px solid #E8E8F1 !important;
+  border-radius: 10px 10px 0 0 !important;
+}
+.ql-container.ql-snow{
+  border: none !important;
+}
+
+.ymaps-2-1-79-ground-pane {
+  filter: grayscale(1) !important;
+  -ms-filter: grayscale(1) !important;
+  -webkit-filter: grayscale(1) !important;
+  -moz-filter: grayscale(1) !important;
+  -o-filter: grayscale(1) !important;
+
+}
+
+.slider {
+  height: 6px;
+}
+
+.driver-card {
+  width: 394px !important;
+  height: 134px !important;
+  background: transparent !important;
+  // имейте ввиду, что больше 400px будет показано с прокруткой
+}
+
+.ymaps-2-1-79-balloon {
+  z-index: 35 !important;
+  box-shadow: none !important;
+}
+
+.ymaps-2-1-79-balloon__close-button {
+  display: none !important;
+}
+
+.ymaps-2-1-79-balloon__content {
+  padding: 0 !important;
+  background: transparent !important;
+  margin: 0 !important;
+}
+
+.ymaps-2-1-79-controls__control_toolbar {
+  margin-right: 20px !important;
+}
+
+.ymaps-2-1-79-balloon__layout {
+  background: transparent !important;
+  border: none !important;
+}
+
+.ymaps-2-1-79-float-button {
+  margin-top: 3px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  max-width: 48px !important;
+  max-height: 48px !important;
+  padding-left: 0 !important;
+  text-align: center !important;
+  box-shadow: 0px 6px 12px rgba(28, 39, 49, 0.05) !important;
+  border-radius: 15px !important;
+
+  &:hover {
+    background-color: #F6F6FA !important;
+  }
+}
+
+.ymaps-2-1-79-float-button-icon {
+  width: 24px !important;
+  height: 24px !important;
+  position: relative !important;
+}
+
+.ymaps-2-1-79-float-button-icon, .ymaps-2-1-79-float-button-icon_icon_expand {
+  width: 24px !important;
+  height: 24px !important;
+  border: 0 !important;
+}

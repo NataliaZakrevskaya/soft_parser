@@ -1,38 +1,47 @@
-import React, {useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import styles from './Table.module.scss'
 import KeysTable from "./modules/KeysTable/KeysTable";
-import DataTable from "./modules/DataTable/DataTable";
-import {keys} from "../../mocks";
+import {Article, Key} from "@api/statistics/types";
+import DataTable from "@components/Table/modules/DataTable/DataTable";
+import {PeriodContext} from "../../App";
+import {PeriodContextType} from "../../types";
 
 interface ITable{
-  chosenPeriod: string[]
-  article: string
+  article: Article
 }
 
-const Table = ({chosenPeriod, article}: ITable) => {
+const Table = ({article}: ITable) => {
+
+  const {chosenPeriod} = useContext(PeriodContext) as PeriodContextType
 
   const [openKeys, setOpenKeys] = useState<string[]>([])
-  const [localKeys, setLocalKeys] = useState<any>(keys.query)
-
+  const [localKeys, setLocalKeys] = useState<Key[]>(article.keys)
+  const [emptyPlace, setEmptyPlace] = useState<boolean>(false)
   const addEmptyRow = () => {
     setLocalKeys([...localKeys, {
+      _id: '',
       key: '',
-      data: []
+      pwz: []
     }])
   }
-  const addNewKey = (key: string, index: number) => {
-    const newKeyBody = {key, data: []}
-    const newArr = [...localKeys.slice(0, index), newKeyBody, ...localKeys.slice(index + 1)];
-    setLocalKeys(newArr)
-  }
-  const deleteNey = (keyIndex: number) => {
-    setLocalKeys(localKeys.filter((key: any, index: number) => index !== keyIndex))
-  }
+
+  useEffect(() => {
+    setLocalKeys(article.keys)
+  }, [chosenPeriod, article])
+  useEffect(() => {
+
+    const dataWidth = localKeys[0].pwz[0].position.length * 120
+    const containerWidth = window.document.body.offsetWidth * 0.8 - 432
+    setEmptyPlace(containerWidth - dataWidth > 0)
+  }, [localKeys])
+
   const onArrowButtonClick = (key: string) => {
-    if(openKeys.includes(key)){
-      setOpenKeys(openKeys.filter(keyData => keyData !== key))
-    } else{
-      setOpenKeys([...openKeys, key])
+    if(key){
+      if(openKeys.includes(key)){
+        setOpenKeys(openKeys.filter(keyData => keyData !== key))
+      } else{
+        setOpenKeys([...openKeys, key])
+      }
     }
   }
 
@@ -44,13 +53,12 @@ const Table = ({chosenPeriod, article}: ITable) => {
         openKeys={openKeys}
         addEmptyRow={addEmptyRow}
         localKeys={localKeys}
-        addNewKey={addNewKey}
-        deleteNey={deleteNey}
+        emptyPlace={emptyPlace}
       />
       <DataTable
-        chosenPeriod={chosenPeriod}
         openKeys={openKeys}
         localKeys={localKeys}
+        emptyPlace={emptyPlace}
       />
     </div>
   )

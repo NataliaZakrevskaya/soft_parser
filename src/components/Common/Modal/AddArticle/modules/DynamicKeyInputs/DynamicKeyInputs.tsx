@@ -36,7 +36,7 @@ const DynamicKeyInputs = ({
             key={input.id}
             value={input.value}
             showDelete={index >= 1}
-            lastInput={index === inputs.length - 1}
+            showAddInput={index === inputs.length - 1 && inputs.length < 10}
             addInput={addInput}
             deleteInput={() => deleteInput(input.id)}
             onChange={(value) => handleInputChange(input.id, value)}

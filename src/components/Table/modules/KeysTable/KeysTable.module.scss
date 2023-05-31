@@ -5,11 +5,16 @@
   align-items: center;
   justify-content: space-between;
   padding: 0;
-  //min-height: 50px;
   height: 50px;
   width: 100%;
 }
 
+.keyText{
+  word-break: break-all;
+}
+.withBorder{
+  border-bottom: 1px solid var(--color-border-gray);
+}
 .table {
   background: #fff;
   border-spacing: 0;
@@ -18,6 +23,10 @@
   min-width: 432px;
   border: 1px solid var(--color-border-gray);
   border-radius: var(--border-radius-base) 0 0 var(--border-radius-base);
+
+  &_withRightTableScroll {
+    width: 432px;
+  }
 
   .tableHead {
 
@@ -31,7 +40,7 @@
         padding-inline: 16px;
         gap: 16px;
         color: var(--color-text-gray);
-        border-bottom: 1px solid var(--color-border-gray);
+        //border-bottom: 1px solid var(--color-border-gray);
       }
     }
   }
@@ -41,7 +50,7 @@
     .openRow {
       background: #F6F6FA;
       border-bottom: none !important;
-      border-top: 1px solid var(--color-border-gray) !important;
+      border-top: 1px solid var(--color-border-gray);
       height: 50px;
     }
 
@@ -56,7 +65,6 @@
         align-items: center;
         justify-content: space-between;
         padding: 0;
-        //min-height: 50px;
         width: 100%;
 
         &:hover .delete {
@@ -85,6 +93,11 @@
           &:hover {
             background-image: url("../../../../static/images/delete-red-fill.svg");
           }
+
+          &_forbidden {
+            cursor: not-allowed;
+            opacity: 0.4;
+          }
         }
       }
     }
@@ -100,6 +113,7 @@
 .arrowBottom {
   cursor: pointer;
   width: 24px;
+  min-width: 24px;
   height: 24px;
   background-image: url("../../../../static/images/arrow-bottom-blue.svg");
 }
@@ -107,11 +121,12 @@
 .arrowTop {
   cursor: pointer;
   width: 24px;
+  min-width: 24px;
   height: 24px;
   background-image: url("../../../../static/images/arrow-top-blue.svg");
 }
 
-.keyInput{
+.keyInput {
   width: 270px;
   height: 48px;
   outline: none;
@@ -134,19 +149,20 @@
   }
 }
 
-.addKeyWrapper{
+.addKeyWrapper {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.addKeyIcon{
+.addKeyIcon {
   cursor: pointer;
   width: 30px;
   min-width: 30px;
   height: 30px;
   background-image: url("../../../../static/images/add-key.svg");
-  &:hover{
+
+  &:hover {
     background-image: url("../../../../static/images/add-key-hover.svg");
   }
 }
@@ -155,21 +171,20 @@
   background: #F6F6FA;
 
   & tr {
-    //min-height: 50px;
     height: 50px;
     border-bottom: none !important;
 
     & td {
       padding: 0;
       color: var(--color-text-gray);
-      //min-height: 50px;
+
     }
 
     & td:first-child {
       position: relative;
       margin-left: 28px;
       padding-left: 53px;
-      border-bottom: none;
+      border-top: 1px dashed #D6D6E7;
       border-spacing: 3px;
       border-left: 1px solid #D6D6E7;
       font-weight: 500;
@@ -189,26 +204,28 @@
 }
 
 .dashedBorder {
-  height: 100%;
+  //height: 100%;
+  //height: 30px;
   width: 100%;
   border-top: 1px dashed #D6D6E7 !important;
-  //min-height: 47px;
   display: flex;
   align-items: center;
   padding-right: 16px;
-}
+  margin: 0;
 
-//.openRow {
-//  background: #F6F6FA;
-//  border-bottom: none !important;
-//  border-top: 1px solid var(--color-border-gray);
-//}
+  & p {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    color: #828EA4;
+  }
+}
 
 @media (max-width: $screen-2xs-max) {
   .table {
     min-width: 99px;
-    width: 99px;
-    max-width: 99px;
+    width: 100%;
+    max-width: 100%;
     border-radius: 0;
 
     .tableHead {
@@ -231,15 +248,15 @@
     .tableBody {
 
       & tr {
-        width: 99px;
+        width: 100%;
         min-height: 48px;
         height: 48px;
 
         & td {
           min-height: 48px;
           height: 48px;
-          max-width: 99px;
-
+          padding-right: 10px;
+          max-width: 100%;
 
           & div {
             gap: 9px;

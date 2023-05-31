@@ -1,0 +1,163 @@
+@import '~/src/Enter/styles/breakpoints';
+@import '~/src/Enter/styles/mixins';
+
+.footer {
+  background: var(--color-bg-2);
+  margin: 0 0 0 80px;
+  font-family: var(--ff-base);
+
+  @media (max-width: $screen-sm-max) {
+    margin: 0 0 0 0;
+  }
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 26px 50px;
+  padding: 70px 0 30px;
+}
+
+.mainLogo {
+  grid-column: 1;
+  grid-row: 1;
+
+  .bottomLink{
+    display: none;
+    @include link;
+  }
+}
+
+.mainSocial {
+  display: grid;
+  grid-column: 1;
+  grid-row: 2;
+  align-items: end;
+}
+
+.mainNav {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.nav {
+  display: grid;
+  gap: 40px 50px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.navList {
+  display: grid;
+  gap: 15px 50px;
+}
+
+.navGroupLarge {
+  grid-column: auto / span 2;
+}
+
+.navGroupLarge .navList {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.navLink {
+  @include link;
+
+  color: var(--color-fg-2);
+}
+
+.bottom {
+  display: flex;
+  gap: 18px 50px;
+  border-top: 1px solid var(--color-bg-3);
+  padding: 30px 0 70px;
+}
+
+.bottomCopy,
+.bottomLinks {
+  flex: 0 1 auto;
+  min-width: 0;
+  font-size: var(--fz-small);
+  line-height: var(--lh-small);
+}
+
+.bottomCopy {
+  color: var(--color-fg-4);
+}
+
+.bottomLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 50px;
+  margin-left: auto;
+}
+
+.bottomLink {
+  @include link;
+
+  color: var(--color-fg-2);
+}
+
+@media (max-width: $screen-md-max) {
+  .main {
+    grid-template-columns: 2fr 4fr;
+  }
+}
+
+@media (max-width: $screen-sm-max) {
+  .nav {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .navGroupLarge {
+    grid-column: auto;
+  }
+
+  .navGroupLarge .navList {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: $screen-xs-max) {
+  .advertising{
+    display: none;
+  }
+  .main {
+    grid-template-columns: 1fr;
+    gap: 40px 50px;
+    padding: 50px 0;
+  }
+
+  .mainLogo {
+    grid-column: 1;
+    grid-row: 1;
+    display: grid;
+    .bottomLink{
+      margin-top: 20px;
+      display: grid;
+    }
+  }
+
+  .mainSocial {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .mainNav {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .nav {
+    gap: 40px 20px;
+  }
+
+  .bottom {
+    padding: 40px 0 36px;
+    flex-direction: column;
+  }
+
+  .bottomLinks {
+    margin-left: 0;
+    flex-direction: column;
+  }
+}

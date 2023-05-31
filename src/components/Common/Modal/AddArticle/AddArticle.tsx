@@ -4,7 +4,19 @@ import {Button} from '../../Button/Button'
 import DynamicKeyInputs, {IInput} from './modules/DynamicKeyInputs/DynamicKeyInputs'
 import {nanoid} from "nanoid";
 import {statisticsApi} from "@api/statistics/statistics-api";
-import {UserContext, UserContextType} from "../../../../App";
+import {
+  ChosenCityContext, LoadingContext,
+  PeriodContext, TablesContext,
+  UserContext
+} from "../../../../App";
+import {
+  ChosenCityContextType,
+  LoadingContextType,
+  PeriodContextType,
+  TablesContextType,
+  UserContextType
+} from "../../../../types";
+import {toast} from "react-toastify";
 
 interface IModalProps{
   closeModal: () => void
@@ -12,6 +24,10 @@ interface IModalProps{
 
 const AddArticle = ({closeModal}: IModalProps) => {
   const {user} = useContext(UserContext) as UserContextType
+  const {chosenCity} = useContext(ChosenCityContext) as ChosenCityContextType
+  const {chosenPeriod} = useContext(PeriodContext) as PeriodContextType
+  const {setNewTableData} = useContext(TablesContext) as TablesContextType
+  const {setLoadingStatus} = useContext(LoadingContext) as LoadingContextType
   const [article, setArticle] = useState<string>('')
   const [disabledAddBtn, setDisabledAddBtn] = useState(true)
   const [inputs, setInputs] = useState<IInput[]>([{id: nanoid(), value: ''}])
@@ -23,25 +39,39 @@ const AddArticle = ({closeModal}: IModalProps) => {
     setInputs(newInputs)
   }
   const addInput = () => {
-    setInputs([...inputs, {id: nanoid(), value: ''}])
+    if(inputs.length < 10) setInputs([...inputs, {id: nanoid(), value: ''}])
   }
   const deleteInput = (id: string) => {
     setInputs(inputs.filter((input: IInput) => input.id !== id))
   }
-
   const onArticleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setArticle(e.target.value)
+    if(e.target.value.length < 20) setArticle(e.target.value)
   }
-
-  const createArticle = async () => {
-    const requestData = {
-      telegramId: user.telegramId,
-      email: user.email,
-      article: article,
-      keys: inputs.map((input: IInput) => input.value),
-      towns: user.towns
+  const createArticle = async() => {
+    setLoadingStatus(true)
+    try{
+      const requestData = {
+        telegramId: user.telegramId,
+        userId: user._id,
+        article: article.trim(),
+        keys: inputs.map((input: IInput) => input.value.trim()),
+        towns: user.towns
+      }
+      await statisticsApi.createArticle(requestData)
+    } catch(e: any){
+      toast(e?.response?.data?.message, {
+        type: 'error',
+        className: styles.toastMessage
+      })
     }
-    statisticsApi.createArticle(requestData)
+    const data = {
+      userId: user._id,
+      city: chosenCity._id,
+      periods: chosenPeriod
+    }
+    await statisticsApi.findByCity(data)
+      .then(res => setNewTableData(res.data))
+      .finally(() => setLoadingStatus(false))
   }
   const onAddClick = () => {
     createArticle()
@@ -49,12 +79,13 @@ const AddArticle = ({closeModal}: IModalProps) => {
   }
 
   useEffect(() => {
-    if(article.length){
+    const isThereEmptyKey = inputs.find(input => input.value === '')
+    if(article.length && !isThereEmptyKey){
       setDisabledAddBtn(false)
     } else{
       setDisabledAddBtn(true)
     }
-  }, [article])
+  }, [article, inputs])
 
   return (
     <div className={styles.modalContent}>

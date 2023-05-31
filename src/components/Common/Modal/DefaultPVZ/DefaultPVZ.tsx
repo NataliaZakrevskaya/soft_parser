@@ -1,15 +1,19 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import styles from '../DefaultCity/DefaultCity.module.scss'
 import {Button} from '../../Button/Button'
-import {userApi} from '../../../../api/user/user-api'
+import {userApi} from '@api/user/user-api'
+import {UserContext} from "../../../../App";
+import {UserContextType} from "../../../../types";
 
 interface ModalPropsType{
   closeModal: () => void
 }
 
 const DefaultPvz = ({closeModal}: ModalPropsType) => {
+  const {addUser} = useContext(UserContext) as UserContextType
   const setDefault = async() => {
-    userApi.setDefaultSettings('test@mail.ru')
+    await userApi.setDefaultSettings()
+    await userApi.fetchUser().then(res => addUser(res.data))
     closeModal()
   }
   return (

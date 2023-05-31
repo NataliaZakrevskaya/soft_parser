@@ -1,0 +1,310 @@
+@use 'sass:math';
+
+/* links */
+@mixin link-base {
+  color: var(--color-fg-2);
+  cursor: pointer;
+  text-decoration: none;
+  text-align: left;
+  text-underline-offset: 4px;
+  transition: var(--trs-base);
+
+  @include focus-outline-complete;
+}
+
+@mixin link-hover {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+@mixin link-focus {
+  outline: 1px solid var(--color-fg);
+  outline-offset: 1px;
+}
+
+@mixin link-active {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+@mixin link {
+  @include link-base;
+
+  @media (any-hover: hover) {
+    &:hover {
+      @include link-hover;
+    }
+  }
+
+  &:active {
+    @include link-active;
+  }
+}
+
+@mixin link-underlined {
+  @include link;
+
+  text-decoration: underline;
+}
+
+@mixin link-primary {
+  @include link;
+
+  color: var(--color-primary);
+}
+
+@mixin link-negative {
+  @include link;
+
+  color: var(--color-error);
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--color-error);
+    }
+  }
+
+  &:active {
+    color: var(--color-error);
+  }
+}
+
+/* focus */
+@mixin focus-outline {
+  // outline-offset: 1px;
+  outline: none;
+}
+
+@mixin focus-outline-active {
+  // outline-offset: 1px;
+  outline: 1px solid var(--color-fg);
+}
+
+@mixin focus-outline-complete {
+  @include focus-outline;
+
+  &:focus-visible {
+    @include focus-outline-active;
+  }
+}
+
+@mixin focus-frame {
+  content: '';
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  right: 3px;
+  border: 1px solid;
+  border-radius: inherit;
+  opacity: 0;
+  transition: var(--trs-base), border-color 0;
+  pointer-events: none;
+}
+
+@mixin focus-frame-show {
+  opacity: 1;
+}
+
+@mixin focus-frame-complete {
+  outline: none;
+
+  &::after {
+    @include focus-frame;
+  }
+
+  &:focus-visible::after {
+    @include focus-frame-show;
+  }
+}
+
+/* fields */
+@mixin field-base {
+  --height: 48px;
+
+  display: block;
+  height: var(--height);
+  width: 100%;
+  min-width: 0;
+  color: var(--color-fg-2);
+  background: var(--color-bg);
+  border-radius: var(--border-radius-base);
+  border: 1px solid #E8E8F1;
+  padding: calc((var(--height) - 2px - var(--lh-large)) / 2) 22px;
+  font: var(--fw-base) var(--fz-base) / var(--fz-base) var(--ff-base);
+  outline: none;
+  text-overflow: ellipsis;
+  transition: var(--trs-base), height 0s;
+}
+
+@mixin field-with-label {
+  padding-top: 22px;
+  padding-bottom: 8px;
+}
+
+@mixin field-hover {
+  border-color: var(--color-bg-7);
+}
+
+@mixin field-focus {
+  border-color: var(--color-primary);
+  text-overflow: clip;
+}
+
+@mixin field-error {
+  color: var(--color-error);
+  border-color: var(--color-error);
+}
+
+@mixin field-error-focus {
+  color: var(--color-error);
+  border-color: var(--color-error);
+}
+
+@mixin field-disabled {
+  border-color: var(--color-bg-3);
+
+  ::placeholder {
+    border-color: var(--color-bg-6);
+  }
+}
+
+@mixin field-label-internal {
+  --height: 56px;
+
+  position: absolute;
+  top: 2.5px;
+  left: 23px;
+  right: 23px;
+  padding: calc((var(--height) - 32px) / 2 - 1px) 0 0;
+  background: var(--color-bg);
+  color: var(--color-bg-6);
+  font-size: var(--fz-base);
+  line-height: 22px;
+  pointer-events: none;
+  transition: var(--trs-base);
+
+  :global(.form-error) & {
+    color: var(--color-error);
+  }
+}
+
+@mixin field-label-internal-active {
+  top: 1px;
+  padding: 0;
+  font-size: 14px;
+}
+
+@mixin field {
+  @include field-base;
+
+  &::placeholder {
+    color: var(--color-bg-6);
+    transition: var(--trs-base);
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      @include field-hover;
+    }
+  }
+
+  &:focus {
+    @include field-focus;
+  }
+
+  &:disabled {
+    @include field-disabled;
+  }
+
+  :global(.form-error) & {
+    @include field-error;
+
+    &:focus {
+      @include field-error-focus;
+    }
+  }
+}
+
+@mixin field-textarea {
+  height: 165px;
+  resize: none;
+}
+
+@mixin htmlEditor {
+}
+
+@mixin basic-card {
+  background: var(--color-bg);
+  border: 1px solid #F6F6FA;
+  border-radius: var(--border-radius-large);
+  color: var(--color-fg);
+  padding: 24px;
+
+  @media (max-width: $screen-xs-max) {
+    border: none;
+    border-radius: 0;
+    padding: 0;
+  }
+}
+
+@mixin fc {
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+@mixin fcc {
+  && {
+    margin-top: 0;
+  }
+}
+
+@mixin lc {
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@mixin lcc {
+  && {
+    margin-bottom: 0;
+  }
+}
+
+@mixin flc {
+  @include fc;
+  @include lc;
+}
+
+@mixin fieldError {
+  .error {
+    margin: 5px 0;
+    color: var(--color-error);
+
+    @include flc;
+  }
+
+  .error {
+    display: flex;
+  }
+
+  .errorIcon {
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+  }
+
+  .errorText {
+    flex: 1 1 auto;
+    min-width: 0;
+    word-break: break-word;
+    align-self: center;
+  }
+}
+
+@mixin flcc {
+  @include fcc;
+  @include lcc;
+}

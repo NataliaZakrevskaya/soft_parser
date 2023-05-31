@@ -1,0 +1,49 @@
+/* container */
+.container {
+  //max-width: calc(var(--container-width) + (var(--container-padding) * 2));
+  max-width: 80vw;
+  //padding-left: var(--container-padding);
+  //padding-right: var(--container-padding);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.containerFree {
+  max-width: none;
+}
+
+.container .containerSafe {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: calc(var(--container-width) - 2 * var(--container-padding));
+}
+
+@for $row from 1 through 5 {
+  .textEllipsis#{$row} {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    /* stylelint-disable-next-line value-no-vendor-prefix */
+    display: -webkit-box !important;
+    -webkit-line-clamp: $row;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+  }
+}
+
+@for $factor from 1 through 3 {
+  .grow#{$factor} {
+    flex-grow: $factor;
+  }
+}
+
+@for $order from 1 through 5 {
+  .order#{$order} {
+    order: $order;
+  }
+}
+
+.textEllipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

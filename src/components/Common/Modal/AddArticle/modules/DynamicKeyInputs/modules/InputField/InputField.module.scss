@@ -51,10 +51,22 @@
 
 .addKey {
  color: var(--color-primary);
+ &:hover{
+  color: #1760E1;
+ }
+ &:hover .addIcon{
+  background-image: url("../../../../../../../../static/images/plus-hover.svg");
+ }
 }
 
 .deleteKey {
  color: var(--color-text-red);
+ &:hover{
+  color: #E82424;
+ }
+ &:hover .deleteIcon{
+  background-image: url("../../../../../../../../static/images/minus-hover.svg");
+ }
 }
 
 .addIcon {

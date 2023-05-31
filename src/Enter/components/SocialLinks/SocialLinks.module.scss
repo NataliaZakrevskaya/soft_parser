@@ -1,0 +1,57 @@
+
+.socialLabel {
+  margin-bottom: 20px;
+}
+
+.socialList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+
+.socialAlignCenter {
+  text-align: center;
+}
+
+.socialAlignCenter .socialList {
+  justify-content: center;
+}
+
+.socialAlignRight {
+  text-align: right;
+}
+
+.socialAlignRight .socialList {
+  justify-content: flex-end;
+}
+
+.socialBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--color-bg-3);
+  color: var(--color-white);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--trs-base);
+}
+
+.socialBtnIcon {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+}
+
+.socialBtnVk {
+  background: #0077ff;
+}
+
+.socialBtnTelegram {
+  background: #27a6e5;
+}
+
+.socialBtnYoutube {
+  background: #f40000;
+}

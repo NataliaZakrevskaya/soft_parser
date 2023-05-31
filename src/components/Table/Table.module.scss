@@ -2,7 +2,9 @@
 
 .tableWrapper {
   display: flex;
-  width: 100%;
+  width: 80vw;
+  max-width: 80vw;
+  //width: 100%;
 }
 
 @media (max-width: $screen-2xs-max) {

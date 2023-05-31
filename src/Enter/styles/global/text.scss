@@ -1,0 +1,351 @@
+@import '../breakpoints';
+@import '../mixins';
+
+.h0 {
+  font: var(--font-h0);
+  text-transform: var(--tt-h0);
+  letter-spacing: var(--ls-h0);
+  margin: 0;
+}
+
+h1,
+.h1 {
+  font: var(--font-h1);
+  text-transform: var(--tt-h1);
+  letter-spacing: var(--ls-h1);
+  margin: 0;
+}
+
+h2,
+.h2 {
+  font: var(--font-h2);
+  text-transform: var(--tt-h2);
+  letter-spacing: var(--ls-h2);
+  margin: 0;
+}
+
+h3,
+.h3 {
+  font: var(--font-h3);
+  text-transform: var(--tt-h3);
+  letter-spacing: var(--ls-h3);
+  margin: 0;
+}
+
+h4,
+.h4 {
+  font: var(--font-h4);
+  text-transform: var(--tt-h4);
+  letter-spacing: var(--ls-h4);
+  margin: 0;
+}
+
+h5,
+.h5 {
+  font: var(--font-h5);
+  text-transform: var(--tt-h5);
+  letter-spacing: var(--ls-h5);
+  margin: 0;
+}
+
+h6,
+.h6 {
+  font: var(--font-h6);
+  text-transform: var(--tt-h6);
+  letter-spacing: var(--ls-h6);
+  margin: 0;
+}
+
+.text-small {
+  font-size: var(--fz-small);
+  line-height: var(--lh-small);
+}
+
+.text-large {
+  font-size: var(--fz-large);
+  line-height: var(--lh-large);
+}
+
+b {
+  font-weight: var(--fw-bold);
+}
+
+.font-base {
+  font: var(--fw-base) var(--fz-base) / var(--lh-base) var(--ff-base);
+}
+
+.link,
+.text-guide a {
+  @include link;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.video-block {
+  position: relative;
+  background: var(--color-bg-2);
+}
+
+.video-block::after {
+  content: '';
+  display: block;
+  padding-top: 56.25%;
+}
+
+.video-block iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.img-zoom {
+  cursor: zoom-in;
+}
+
+hr,
+.hr {
+  border: none;
+  margin: 20px 0;
+  border-top: 1px solid var(--color-bg-2);
+}
+
+.text-guide {
+  font-size: var(--fz-base);
+  line-height: var(--lh-base);
+}
+
+.text-guide--sm {
+  font-size: var(--fz-small);
+  line-height: var(--lh-small);
+}
+
+.text-guide h1,
+.text-guide .h1 {
+  margin: 48px 0 30px;
+  clear: both;
+}
+
+.text-guide h2,
+.text-guide .h2,
+.text-guide h3,
+.text-guide .h3,
+.text-guide h4,
+.text-guide .h4,
+.text-guide h5,
+.text-guide .h5 {
+  margin: 48px 0 24px;
+  clear: both;
+}
+
+.text-guide h6,
+.text-guide .h6 {
+  margin: 36px 0 12px;
+  clear: both;
+}
+
+.text-guide p,
+.text-guide ul,
+.text-guide ol {
+  margin: 24px 0;
+}
+
+.text-guide ul > li,
+.text-guide ol > li {
+  margin: 0 0 7px;
+  vertical-align: top;
+  padding-left: 16px;
+  position: relative;
+}
+
+.text-guide li > ul:first-child,
+.text-guide li > ol:first-child {
+  margin-top: 7px;
+}
+
+.text-guide ol {
+  counter-reset: ol;
+}
+
+.text-guide ol > li {
+  counter-increment: ol;
+  padding-left: 20px;
+}
+
+.text-guide ol > li::before {
+  content: counter(ol) '.';
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.text-guide ol > li:nth-last-child(n + 10) ~ li {
+  padding-left: 28px;
+}
+
+.text-guide ol ol {
+  counter-reset: ol2;
+}
+
+.text-guide ol ol > li {
+  counter-increment: ol2;
+  padding-left: 34px;
+}
+
+.text-guide ol ol > li::before {
+  content: counter(ol) '.' counter(ol2) '.';
+}
+
+.text-guide ol ol ol {
+  counter-reset: ol3;
+}
+
+.text-guide ol ol ol > li {
+  counter-increment: ol3;
+  padding-left: 48px;
+}
+
+.text-guide ol ol ol > li::before {
+  content: counter(ol) '.' counter(ol2) '.' counter(ol3) '.';
+}
+
+.text-guide ul > li::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.text-guide img {
+  display: block;
+  max-width: 100%;
+  margin: 40px 0;
+}
+
+.text-guide [align='left'],
+.text-guide [align='right'] {
+  max-width: 50%;
+}
+
+.text-guide [align='left'] {
+  margin: 0 40px 40px 0;
+  float: left;
+}
+
+.text-guide [align='right'] {
+  margin: 0 0 40px 40px;
+  float: right;
+}
+
+.text-guide table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 30px 0;
+  width: 100%;
+}
+
+.table-scroller {
+  max-width: 100%;
+  overflow: auto;
+  margin: 30px 0;
+}
+
+.table-scroller table {
+  margin: 0;
+}
+
+.text-guide td,
+.text-guide th {
+  text-align: left;
+  border: 1px solid var(--color-fg-2);
+  padding: 5px 16px;
+}
+
+.text-guide th {
+  font-weight: var(--fw-bold);
+}
+
+.text-guide td {
+  background: rgb(255 255 255 / 0%);
+  transition: var(--trs-base);
+}
+
+.table-col-min {
+  width: 1px;
+}
+
+.table-col-max {
+  width: 99%;
+}
+
+.text-guide iframe {
+  max-width: 100%;
+}
+
+.text-guide .video-block {
+  margin: 30px 0;
+}
+
+.text-guide h1:first-child,
+.text-guide .h1:first-child,
+.text-guide h2:first-child,
+.text-guide .h2:first-child,
+.text-guide h3:first-child,
+.text-guide .h3:first-child,
+.text-guide h4:first-child,
+.text-guide .h4:first-child,
+.text-guide h5:first-child,
+.text-guide .h5:first-child,
+.text-guide h6:first-child,
+.text-guide .h6:first-child,
+.text-guide p:first-child,
+.text-guide ul:first-child,
+.text-guide ol:first-child,
+.text-guide ul > li:first-child,
+.text-guide ol > li:first-child,
+.text-guide img:first-child,
+.text-guide table:first-child,
+.text-guide blockquote:first-child,
+.text-guide .blockquote:first-child,
+.text-guide .image-grid:first-child,
+.text-guide .video-block:first-child {
+  margin-top: 0;
+}
+
+.text-guide h1:last-child,
+.text-guide .h1:last-child,
+.text-guide h2:last-child,
+.text-guide .h2:last-child,
+.text-guide h3:last-child,
+.text-guide .h3:last-child,
+.text-guide h4:last-child,
+.text-guide .h4:last-child,
+.text-guide h5:last-child,
+.text-guide .h5:last-child,
+.text-guide h6:last-child,
+.text-guide .h6:last-child,
+.text-guide p:last-child,
+.text-guide ul:last-child,
+.text-guide ol:last-child,
+.text-guide ul > li:last-child,
+.text-guide ol > li:last-child,
+.text-guide img:first-child,
+.text-guide table:last-child,
+.text-guide blockquote:last-child,
+.text-guide .blockquote:last-child,
+.text-guide .image-grid:last-child,
+.text-guide .video-block:last-child {
+  margin-bottom: 0;
+}
