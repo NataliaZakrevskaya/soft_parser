@@ -35,7 +35,9 @@ export const App: React.FC = () => {
   const [tablesData, setTablesData] = useState<Article[]>([])
   const [chosenPeriod, setChosenPeriod] = useState<string[]>([])
   const [loading, setLoading] = useState<boolean>(false)
-
+  console.log('q')
+  console.log('1')
+  console.log('2')
   const { width } = useWindowSize()
   const changeVersion = () => setFullVersion(!fullVersion)
   const chooseCity = (city: Town) => setChosenCity(city)
@@ -107,8 +109,7 @@ export const App: React.FC = () => {
     width > 639 ? setIsMobile(false) : setIsMobile(true)
   }, [width])
   useEffect(() => {
-    userApi.fetchUser()
-      .then(res => setUser(res.data))
+
   }, [])
   useEffect(() => {
     if (user._id && chosenCity._id && chosenPeriod.length > 0) {
@@ -124,9 +125,20 @@ export const App: React.FC = () => {
     }
 
   }, [user, chosenCity, chosenPeriod])
-  useEffect(() => {
+  const getUser = async () => {
     let token = localStorage.getItem('sellershub-token')
     if (token === null) localStorage.setItem('sellershub-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzYxLCJpYXQiOjE2ODU0NTEwODgsImV4cCI6MTY4ODA0MzA4OH0.zTrdYTSTaUJmo6SDreykwaLuvwtOzjCrbhaiXaTp0YU')
+   const data = await userApi.fetchUser()
+      .then(res => res)
+    //@ts-ignore
+    if(data.errors.length > 0){
+       await userApi.createUser()
+    }
+    await userApi.fetchUser().then(res => setUser(res.data))
+    console.log('da', data)
+  }
+  useEffect(() => {
+    getUser()
   }, [])
 
   return (
