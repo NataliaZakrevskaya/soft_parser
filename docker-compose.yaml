@@ -1,0 +1,19 @@
+version: '3.8'
+
+networks:
+  geo_default:
+    external:
+      name: geo_default
+
+services:
+  api:
+    container_name: sru-traker-web
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      target: production
+    command: npm run start
+    ports:
+      - 3000:3000
+    networks:
+      - geo_default
