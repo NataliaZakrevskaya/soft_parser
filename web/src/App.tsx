@@ -1,16 +1,16 @@
-import React, {createContext, useEffect, useState} from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import './static/css/global.scss'
-import {useWindowSize} from "@utils/hooks/useWindowSize";
+import { useWindowSize } from "@utils/hooks/useWindowSize";
 import Pc from "./components/Versions/PC/PC";
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 import Mobile from "./components/Versions/Mobile/Mobile";
-import {Town, UserResponse} from "@api/user/types";
-import {chosenCityInitial, userInitial} from "@mocks/index";
-import {userApi} from "@api/user/user-api";
-import {statisticsApi} from "@api/statistics/statistics-api";
-import {toast, ToastContainer} from 'react-toastify'
+import { Town, UserResponse } from "@api/user/types";
+import { chosenCityInitial, userInitial } from "@mocks/index";
+import { userApi } from "@api/user/user-api";
+import { statisticsApi } from "@api/statistics/statistics-api";
+import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-import {addKeyByArticleRequest, Article} from "@api/statistics/types";
+import { addKeyByArticleRequest, Article } from "@api/statistics/types";
 import {
   ChosenCityContextType,
   LoadingContextType,
@@ -36,24 +36,24 @@ export const App: React.FC = () => {
   const [chosenPeriod, setChosenPeriod] = useState<string[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
-  const {width} = useWindowSize()
+  const { width } = useWindowSize()
   const changeVersion = () => setFullVersion(!fullVersion)
   const chooseCity = (city: Town) => setChosenCity(city)
   const setNewTableData = (data: Article[]) => setTablesData(data)
   const addUser = (user: UserResponse) => setUser(user)
-  const addKeyByArticle = async(data: addKeyByArticleRequest) => {
+  const addKeyByArticle = async (data: addKeyByArticleRequest) => {
     await statisticsApi.addKeyByArticle(data)
       .then(res => {
         console.log('res', res)
         //@ts-ignore
-        if(res.errors?.length > 0){
+        if (res.errors?.length > 0) {
           //@ts-ignore
           toast(res.errors[0].message, {
             type: 'error',
             className: styles.toastMessage
           })
         }
-      } )
+      })
     const dataUser = {
       userId: user._id,
       city: chosenCity._id,
@@ -65,13 +65,13 @@ export const App: React.FC = () => {
   const addKey = async (newKeyValue: string, article: Article) => {
     setLoading(true)
 
-      const data = {
-        article: article.article,
-        cityId: article.city_id,
-        userId: user._id,
-        keys: [newKeyValue.trim()]
-      }
-      addKeyByArticle(data)
+    const data = {
+      article: article.article,
+      cityId: article.city_id,
+      userId: user._id,
+      keys: [newKeyValue.trim()]
+    }
+    addKeyByArticle(data)
 
     const dataUser = {
       userId: user._id,
@@ -82,7 +82,7 @@ export const App: React.FC = () => {
       .then(res => setTablesData(res.data))
       .finally(() => setLoading(false))
   }
-  const deleteKey = async(keyId: string, article: Article) => {
+  const deleteKey = async (keyId: string, article: Article) => {
     setLoading(true)
     const data = {
       article: article.article,
@@ -111,7 +111,7 @@ export const App: React.FC = () => {
       .then(res => setUser(res.data))
   }, [])
   useEffect(() => {
-    if(user._id && chosenCity._id && chosenPeriod.length > 0){
+    if (user._id && chosenCity._id && chosenPeriod.length > 0) {
       setLoading(true)
       const data = {
         userId: user._id,
@@ -161,10 +161,10 @@ export const App: React.FC = () => {
 
               <div className="appContainer">
                 <ToastContainer />
-                <Loading active={loading}/>
+                <Loading active={loading} />
                 <Helmet>
                   <meta name="viewport"
-                        content={fullVersion ? "width=device-1920, initial-scale=0.25, min-scale=0.2, max-scale=1" : "width=device-width, initial-scale=1"}/>
+                    content={fullVersion ? "width=device-1920, initial-scale=0.25, min-scale=0.2, max-scale=1" : "width=device-width, initial-scale=1"} />
                   <title>{fullVersion ? 'full version' : 'mobile version'}</title>
                 </Helmet>
                 {isMobile && !fullVersion ? (
