@@ -11,7 +11,7 @@ services:
     build:
       context: ./web
       dockerfile: Dockerfile
-      target: production
+      target: development
     command: npm run start
     stdin_open: true
     tty: true
