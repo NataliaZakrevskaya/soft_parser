@@ -6,60 +6,29 @@ import { Icon } from '../Icon/Icon'
 import { FC, useEffect, useRef, useState } from 'react'
 import { useOnClickOutside } from '../../utils/hook'
 
-const sidebar = [
+const sidebar: IMenuOneItem[] = [
     {
         id: '1',
         icon: 'sidebar-icon-1',
         name: 'Трекер позиций',
-        list: [
-            {
-                name: 'Дачные товары апрель',
-            },
-            {
-                name: 'Хиты мая',
-            },
-            {
-                name: 'Хиты мая -5%',
-            },
-            {
-                name: 'Дачный товары 1',
-            },
-            {
-                name: 'Дачные товары май',
-            },
-            {
-                name: 'Дачные товары 2222',
-            },
-        ]
+        href: '/',
+        list: []
     },
     {
         id: '2',
         icon: 'sidebar-icon-2',
         name: 'Телеграм бот',
-        list: [
-            {
-                name: 'Дачные товары апрель',
-            },
-            {
-                name: 'Хиты мая',
-            },
-        ]
+        target: '__blank',
+        list: [],
+        href: 'https://t.me/seoremica_sellershub_pvz_bot'
     },
     {
         id: '3',
         icon: 'sidebar-icon-3',
         name: 'Тарифы',
-        list: [
-            {
-                name: 'Дачные товары 2222',
-            },
-        ]
-    },
-    {
-        id: '4',
-        icon: 'sidebar-icon-4',
-        name: 'FAQ',
-        list: []
+        target: '__blank',
+        list: [],
+        href: 'https://sellershub.ru/tariff'
     },
 ]
 
@@ -125,14 +94,22 @@ export const Sidebar = (props: {fullWidth?: boolean}) => {
     )
 }
 
+interface IMenuOneItem {
+    id: string | number,
+    icon: string,
+    name: string,
+    href: string,
+    target?: '__blank' | undefined
+    list: []
+}
 interface IMenuItemProps {
     open: boolean
-    item: any
+    item: IMenuOneItem
 }
 
 const MenuItem: FC<IMenuItemProps> = ({ open, item }) => {
-    const { id, icon, name, list } = item
-    const isItemChecked = false
+    const { id, icon, name, list, href, target } = item
+    const isItemChecked = window.location.pathname === href
     const isItemInListCheched = false
     const [itemList, setItemList] = useState([])
     const [openItemList, setOpenItemList] = useState<boolean>(false)
@@ -160,7 +137,7 @@ const MenuItem: FC<IMenuItemProps> = ({ open, item }) => {
     }
 
     return (
-        <>
+        <a href={href} target={target} style={{textDecoration: 'none'}}>
             <button className={cn(styles.sidebar_item, {
                 [styles.sidebar_item_active]: isItemChecked
             })} onClick={() => setOpenItemList(!openItemList)}>
@@ -193,6 +170,6 @@ const MenuItem: FC<IMenuItemProps> = ({ open, item }) => {
                     }
                 </div>
             }
-        </>
+        </a>
     )
 }
