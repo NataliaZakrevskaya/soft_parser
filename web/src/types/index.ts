@@ -1,5 +1,6 @@
 import { Town, UserResponse } from "@api/user/types";
 import { Article } from "@api/statistics/types";
+import {IUserSHProfile} from "@api/shProfile/types";
 
 export interface ChosenCityContextType {
   chosenCity: Town
@@ -25,4 +26,8 @@ export interface PeriodContextType {
 export interface LoadingContextType {
   loading: boolean
   setLoadingStatus: (status: boolean) => void
+}
+export interface ShProfileContextType {
+  profile: IUserSHProfile | null
+  setProfile: (profile: IUserSHProfile | null) => void
 }

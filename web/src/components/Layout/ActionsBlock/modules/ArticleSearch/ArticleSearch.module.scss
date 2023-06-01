@@ -1,39 +1,39 @@
 .articleSearchInput {
- width: 230px;
- height: 38px;
- background-color: #F6F6FA;
- border-radius: 10px;
- border: none;
- padding: 10px 38px 9px;
- background-image: url("../../../../../static/images/search.svg");
- background-repeat: no-repeat;
- background-position: left 12px center;
- font-weight: 400;
- font-size: 16px;
- line-height: 19px;
- color: var(--color-text);
- font-family: Gilroy, sans-serif;
+  width: 230px;
+  height: 38px;
+  background-color: #F6F6FA;
+  border-radius: 10px;
+  border: none;
+  padding: 10px 38px 9px;
+  background-image: url("../../../../../static/images/search.svg");
+  background-repeat: no-repeat;
+  background-position: left 12px center;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: var(--color-text);
+  font-family: Gilroy, sans-serif;
 
- &::placeholder {
-	color: #A7A7BC;
-	font-weight: 400;
-	font-size: 16px;
-	line-height: 19px;
-	font-family: Gilroy, sans-serif;
- }
+  &::placeholder {
+    color: #A7A7BC;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    font-family: Gilroy, sans-serif;
+  }
 
- &:focus {
-	outline: none;
-	caret-color: #A7A7BC;
-	background-color: #fff;
-	border: 1px solid var(--color-border-gray);
-	padding: 12px;
-	background-image: url("../../../../../static/images/searchActive.svg");
-	background-repeat: no-repeat;
-	background-position: right 6px center;
-	font-weight: 400;
-	font-size: 16px;
-	line-height: 19px;
-	color: var(--color-text);
- }
+  &:focus {
+    outline: none;
+    caret-color: #A7A7BC;
+    background-color: #fff;
+    padding: 10px 38px 9px 10px;
+    border: 1px solid var(--color-border-gray);
+    background-image: url("../../../../../static/images/searchActive.svg");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--color-text);
+  }
 }

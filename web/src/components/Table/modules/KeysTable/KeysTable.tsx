@@ -45,6 +45,7 @@ const KeysTable = ({
   const onDeleteKeyClick = (index: number, keyId: string) => {
     if(localKeys.length < 2) return
     deleteKey(keyId, article)
+    setNewKeyValue('')   //todo проверить
   }
 
   useEffect(() => {

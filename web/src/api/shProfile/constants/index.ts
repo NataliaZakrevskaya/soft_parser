@@ -1,0 +1,1 @@
+export const SELLERSHUB_URL = 'https://sellershub.ru/api/'

@@ -83,38 +83,45 @@
 }
 
 .onboardImageOne {
- //background-image: url("../../static/images/onboardOne.png");
- //background-size: contain;
  height: 250px;
  max-width: 584px;
 }
 
 .onboardImageTwo {
- //background-image: url("../../static/images/onboardTwo.png");
- //background-size: contain;
  height: 367px;
  max-width: 584px;
 }
 
 .onboardImageThree {
- //background-image: url("../../static/images/onboardThree.png");
- //background-size: contain;
  height: 548px;
  max-width: 584px;
 }
-@media (max-width: $screen-lg-min) {
+@media (max-width: 1500px) {
+ .optionText {
+  font-size: 15px;
+
+  &_active {
+   font-size: 16px;
+  }
+ }
+ .option {
+  max-width: 465px;
+ }
  .onboardImageOne {
-  height: 250px;
+  height: 165px;
   max-width: 384px;
+  object-fit: contain;
  }
 
  .onboardImageTwo {
-  height: 367px;
+  height: 242px;
   max-width: 384px;
+  object-fit: contain;
  }
 
  .onboardImageThree {
-  height: 548px;
+  height: 362px;
   max-width: 384px;
+  object-fit: contain;
  }
 }

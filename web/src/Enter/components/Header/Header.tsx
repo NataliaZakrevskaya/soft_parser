@@ -1,6 +1,6 @@
 import cn from 'classnames'
 
-import {FC, useEffect, useRef, useState} from 'react'
+import {FC, useContext, useEffect, useRef, useState} from 'react'
 import {Button} from '../Button/Button'
 import {TopNavLarge} from '../TopNavLarge/TopNavLarge'
 import {TopNavMobile} from '../TopNavMobile/TopNavMobile'
@@ -21,6 +21,8 @@ import mobNav3 from '../../assets/images/header/mobnav-3.png'
 import mobNav3Acitve from '../../assets/images/header/mobnav-3-active.png'
 import noAvatar from '../../assets/no-avatar.svg'
 import exit from '../../assets/icons/exit.svg'
+import {ShProfileContext} from "../../../App";
+import {ShProfileContextType} from "../../../types";
 
 const user = {
     name: 'Example'
@@ -222,7 +224,8 @@ const nav = [
 ]
 
 export const Header = (props: { fullWidth?: boolean }) => {
-    const [profile, setProfile] = useState(null)
+    // const [profile, setProfile] = useState(null)
+    const{profile, setProfile} = useContext(ShProfileContext) as ShProfileContextType
     const [navMob, setNavMob] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
     const toggleMenu = () => {
