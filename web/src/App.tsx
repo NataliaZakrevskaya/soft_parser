@@ -5,7 +5,7 @@ import Pc from "./components/Versions/PC/PC";
 import {Helmet} from "react-helmet";
 import Mobile from "./components/Versions/Mobile/Mobile";
 import {Town, UserResponse} from "@api/user/types";
-import {chosenCityInitial, shProfileInitial, userInitial} from "@mocks/index";
+import {chosenCityInitial, userInitial} from "@mocks/index";
 import {userApi} from "@api/user/user-api";
 import {statisticsApi} from "@api/statistics/statistics-api";
 import {toast, ToastContainer} from 'react-toastify'
@@ -191,7 +191,7 @@ export const App: React.FC = () => {
                 }}>
 
                 <div className="appContainer">
-                  {true ? (
+                  {auth ? (
                     <>
                       <ToastContainer/>
                       <Loading active={loading}/>

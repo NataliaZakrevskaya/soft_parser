@@ -1,12 +1,12 @@
 export interface ModalPropsType{
   closeModal: () => void
   openCityModal: () => void
-  // openDefaultPVZModal: () => void
+  openDefaultPVZModal: () => void
 }
 
 export interface IPWZ{
   _id: string
-  name?: string
+  name: string
 }
 
 export interface ChangeType{

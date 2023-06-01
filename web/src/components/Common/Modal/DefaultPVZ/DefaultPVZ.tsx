@@ -10,9 +10,10 @@ interface ModalPropsType{
 }
 
 const DefaultPvz = ({closeModal}: ModalPropsType) => {
+
   const {addUser} = useContext(UserContext) as UserContextType
   const setDefault = async() => {
-    await userApi.setDefaultSettings()
+    await userApi.setDefaultPwzSettings()
     await userApi.fetchUser().then(res => addUser(res.data))
     closeModal()
   }

@@ -14,3 +14,11 @@ export interface UserResponse{
 export interface CreateUserResponse {
     data: UserResponse
 }
+
+export interface UpdateTownBody {
+    city: string
+    addresses: string[]
+}
+export interface UpdateUserData {
+    towns: UpdateTownBody[]
+}

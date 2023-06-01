@@ -13,6 +13,7 @@ import {PeriodContext} from "../../../App";
 import {PeriodContextType} from "../../../types";
 import {IProps} from "@components/Versions/PC/types";
 import FullVersionPlug from "@components/Versions/Mobile/modules/fullVersionPlug/fullVersionPlug";
+import DefaultPVZ from "@components/Common/Modal/DefaultPVZ/DefaultPVZ";
 
 const Pc = ({
               tablesData,
@@ -32,8 +33,8 @@ const Pc = ({
   const closePVZModal = () => dispatch(modalReducerActions.closePVZModal())
   const openCityModal = () => dispatch(modalReducerActions.openCityModal())
   const closeCityModal = () => dispatch(modalReducerActions.closeCityModal())
-  // const openDefaultPVZModal = () => dispatch(modalReducerActions.openDefaultPVZModal())
-  // const closeDefaultPVZModal = () => dispatch(modalReducerActions.closeDefaultPVZModal())
+  const openDefaultPVZModal = () => dispatch(modalReducerActions.openDefaultPVZModal())
+  const closeDefaultPVZModal = () => dispatch(modalReducerActions.closeDefaultPVZModal())
   const openDefaultCityModal = () => dispatch(modalReducerActions.openDefaultCityModal())
   const closeDefaultCityModal = () => dispatch(modalReducerActions.closeDefaultCityModal())
   const openAddArticleModal = () => dispatch(modalReducerActions.openAddArticleModal())
@@ -107,7 +108,7 @@ const Pc = ({
             <EditPVZList
               closeModal={closePVZModal}
               openCityModal={openCityModal}
-              // openDefaultPVZModal={openDefaultPVZModal}
+              openDefaultPVZModal={openDefaultPVZModal}
             />
           </Modal>
         )
@@ -128,13 +129,13 @@ const Pc = ({
           </Modal>
         )
       }
-      {/*{*/}
-      {/*  state.defaultPVZModalOpen && (*/}
-      {/*    <Modal closeModal={closeDefaultPVZModal} title={'Внимание!'}>*/}
-      {/*      <DefaultPVZ closeModal={closeDefaultPVZModal}/>*/}
-      {/*    </Modal>*/}
-      {/*  )*/}
-      {/*}*/}
+      {
+        state.defaultPVZModalOpen && (
+          <Modal closeModal={closeDefaultPVZModal} title={'Внимание!'}>
+            <DefaultPVZ closeModal={closeDefaultPVZModal}/>
+          </Modal>
+        )
+      }
       {
         state.addArticleModalOpen && (
           <Modal closeModal={closeAddArticleModal} title={'Добавление нового артикула'}>
