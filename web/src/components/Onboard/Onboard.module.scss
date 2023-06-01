@@ -1,6 +1,9 @@
+@import "src/static/css/breakpoints";
+
 .onboardWrapper {
  margin-top: 40px;
  width: 80vw;
+ height: 595px;
 }
 
 .title {
@@ -76,26 +79,42 @@
 }
 
 .onboardImage {
- width: 584px;
+ max-width: 584px;
 }
 
 .onboardImageOne {
- background-image: url("../../static/images/onboardOne.png");
- background-size: contain;
- width: 584px;
+ //background-image: url("../../static/images/onboardOne.png");
+ //background-size: contain;
  height: 250px;
+ max-width: 584px;
 }
 
 .onboardImageTwo {
- background-image: url("../../static/images/onboardTwo.png");
- background-size: contain;
- width: 584px;
+ //background-image: url("../../static/images/onboardTwo.png");
+ //background-size: contain;
  height: 367px;
+ max-width: 584px;
 }
 
 .onboardImageThree {
- background-image: url("../../static/images/onboardThree.png");
- background-size: contain;
- width: 584px;
+ //background-image: url("../../static/images/onboardThree.png");
+ //background-size: contain;
  height: 548px;
+ max-width: 584px;
+}
+@media (max-width: $screen-lg-min) {
+ .onboardImageOne {
+  height: 250px;
+  max-width: 384px;
+ }
+
+ .onboardImageTwo {
+  height: 367px;
+  max-width: 384px;
+ }
+
+ .onboardImageThree {
+  height: 548px;
+  max-width: 384px;
+ }
 }

@@ -1,28 +1,28 @@
-import {Town, UserResponse} from "@api/user/types";
-import {Article} from "@api/statistics/types";
+import { Town, UserResponse } from "@api/user/types";
+import { Article } from "@api/statistics/types";
 
-export interface ChosenCityContextType{
+export interface ChosenCityContextType {
   chosenCity: Town
   chooseCity: (city: Town) => void
 }
 
-export interface UserContextType{
+export interface UserContextType {
   user: UserResponse
   addUser: (user: UserResponse) => void
 }
 
-export interface TablesContextType{
+export interface TablesContextType {
   tablesData: Article[]
   addKey: (newKeyValue: string, article: Article) => void
   deleteKey: (keyId: string, article: Article) => void
   setNewTableData: (data: Article[]) => void
 }
 
-export interface PeriodContextType{
+export interface PeriodContextType {
   chosenPeriod: string[]
   setPeriod: (data: string[]) => void
 }
-export interface LoadingContextType{
+export interface LoadingContextType {
   loading: boolean
   setLoadingStatus: (status: boolean) => void
 }
