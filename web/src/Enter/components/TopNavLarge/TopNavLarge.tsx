@@ -13,6 +13,7 @@ import tracker from '../../assets/images/header/tracker.png'
 import mainService1 from '../../assets/images/header/main-services-1-icon.png'
 import mainService2 from '../../assets/images/header/main-services-2-icon.png'
 import '../../styles/breakpoints.scss'
+import { ITopNavCatalog } from '../Header/Header'
 const mainServices = [
     {
         image: mainService1,
@@ -214,7 +215,11 @@ let openTimeout: ReturnType<typeof setTimeout>
 let closeTimeout: ReturnType<typeof setTimeout>
 let openTimeoutL2: ReturnType<typeof setTimeout>
 
-export const TopNavLarge = () => {
+interface ITopNavLarge {
+    nav: ITopNavCatalog[]
+}
+export const TopNavLarge = (props: ITopNavLarge) => {
+    const { nav } = props
     const [open, setOpen] = useState<string | boolean>(false)
     const [touch, setTouch] = useState(false)
 
@@ -353,7 +358,7 @@ export const TopNavLarge = () => {
                     <div className={styles.layout}>
                         {open === '1' && <ServicesDropdown />}
                         {open === '2' && <HubsDropdown />}
-                        {open === '3' && <CatalogDropdown touch={touch} />}
+                        {open === '3' && <CatalogDropdown touch={touch} nav={nav} />}
                     </div>
                 </div>
             </div>
@@ -500,9 +505,10 @@ const HubsDropdown: FC<IHubsDropdownProps> = () => {
 
 interface ICatalogDropdownProps {
     touch: boolean
+    nav: ITopNavCatalog[]
 }
 
-const CatalogDropdown: FC<ICatalogDropdownProps> = ({ touch }) => {
+const CatalogDropdown: FC<ICatalogDropdownProps> = ({ touch, nav }) => {
     const [openNavItem, setOpenNavItem] = useState<number | null | string>('1')
 
     const handleMouseMoveL2 = (itemId: any) => {
@@ -527,11 +533,12 @@ const CatalogDropdown: FC<ICatalogDropdownProps> = ({ touch }) => {
         window.location.href = `${hrefEnum.catalog}/${href}`
         setOpenNavItem(slug)
     }
-
+    console.log(openNavItem)
+    console.log(nav)
     return (
         <>
             <div className={styles.layoutAsideCatalog}>
-                {mainCatalog?.map((item) => (
+                {nav?.map((item) => (
                     <button
                         type='button'
                         key={item.name}
@@ -555,7 +562,7 @@ const CatalogDropdown: FC<ICatalogDropdownProps> = ({ touch }) => {
             <div className={styles.layoutMainCatalog}>
                 <div className={styles.layoutMainCatalog_title}>Специалисты</div>
                 <div className={styles.layoutMainCatalog_itemsWrapper}>
-                    {mainCatalog?.filter((item) => openNavItem === item.id.toString())?.[0]?.['services']?.map((item) => (
+                    {nav?.filter((item) => openNavItem === item.id)?.[0]?.['services']?.map((item) => (
                         <a key={item?.title} className={styles.layoutMainCatalog_item} href={item?.link}>
                             <div className={styles.layoutMainCatalog_itemMain}>
                                 {item?.image ? (
