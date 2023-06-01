@@ -21,6 +21,7 @@ import mobNav3 from '../../assets/images/header/mobnav-3.png'
 import mobNav3Acitve from '../../assets/images/header/mobnav-3-active.png'
 import noAvatar from '../../assets/no-avatar.svg'
 import exit from '../../assets/icons/exit.svg'
+import { layoutApi } from '../../api'
 
 const user = {
     name: 'Example'
@@ -221,8 +222,72 @@ const nav = [
     },
 ]
 
+
+interface ICategory {
+    id: number,
+    attributes: {
+        description: string,
+        image: {
+            data: {
+                id: number
+                attributes: {
+                    url: string
+                }
+            }
+        }
+        name: string
+        parent_category: {
+            data: ICategory | null
+        } | undefined
+        slug: string
+    }
+}
+
+export interface ITopNavCatalog {
+    id: number | string,
+    name: string,
+    link: string
+    services: {
+        image: string,
+        title: string,
+        subtitle: string,
+        link: string,
+        isDraft: boolean
+    }[] | undefined
+}
+
+const convertCategoryResponseToAvalibleArray = (categories: ICategory[]): ITopNavCatalog[] => {
+    const parents: (ICategory & { children?: ICategory[]})[] = []
+    categories.forEach(category => !category.attributes.parent_category?.data && parents.push(category))
+    categories.forEach(category => {
+        const categoryParent = category.attributes.parent_category?.data?.attributes.slug
+        const parent = parents.find(parent => parent.attributes.slug === categoryParent)
+        if (parent) {
+            if (parent.children) {
+                parent.children.push(category)
+            } else {
+                parent.children = [category]
+            }
+        }
+    })
+    const mappedCagories = parents.map(parent => ({
+        id: parent.id,
+        name: parent.attributes.name,
+        link: parent.attributes.slug,
+        services: parent.children?.map(child => ({
+            image: '',
+            title: child.attributes.name,
+            subtitle: child.attributes.description,
+            link: child.attributes.slug,
+            isDraft: false
+        }))
+    }))
+    return mappedCagories
+}
+
 export const Header = (props: { fullWidth?: boolean }) => {
     const [profile, setProfile] = useState(null)
+    const [catalog, setCatalog] = useState<ITopNavCatalog[]>([])
     const [navMob, setNavMob] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
     const toggleMenu = () => {
@@ -258,6 +323,11 @@ export const Header = (props: { fullWidth?: boolean }) => {
         setProfile(user)
     }
 
+    useEffect(() => {
+        layoutApi.fetchCategories<{ data: ICategory[] }>()
+            .then(data => data && setCatalog(convertCategoryResponseToAvalibleArray(data.data)))
+    }, [])
+
 
     return (
         <header className={styles.header}>
@@ -283,7 +353,7 @@ export const Header = (props: { fullWidth?: boolean }) => {
                         />
                     </div>
                     <div className={styles.layoutNav}>
-                        <TopNavLarge/>
+                        <TopNavLarge nav={catalog}/>
                     </div>
                     <div className={styles.layoutActions}>
                         {profile && (
