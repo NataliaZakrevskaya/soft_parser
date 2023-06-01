@@ -14,6 +14,7 @@ interface IProps{
 }
 
 const Mobile = ({
+                  fullVersion,
                   changeVersion,
                   tablesData
                 }: IProps) => {
@@ -51,6 +52,7 @@ const Mobile = ({
             onArticleInputChange={onArticleInputChange}
           />
           {showPlug && <FullVersionPlug
+              fullVersion={fullVersion}
               changeVersion={changeVersion}
               hideVersionPlug={hideVersionPlug}/>
           }

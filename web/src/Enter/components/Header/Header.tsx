@@ -447,8 +447,18 @@ interface PanelHeaderProps {
 }
 
 export const PanelHeader: FC<PanelHeaderProps> = ({className, navMob, onClose}) => {
-    const profile = {}
+    const {profile} = useContext(ShProfileContext) as ShProfileContextType
     const nameDisplayed = () => {
+        if (profile?.first_name || profile?.last_name) {
+            return (
+              <span style={{wordWrap: 'break-word'}}>
+          {profile?.first_name || ''} {profile?.last_name || ''}
+        </span>
+            )
+        }
+        if (profile?.company) {
+            return profile.company
+        }
         return 'Нет имени'
     }
 
@@ -463,7 +473,7 @@ export const PanelHeader: FC<PanelHeaderProps> = ({className, navMob, onClose}) 
 
             <div className={styles.profile_menu_header_info}>
                 <div className={styles.profile_menu_header_info_name}>{nameDisplayed()}</div>
-                <a href={hrefEnum.me} onClick={onClose} className={styles.profile_menu_header_info_link}>
+                <a href={`https://sellershub.ru/${hrefEnum.me}`} onClick={onClose} className={styles.profile_menu_header_info_link}>
                     Перейти в профиль
                 </a>
             </div>

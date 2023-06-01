@@ -1,17 +1,21 @@
 import React from 'react';
 import styles from './fullVersionPlug.module.scss'
+import cn from 'classnames'
 
 interface IProps{
   changeVersion: () => void
   hideVersionPlug: () => void
+  fullVersion: boolean
 }
 
-const FullVersionPlug = ({changeVersion, hideVersionPlug}: IProps) => {
+const FullVersionPlug = ({changeVersion, hideVersionPlug, fullVersion}: IProps) => {
   return (
-    <div className={styles.fullVersionPlug}>
+    <div className={cn(styles.fullVersionPlug, {
+      [styles.fullVersionPlug_pc]: fullVersion
+    })}>
       <p
         className={styles.plugText}>
-        Перейти в полную версию
+        {fullVersion ? 'Перейти в мобильную версию' : 'Перейти в полную версию'}
       </p>
       <div className={styles.controlsWrapper}>
         <button

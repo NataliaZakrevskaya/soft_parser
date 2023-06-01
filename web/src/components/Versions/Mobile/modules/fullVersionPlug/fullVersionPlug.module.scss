@@ -9,6 +9,11 @@
   align-items: center;
   justify-content: space-between;
   padding-inline: 16px;
+
+  &_pc{
+    left: 88px;
+    padding-right: 100px;
+  }
 }
 
 .plugText {

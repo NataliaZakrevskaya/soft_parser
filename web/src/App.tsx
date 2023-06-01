@@ -22,6 +22,7 @@ import Loading from "@components/Common/Loading/Loading";
 import styles from "@components/Common/Modal/AddArticle/AddArticle.module.scss";
 import {IUserSHProfile} from "@api/shProfile/types";
 import {shProfileApi} from "@api/shProfile/shProfile-api";
+import {NonAuth} from "@components/NonAuth/page";
 
 export const ChosenCityContext = createContext<null | ChosenCityContextType>(null);
 export const UserContext = createContext<null | UserContextType>(null);
@@ -39,7 +40,7 @@ export const App: React.FC = () => {
   const [chosenPeriod, setChosenPeriod] = useState<string[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [profileSh, setProfileSh] = useState<IUserSHProfile | null>(null)
-
+  const [auth, setAuth] = useState<boolean>(false)
   const {width} = useWindowSize()
   const changeVersion = () => setFullVersion(!fullVersion)
   const chooseCity = (city: Town) => setChosenCity(city)
@@ -127,24 +128,31 @@ export const App: React.FC = () => {
     }
 
   }, [user, chosenCity, chosenPeriod])
-  const getUser = async() => {
-    let token = localStorage.getItem('sellershub-token')
-    if(token === null) localStorage.setItem('sellershub-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzYxLCJpYXQiOjE2ODU0NTEwODgsImV4cCI6MTY4ODA0MzA4OH0.zTrdYTSTaUJmo6SDreykwaLuvwtOzjCrbhaiXaTp0YU')
-    const data = await userApi.fetchUser()
-      .then(res => res)
-    //@ts-ignore
-    if(data.errors.length > 0){
-      await userApi.createUser()
-    }
-    await userApi.fetchUser().then(res => setUser(res.data))
-  }
   const getShProfile = async() => {
     const profile = await shProfileApi.fetchShProfile().then(res => res)
     setProfileSh(profile)
   }
+  const getUser = async() => {
+    let token = localStorage.getItem('sellershub-token')
+    // if(token === null) localStorage.setItem('sellershub-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzYxLCJpYXQiOjE2ODU0NTEwODgsImV4cCI6MTY4ODA0MzA4OH0.zTrdYTSTaUJmo6SDreykwaLuvwtOzjCrbhaiXaTp0YU')
+    if(token === null) {
+      setAuth(false)
+      // localStorage.setItem('sellershub-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzYxLCJpYXQiOjE2ODU0NTEwODgsImV4cCI6MTY4ODA0MzA4OH0.zTrdYTSTaUJmo6SDreykwaLuvwtOzjCrbhaiXaTp0YU')
+    } else{
+      setAuth(true)
+      getShProfile()
+      const data = await userApi.fetchUser()
+        .then(res => res)
+      //@ts-ignore
+      if(data.errors.length > 0){
+        await userApi.createUser()
+      }
+      await userApi.fetchUser().then(res => setUser(res.data))
+    }
+  }
+
   useEffect(() => {
     getUser()
-    getShProfile()
   }, [])
 
   return (
@@ -183,26 +191,32 @@ export const App: React.FC = () => {
                 }}>
 
                 <div className="appContainer">
-                  <ToastContainer/>
-                  <Loading active={loading}/>
-                  <Helmet>
-                    <meta name="viewport"
-                          content={fullVersion ? "width=device-1920, initial-scale=0.25, min-scale=0.2, max-scale=1" : "width=device-width, initial-scale=1"}/>
-                    <title>{fullVersion ? 'full version' : 'mobile version'}</title>
-                  </Helmet>
-                  {isMobile && !fullVersion ? (
-                    <Mobile
-                      tablesData={tablesData}
-                      changeVersion={changeVersion}
-                      fullVersion={fullVersion}
-                    />
+                  {true ? (
+                    <>
+                      <ToastContainer/>
+                      <Loading active={loading}/>
+                      <Helmet>
+                        <meta name="viewport"
+                              content={fullVersion ? "width=device-1920, initial-scale=0.25, min-scale=0.2, max-scale=1" : "width=device-width, initial-scale=1"}/>
+                        <title>{fullVersion ? 'full version' : 'mobile version'}</title>
+                      </Helmet>
+                      {isMobile && !fullVersion ? (
+                        <Mobile
+                          tablesData={tablesData}
+                          changeVersion={changeVersion}
+                          fullVersion={fullVersion}
+                        />
+                      ) : (
+                        <Pc
+                          tablesData={tablesData}
+                          changeVersion={changeVersion}
+                          fullVersion={fullVersion}
+                          isMobile={isMobile}
+                        />
+                      )}
+                    </>
                   ) : (
-                    <Pc
-                      tablesData={tablesData}
-                      changeVersion={changeVersion}
-                      fullVersion={fullVersion}
-                      isMobile={isMobile}
-                    />
+                    <NonAuth/>
                   )}
                 </div>
               </ShProfileContext.Provider>
