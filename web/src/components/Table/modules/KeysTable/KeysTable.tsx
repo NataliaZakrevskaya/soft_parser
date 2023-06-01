@@ -109,7 +109,7 @@ const KeysTable = ({
                         className={styles.keyInput}
                         placeholder='Введите ключ'
                         onChange={(e) => {
-                          if(e.target.value.length < 100) setNewKeyValue(e.target.value)
+                          if(e.target.value.length < 100) setNewKeyValue(e.target.value.trim())
                         }}
                         onKeyDown={addNewKeyByEnter}
                       />

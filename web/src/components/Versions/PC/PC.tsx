@@ -5,7 +5,6 @@ import EditPVZList from "../../Common/Modal/EditPVZList/EditPVZList";
 import modalReducer, {initialState, modalReducerActions} from "../../../reducers/modal/modalReducer";
 import EditCityList from "../../Common/Modal/EditCityList/EditCityList";
 import DefaultCity from "../../Common/Modal/DefaultCity/DefaultCity";
-import DefaultPVZ from "../../Common/Modal/DefaultPVZ/DefaultPVZ";
 import AddArticle from "../../Common/Modal/AddArticle/AddArticle";
 import Onboard from "../../Onboard/Onboard";
 import Layout from "../../../Enter/components/Layout/Layout";
@@ -13,7 +12,6 @@ import ActionsBlock from "@components/Layout/ActionsBlock/ActionsBlock";
 import {PeriodContext} from "../../../App";
 import {PeriodContextType} from "../../../types";
 import {IProps} from "@components/Versions/PC/types";
-import Loading from "@components/Common/Loading/Loading";
 
 const Pc = ({
               tablesData,
@@ -32,8 +30,8 @@ const Pc = ({
   const closePVZModal = () => dispatch(modalReducerActions.closePVZModal())
   const openCityModal = () => dispatch(modalReducerActions.openCityModal())
   const closeCityModal = () => dispatch(modalReducerActions.closeCityModal())
-  const openDefaultPVZModal = () => dispatch(modalReducerActions.openDefaultPVZModal())
-  const closeDefaultPVZModal = () => dispatch(modalReducerActions.closeDefaultPVZModal())
+  // const openDefaultPVZModal = () => dispatch(modalReducerActions.openDefaultPVZModal())
+  // const closeDefaultPVZModal = () => dispatch(modalReducerActions.closeDefaultPVZModal())
   const openDefaultCityModal = () => dispatch(modalReducerActions.openDefaultCityModal())
   const closeDefaultCityModal = () => dispatch(modalReducerActions.closeDefaultCityModal())
   const openAddArticleModal = () => dispatch(modalReducerActions.openAddArticleModal())
@@ -69,13 +67,13 @@ const Pc = ({
               .filter(article => article.article.startsWith(searchArticle))
               .map((article, index) => {
                 if(article.keys.length === 0) return null
-              return (
-                <Table
-                  key={index}
-                  article={article}
-                />
-              )
-            })}
+                return (
+                  <Table
+                    key={index}
+                    article={article}
+                  />
+                )
+              })}
           </div>
         ) : (
           <Onboard openAddArticleModal={openAddArticleModal}/>
@@ -94,7 +92,8 @@ const Pc = ({
             <EditPVZList
               closeModal={closePVZModal}
               openCityModal={openCityModal}
-              openDefaultPVZModal={openDefaultPVZModal}/>
+              // openDefaultPVZModal={openDefaultPVZModal}
+            />
           </Modal>
         )
       }
@@ -114,13 +113,13 @@ const Pc = ({
           </Modal>
         )
       }
-      {
-        state.defaultPVZModalOpen && (
-          <Modal closeModal={closeDefaultPVZModal} title={'Внимание!'}>
-            <DefaultPVZ closeModal={closeDefaultPVZModal}/>
-          </Modal>
-        )
-      }
+      {/*{*/}
+      {/*  state.defaultPVZModalOpen && (*/}
+      {/*    <Modal closeModal={closeDefaultPVZModal} title={'Внимание!'}>*/}
+      {/*      <DefaultPVZ closeModal={closeDefaultPVZModal}/>*/}
+      {/*    </Modal>*/}
+      {/*  )*/}
+      {/*}*/}
       {
         state.addArticleModalOpen && (
           <Modal closeModal={closeAddArticleModal} title={'Добавление нового артикула'}>

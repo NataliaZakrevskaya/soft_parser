@@ -23,6 +23,7 @@ interface IModalProps{
 }
 
 const AddArticle = ({closeModal}: IModalProps) => {
+
   const {user} = useContext(UserContext) as UserContextType
   const {chosenCity} = useContext(ChosenCityContext) as ChosenCityContextType
   const {chosenPeriod} = useContext(PeriodContext) as PeriodContextType
@@ -45,7 +46,7 @@ const AddArticle = ({closeModal}: IModalProps) => {
     setInputs(inputs.filter((input: IInput) => input.id !== id))
   }
   const onArticleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if(e.target.value.length < 20) setArticle(e.target.value)
+    if(e.target.value.length < 20) setArticle(e.target.value.trim())
   }
   const createArticle = async() => {
     setLoadingStatus(true)

@@ -14,7 +14,7 @@ interface IInput{
 const InputField = ({value, onChange, showAddInput, addInput, showDelete, deleteInput}: IInput) => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if(e.target.value.length < 100) onChange(e.target.value)
+    if(e.target.value.length < 100) onChange(e.target.value.trim())
   }
 
   return (

@@ -10,8 +10,13 @@ import {Town} from "@api/user/types";
 import {UserContext} from "../../../../App";
 import {UserContextType} from "../../../../types";
 
-const EditPvzList = ({closeModal, openCityModal, openDefaultPVZModal}: ModalPropsType) => {
-const {user, addUser} = useContext(UserContext) as UserContextType
+const EditPvzList = ({
+                       closeModal,
+                       openCityModal,
+                       // openDefaultPVZModal
+}: ModalPropsType) => {
+
+  const {user, addUser} = useContext(UserContext) as UserContextType
   const [cities, setCities] = useState<Town[]>([])
   const [activeCity, setActiveCity] = useState<Town | null>(null)
   const [activePVZList, setActivePVZList] = useState<ResponseAddress[]>([])
@@ -22,7 +27,7 @@ const {user, addUser} = useContext(UserContext) as UserContextType
     setActiveCity(city)
     setSearchPVZ('')
   }
-  const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => setSearchPVZ(e.target.value)
+  const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => setSearchPVZ(e.target.value.trim())
   const updatePwz = async(data: any) => {
     await userApi.updateUser(data)
     await userApi.fetchUser().then(res => addUser(res.data))
@@ -60,10 +65,10 @@ const {user, addUser} = useContext(UserContext) as UserContextType
     closeModal()
     openCityModal()
   }
-  const onDefaultClick = () => {
-    closeModal()
-    openDefaultPVZModal()
-  }
+  // const onDefaultClick = () => {
+  //   closeModal()
+  //   // openDefaultPVZModal()
+  // }
   const deletePVZ = (pvz: IPWZ) => {
     setSessionChanges((prev: ChangeType[]) => {
       if(!activeCity) return prev
@@ -81,8 +86,8 @@ const {user, addUser} = useContext(UserContext) as UserContextType
   }
 
   useEffect(() => {
-      setCities(user.towns)
-      setSessionChanges(user.towns)
+    setCities(user.towns)
+    setSessionChanges(user.towns)
   }, [])
   useEffect(
     () => {
@@ -205,11 +210,11 @@ const {user, addUser} = useContext(UserContext) as UserContextType
         </div>
       </div>
       <div className={styles.controlsWrapper}>
-        <Button
-          text="Восстановить по умолчанию"
-          alternative
-          onClick={onDefaultClick}
-        />
+        {/*<Button*/}
+        {/*  text="Восстановить по умолчанию"*/}
+        {/*  alternative*/}
+        {/*  onClick={onDefaultClick}*/}
+        {/*/>*/}
         <div className={styles.buttonsWrapper}>
           <Button
             text="Отмена"

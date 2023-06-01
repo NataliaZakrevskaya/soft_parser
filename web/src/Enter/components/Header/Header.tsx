@@ -64,6 +64,7 @@ const nav = [
                 fullPath: '',
                 isDraft: false,
             },
+
             {
                 id: '3',
                 title: 'Мониторинг позиций по ПВЗ',

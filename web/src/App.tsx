@@ -35,9 +35,7 @@ export const App: React.FC = () => {
   const [tablesData, setTablesData] = useState<Article[]>([])
   const [chosenPeriod, setChosenPeriod] = useState<string[]>([])
   const [loading, setLoading] = useState<boolean>(false)
-  console.log('q')
-  console.log('1')
-  console.log('2')
+
   const { width } = useWindowSize()
   const changeVersion = () => setFullVersion(!fullVersion)
   const chooseCity = (city: Town) => setChosenCity(city)
@@ -46,7 +44,6 @@ export const App: React.FC = () => {
   const addKeyByArticle = async (data: addKeyByArticleRequest) => {
     await statisticsApi.addKeyByArticle(data)
       .then(res => {
-        console.log('res', res)
         //@ts-ignore
         if (res.errors?.length > 0) {
           //@ts-ignore
@@ -135,7 +132,6 @@ export const App: React.FC = () => {
        await userApi.createUser()
     }
     await userApi.fetchUser().then(res => setUser(res.data))
-    console.log('da', data)
   }
   useEffect(() => {
     getUser()

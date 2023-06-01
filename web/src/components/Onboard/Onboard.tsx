@@ -47,11 +47,28 @@ const Onboard = ({openAddArticleModal}: IProps) => {
             onClick={openAddArticleModal}
           />
         </div>
-        <div className={cn(styles.onboardImage, {
-          [styles.onboardImageOne]: activeOption === 1,
-          [styles.onboardImageTwo]: activeOption === 2,
-          [styles.onboardImageThree]: activeOption === 3,
-        })}/>
+        {/*<div className={cn(styles.onboardImage, {*/}
+        {/*  [styles.onboardImageOne]: activeOption === 1,*/}
+        {/*  [styles.onboardImageTwo]: activeOption === 2,*/}
+        {/*  [styles.onboardImageThree]: activeOption === 3,*/}
+        {/*})}/>*/}
+        {activeOption === 1 && (
+          <img
+            src="/images/onboard/onboardOne.png"
+            className={styles.onboardImageOne}
+            alt="first onboard image"/>)}
+        {activeOption === 2 && (
+          <img
+            src="/images/onboard/onboardTwo.png"
+            className={styles.onboardImageTwo}
+            alt="second onboard image"/>
+        )}
+        {activeOption === 3 && (
+          <img
+            src="/images/onboard/onboardThree.png"
+            className={styles.onboardImageThree}
+            alt="third onboard image"/>
+        )}
       </div>
     </div>
   )
