@@ -130,7 +130,6 @@
     }
 
     &:hover {
-      padding: 12px !important;
       background: linear-gradient(90.82deg, #FFE1F7 12.69%, #FFD8F4 81.86%);
 
       .layoutAsideServices_item_arrow {
@@ -397,7 +396,6 @@
     }
 
     &:hover {
-      padding: 12px !important;
       background: linear-gradient(90.82deg, #FFE1F7 12.69%, #FFD8F4 81.86%);
 
       .layoutAsideHubs_item_arrow {
@@ -605,6 +603,7 @@
     display: flex;
     flex-direction: column;
     width: 408px;
+    gap: 8px;
     max-height: 380px;
     overflow-y: auto;
 
@@ -621,19 +620,17 @@
     @include link;
     cursor: pointer;
     position: relative;
-    margin-bottom: 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-radius: 10px;
     transition: var(--trs-base);
-
+    padding: 10px;
     &:last-child {
       margin-bottom: 0;
     }
 
     &:hover {
-      padding: 12px !important;
       background: linear-gradient(90.82deg, #FFE1F7 12.69%, #FFD8F4 81.86%);
 
       .layoutMainCatalog_item_arrow {
@@ -695,7 +692,7 @@
 
     &_textSubtitle {
       position: relative;
-      width: 300px;
+      max-width: 352px;
       font-family: var(--ff-base);
       font-size: 14px;
       font-weight: 500;

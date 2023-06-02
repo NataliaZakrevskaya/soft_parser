@@ -46,6 +46,55 @@ const menuButtons = [
     // },
 ]
 
+interface ICategory {
+    id: number,
+    attributes: {
+        description: string,
+        image: {
+            data: {
+                id: number
+                attributes: {
+                    url: string
+                }
+            }
+        },
+        icon: string,
+        is_primary: boolean,
+        name: string
+        parent_category: {
+            data: ICategory | null
+        } | undefined
+        slug: string
+    }
+}
+
+export interface ITopNavCatalog {
+    id: number | string,
+    name: string,
+    link: string
+    services: {
+        image: string,
+        title: string,
+        subtitle: string,
+        link: string,
+        isDraft: boolean
+        isPrimary: boolean
+    }[] | undefined
+}
+
+export interface IMobileNavMenu {
+    id: number | string,
+    icon: string,
+    iconActive: string,
+    title: string
+    items: {
+        id: string | number,
+        title: string,
+        fullPath: string,
+        isDraft: boolean
+    }[]
+}
+
 const nav = [
     {
         id: '1',
@@ -222,41 +271,7 @@ const nav = [
     },
 ]
 
-
-interface ICategory {
-    id: number,
-    attributes: {
-        description: string,
-        image: {
-            data: {
-                id: number
-                attributes: {
-                    url: string
-                }
-            }
-        }
-        name: string
-        parent_category: {
-            data: ICategory | null
-        } | undefined
-        slug: string
-    }
-}
-
-export interface ITopNavCatalog {
-    id: number | string,
-    name: string,
-    link: string
-    services: {
-        image: string,
-        title: string,
-        subtitle: string,
-        link: string,
-        isDraft: boolean
-    }[] | undefined
-}
-
-const convertCategoryResponseToAvalibleArray = (categories: ICategory[]): ITopNavCatalog[] => {
+const convertCategoryResponseToAvalibleArray = (categories: ICategory[]): { topNav: ITopNavCatalog[], mobileNav: IMobileNavMenu[]} => {
     const parents: (ICategory & { children?: ICategory[]})[] = []
     categories.forEach(category => !category.attributes.parent_category?.data && parents.push(category))
     categories.forEach(category => {
@@ -273,21 +288,62 @@ const convertCategoryResponseToAvalibleArray = (categories: ICategory[]): ITopNa
     const mappedCagories = parents.map(parent => ({
         id: parent.id,
         name: parent.attributes.name,
-        link: parent.attributes.slug,
+        link: layoutApi.createLink(`catalog/${parent.attributes.slug}`),
         services: parent.children?.map(child => ({
-            image: '',
+            image: layoutApi.createLink('/api' + child.attributes.image.data.attributes.url),
             title: child.attributes.name,
             subtitle: child.attributes.description,
-            link: child.attributes.slug,
+            isPrimary: child.attributes.is_primary,
+            link: layoutApi.createLink('catalog/' + parent.attributes.slug + '/' + child.attributes.slug),
             isDraft: false
         }))
-    }))
-    return mappedCagories
+    })).sort((a, b) => a.id - b.id)
+
+    const mappedMobile = parents.map(parent => ({
+        id: parent.id,
+        icon: layoutApi.createLink('/api' + parent?.attributes?.image?.data?.attributes?.url),
+        iconActive: layoutApi.createLink('/api' + parent?.attributes?.image?.data?.attributes?.url),
+        title: parent.attributes.name,
+        items: parent.children?.map(child => ({
+            id: child.id,
+            title: child.attributes.name,
+            fullPath: layoutApi.createLink('catalog/' + parent.attributes.slug + '/' + child.attributes.slug),
+            isDraft: false
+        })) ?? []
+    })).sort((a, b) => a.id - b.id)
+    return {
+        topNav: mappedCagories,
+        mobileNav: [
+            {
+                id: 'crutch_1',
+                icon: mobNav1,
+                iconActive: mobNav1Acitve,
+                title: 'Сервисы',
+                items: [
+                    {
+                        id: '3',
+                        title: 'Мониторинг позиций по ПВЗ',
+                        fullPath: '',
+                        isDraft: false,
+                    }
+                ],
+            },
+            ...mappedMobile,
+
+            {
+                id: 'crutch_2',
+                icon: mobNav3,
+                iconActive: mobNav3,
+                title: 'Блог',
+                items: [],
+            },
+        ]
+    }
 }
 
 export const Header = (props: { fullWidth?: boolean }) => {
     const [profile, setProfile] = useState(null)
-    const [catalog, setCatalog] = useState<ITopNavCatalog[]>([])
+    const [catalog, setCatalog] = useState<{ topNav: ITopNavCatalog[], mobileNav: IMobileNavMenu[]}>({topNav: [], mobileNav: []})
     const [navMob, setNavMob] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
     const toggleMenu = () => {
@@ -353,7 +409,7 @@ export const Header = (props: { fullWidth?: boolean }) => {
                         />
                     </div>
                     <div className={styles.layoutNav}>
-                        <TopNavLarge nav={catalog}/>
+                        <TopNavLarge nav={catalog.topNav}/>
                     </div>
                     <div className={styles.layoutActions}>
                         {profile && (
@@ -424,7 +480,7 @@ export const Header = (props: { fullWidth?: boolean }) => {
                 </div>
             </div>
             <TopNavMobile
-                nav={nav}
+                nav={catalog.mobileNav}
                 profile={profile}
                 setProfile={setProfile}
                 open={navMob}
