@@ -45,9 +45,9 @@ const CitySelect = () => {
       {openCitySelect && (
         <div className={styles.scroll}>
           <ul className={styles.cityList}>
-            {cities.map((city: Town) =>
+            {cities.map((city: Town, index) =>
               <div
-                key={city._id}
+                key={index}
                 className={cn(styles.cityItem, {
                   [styles.cityItem_active]: chosenCity._id === city._id
                 })}
@@ -55,7 +55,7 @@ const CitySelect = () => {
               >
                 <div className={styles.cityInfo}>
                   <p className={styles.cityName}>{city.city}</p>
-                  <p className={styles.pvzCount}>{city.pwz.length} ПВЗ</p>
+                  <p className={styles.pvzCount}>{city.addresses.length} ПВЗ</p>
                 </div>
                 <div>
                   <input

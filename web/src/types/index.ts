@@ -1,5 +1,5 @@
-import { Town, UserResponse } from "@api/user/types";
-import { Article } from "@api/statistics/types";
+import {Town, UserResponse} from "@api/user/types";
+import {Article} from "@api/statistics/types";
 import {IUserSHProfile} from "@api/shProfile/types";
 
 export interface ChosenCityContextType {

@@ -5,15 +5,8 @@ import cn from 'classnames'
 import {useOnClickOutside} from '@utils/hooks/useOnClickOutside'
 import {statisticsApi} from "@api/statistics/statistics-api";
 import {Article} from "@api/statistics/types";
-import {ChosenCityContext, LoadingContext, PeriodContext, TablesContext, UserContext} from "../../../../../../App";
-import {
-  ChosenCityContextType,
-  LoadingContextType,
-  PeriodContextType,
-  TablesContextType,
-  UserContextType
-} from "../../../../../../types";
-import {log} from "@craco/craco/dist/lib/logger";
+import {ChosenCityContext, LoadingContext, PeriodContext, TablesContext} from "../../../../../../App";
+import {ChosenCityContextType, LoadingContextType, PeriodContextType, TablesContextType} from "../../../../../../types";
 
 interface IProps{
   addEmptyRow: () => void
@@ -27,7 +20,6 @@ const ArticleSettings = ({
                            article
                          }: IProps) => {
 
-  const {user} = useContext(UserContext) as UserContextType
   const {chosenCity} = useContext(ChosenCityContext) as ChosenCityContextType
   const {chosenPeriod} = useContext(PeriodContext) as PeriodContextType
   const {setNewTableData} = useContext(TablesContext) as TablesContextType
@@ -45,13 +37,11 @@ const ArticleSettings = ({
     setLoadingStatus(true)
     const data = {
       article: article.article,
-      cityId: article.city_id,
-      userId: user._id
+      cityId: article.city_id
     }
     await statisticsApi.removeArticle(data)
     const dataFind = {
-      userId: user._id,
-      city: chosenCity._id,
+      city: chosenCity.city_id,
       periods: chosenPeriod
     }
     await statisticsApi.findByCity(dataFind)

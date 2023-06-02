@@ -61,7 +61,7 @@ const Pc = ({
       setShowPlug(false)
     }
   }, [fullVersion])
-
+  console.log('tablesData', tablesData)
   return (
     <Layout>
       {showPlug && <FullVersionPlug

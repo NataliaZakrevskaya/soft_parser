@@ -2,7 +2,7 @@
 import {formatDate} from '../utils/helpers/date'
 
 import Qwe from '@static/images/add-key-hover.svg'
-import {Town, UserResponse} from "@api/user/types";
+import {Town, UpdateTownBody, UserResponse} from "@api/user/types";
 import {IUserSHProfile} from "@api/shProfile/types";
 
 const oneDayAgo = new Date()
@@ -863,14 +863,13 @@ export const mainCatalog = [
 ]
 export const chosenCityInitial: Town = {
   _id: '',
+  city_id: '',
   city: '',
-  pwz: []
+  addresses: []
 }
 export const userInitial: UserResponse = {
-  email: '',
-  telegramId: '',
   towns: [],
-  _id: ''
+  userId: 0
 }
 
 export interface IArticleOption{

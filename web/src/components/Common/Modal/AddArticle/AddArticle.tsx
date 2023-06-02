@@ -52,11 +52,19 @@ const AddArticle = ({closeModal}: IModalProps) => {
     setLoadingStatus(true)
     try{
       const requestData = {
-        telegramId: user.telegramId,
-        userId: user._id,
         article: article.trim(),
         keys: inputs.map((input: IInput) => input.value.trim()),
-        towns: user.towns
+        towns: user.towns.map(town => {
+          return ({
+            city: town.city,
+            _id: town.city_id,
+            pwz: town.addresses.map(address => {
+              return ({
+                name: address.address
+              })
+            })
+          })
+        })
       }
       await statisticsApi.createArticle(requestData)
     } catch(e: any){
@@ -66,7 +74,6 @@ const AddArticle = ({closeModal}: IModalProps) => {
       })
     }
     const data = {
-      userId: user._id,
       city: chosenCity._id,
       periods: chosenPeriod
     }

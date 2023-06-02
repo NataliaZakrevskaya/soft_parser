@@ -12,7 +12,8 @@ import {toast, ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import {addKeyByArticleRequest, Article} from "@api/statistics/types";
 import {
-  ChosenCityContextType, LoadingContextType,
+  ChosenCityContextType,
+  LoadingContextType,
   PeriodContextType,
   ShProfileContextType,
   TablesContextType,
@@ -59,8 +60,7 @@ export const App: React.FC = () => {
         }
       })
     const dataUser = {
-      userId: user._id,
-      city: chosenCity._id,
+      city: chosenCity.city_id,
       periods: chosenPeriod
     }
     await statisticsApi.findByCity(dataUser).then(res => setTablesData(res.data))
@@ -72,16 +72,15 @@ export const App: React.FC = () => {
     const data = {
       article: article.article,
       cityId: article.city_id,
-      userId: user._id,
       keys: [newKeyValue.trim()]
     }
     addKeyByArticle(data)
 
     const dataUser = {
-      userId: user._id,
-      city: chosenCity._id,
+      city: chosenCity.city_id,
       periods: chosenPeriod
     }
+    console.log('dataUser', dataUser)
     await statisticsApi.findByCity(dataUser)
       .then(res => setTablesData(res.data))
       .finally(() => setLoading(false))
@@ -91,12 +90,10 @@ export const App: React.FC = () => {
     const data = {
       article: article.article,
       cityId: article.city_id,
-      userId: user._id,
       keyId
     }
     await statisticsApi.removeKey(data)
     const dataUser = {
-      userId: user._id,
       city: chosenCity._id,
       periods: chosenPeriod
     }
@@ -115,11 +112,10 @@ export const App: React.FC = () => {
 
   }, [])
   useEffect(() => {
-    if(user._id && chosenCity._id && chosenPeriod.length > 0){
+    if(user.userId && chosenCity._id && chosenPeriod.length > 0){
       setLoading(true)
       const data = {
-        userId: user._id,
-        city: chosenCity._id,
+        city: chosenCity.city_id,
         periods: chosenPeriod
       }
       statisticsApi.findByCity(data)
@@ -134,10 +130,8 @@ export const App: React.FC = () => {
   }
   const getUser = async() => {
     let token = localStorage.getItem('sellershub-token')
-    // if(token === null) localStorage.setItem('sellershub-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzYxLCJpYXQiOjE2ODU0NTEwODgsImV4cCI6MTY4ODA0MzA4OH0.zTrdYTSTaUJmo6SDreykwaLuvwtOzjCrbhaiXaTp0YU')
     if(token === null) {
       setAuth(false)
-      // localStorage.setItem('sellershub-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzYxLCJpYXQiOjE2ODU0NTEwODgsImV4cCI6MTY4ODA0MzA4OH0.zTrdYTSTaUJmo6SDreykwaLuvwtOzjCrbhaiXaTp0YU')
     } else{
       setAuth(true)
       getShProfile()

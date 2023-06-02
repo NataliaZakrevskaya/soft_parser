@@ -4,9 +4,9 @@ import cn from 'classnames'
 import {Button} from '../../Button/Button'
 import {ResponseAddress} from "@api/geo/types";
 import {geoApi} from "@api/geo/geo-api";
-import {ChangeType, IPWZ, ModalPropsType} from "./types";
+import {ModalPropsType} from "./types";
 import {userApi} from "@api/user/user-api";
-import {Town, UpdateTownBody} from "@api/user/types";
+import {Town, UpdateTownBody, UpdateUserData} from "@api/user/types";
 import {UserContext} from "../../../../App";
 import {UserContextType} from "../../../../types";
 
@@ -21,24 +21,24 @@ const EditPvzList = ({
   const [activeCity, setActiveCity] = useState<Town | null>(null)
   const [activePVZList, setActivePVZList] = useState<ResponseAddress[]>([])
   const [searchPVZ, setSearchPVZ] = useState<string>('')
-  const [sessionChanges, setSessionChanges] = useState<ChangeType[]>([])
+  const [sessionChanges, setSessionChanges] = useState<UpdateTownBody[]>([])
   const [disabledSaveBtn, setDisabledSaveBtn] = useState<boolean>(false)
   const chooseCity = (city: Town) => {
     setActiveCity(city)
     setSearchPVZ('')
   }
   const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => setSearchPVZ(e.target.value.trim())
-  const updatePwz = async(data: any) => {
+  const updatePwz = async(data: UpdateUserData) => {
     await userApi.updateUser(data)
     await userApi.fetchUser().then(res => addUser(res.data))
   }
   const onSaveClick = () => {
-    const data: UpdateTownBody[] = sessionChanges.map(change => {
-      return ({
-        city: change.city,
-        addresses: change.pwz.map(pwz => pwz.name)
-      })
-    })
+    // const data: UpdateTownBody[] = sessionChanges.map(change => {
+    //   return ({
+    //     city: change.city,
+    //     addresses: change.pwz.map(pwz => pwz.name)
+    //   })
+    // })
     let changes = {
       towns: sessionChanges
     }
@@ -47,7 +47,7 @@ const EditPvzList = ({
   }
   const choosePVZ = (newPvz: ResponseAddress) => {
 
-    setSessionChanges((prev) => {
+    setSessionChanges((prev: UpdateTownBody[]) => {
         if(!activeCity) return prev
 
         const existingChange = prev.find(item => item.city === activeCity?.city)
@@ -55,13 +55,13 @@ const EditPvzList = ({
           return [...prev, {
             _id: activeCity?._id,
             city: activeCity?.city,
-            pwz: [{_id: newPvz._id, name: newPvz.address}]
+            addresses: [newPvz.address]
           }]
         } else{
           return [...prev.filter(item => item.city !== activeCity?.city), {
             _id: activeCity?._id,
             city: existingChange.city,
-            pwz: [...existingChange.pwz, {_id: newPvz._id, name: newPvz.address}]
+            addresses: [...existingChange.addresses, newPvz.address]
           }]
         }
       }
@@ -75,15 +75,14 @@ const EditPvzList = ({
     closeModal()
     openDefaultPVZModal()
   }
-  const deletePVZ = (pvz: IPWZ) => {
-    setSessionChanges((prev: ChangeType[]) => {
+  const deletePVZ = (pvz: string) => {
+    setSessionChanges((prev: UpdateTownBody[]) => {
       if(!activeCity) return prev
-      const existingChange = prev.find(item => item.pwz.includes(pvz))
+      const existingChange = prev.find(item => item.addresses.includes(pvz))
       if(existingChange){
-        return [...prev.filter(item => !item.pwz.includes(pvz)), {
-          _id: existingChange._id,
+        return [...prev.filter(item => !item.addresses.includes(pvz)), {
           city: existingChange.city,
-          pwz: existingChange.pwz.filter(item => item._id !== pvz._id)
+          addresses: existingChange.addresses.filter(item => item !== pvz)
         }]
       } else{
         return prev
@@ -93,7 +92,15 @@ const EditPvzList = ({
 
   useEffect(() => {
     setCities(user.towns)
-    setSessionChanges(user.towns)
+    const data: UpdateTownBody[] = user.towns
+      .map((town: Town) => {
+        return ({
+          city: town.city,
+          addresses: town.addresses
+            .map(address => address.address)
+        })
+      })
+    setSessionChanges(data)
   }, [user.towns])
   useEffect(
     () => {
@@ -108,7 +115,7 @@ const EditPvzList = ({
     }, [activeCity])
   useEffect(() => {
     const changes = !!sessionChanges.length
-    const emptyPVZ = sessionChanges.some((change: ChangeType) => !change.pwz.length)
+    const emptyPVZ = sessionChanges.some((change: UpdateTownBody) => !change.addresses.length)
     setDisabledSaveBtn(!changes || emptyPVZ)
   }, [sessionChanges])
 
@@ -118,10 +125,10 @@ const EditPvzList = ({
         .toLowerCase()
         .includes(searchPVZ.toLowerCase()))
       .filter(activeItem => !sessionChanges
-        .find(sessionItem => sessionItem.city === activeCity?.city)?.pwz?.find(item => item._id === activeItem._id))
+        .find(sessionItem => sessionItem.city === activeCity?.city)?.addresses?.find(item => item === activeItem.address))
   }, [activePVZList, searchPVZ, sessionChanges, activeCity])
   const sessionList = useMemo(() => {
-    return sessionChanges.find(item => item.city === activeCity?.city)?.pwz || []
+    return sessionChanges.find(item => item.city === activeCity?.city)?.addresses || []
   }, [sessionChanges, activeCity])
 
   return (
@@ -192,16 +199,16 @@ const EditPvzList = ({
             <div className={styles.scrollResult}>
               {sessionList.length ? (
                 <ul className={styles.searchPVZResultList}>
-                  {sessionList.map((pvz: IPWZ) => {
+                  {sessionList.map((pvz, index) => {
                     return (
                       <>
                         <li
-                          key={pvz._id}
+                          key={index}
                           className={styles.pvzItemResult}
                           onClick={() => deletePVZ(pvz)}
                         >
                           <div className={styles.moveLeftIcon}/>
-                          <p className={styles.itemText}>{pvz.name}</p>
+                          <p className={styles.itemText}>{pvz}</p>
                         </li>
                         <div className={styles.separator}/>
                       </>

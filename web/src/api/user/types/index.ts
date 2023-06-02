@@ -1,18 +1,28 @@
-import {IPWZ} from "@components/Common/Modal/EditPVZList/types";
-
+interface IAddress {
+    address: string
+    addressId: string
+    _id: string
+}
 export interface Town {
     _id: string
     city: string
-    pwz: IPWZ[]
+    city_id: string
+    addresses: IAddress[]
 }
 export interface UserResponse{
-    email: string,
-    telegramId: string,
     towns: Town[],
-    _id: string
+    userId: number
 }
 export interface CreateUserResponse {
     data: UserResponse
+}
+export interface FetchUserData {
+    _id: string
+    userId: number
+    towns: Town[]
+}
+export interface FetchUserResponse {
+    data: FetchUserData
 }
 
 export interface UpdateTownBody {
@@ -21,4 +31,16 @@ export interface UpdateTownBody {
 }
 export interface UpdateUserData {
     towns: UpdateTownBody[]
+}
+export interface IPWZ {
+    _id: string
+    name: string
+}
+export interface CreateArticlePWZ{
+    name: string
+}
+export interface CreateArticleTown {
+    city: string
+    _id: string
+    pwz: CreateArticlePWZ[]
 }

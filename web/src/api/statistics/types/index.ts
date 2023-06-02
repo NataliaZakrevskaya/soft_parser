@@ -1,6 +1,4 @@
-import {Town} from "@api/user/types";
-
-
+import {CreateArticleTown} from "@api/user/types";
 
 export interface Position {
   _id: string;
@@ -13,9 +11,15 @@ export interface Pwz {
   name: string;
   position: Position[];
 }
+export interface IAverage{
+  _id: string
+  timestamp: string
+  average: number
+}
 export interface Key{
   _id: string,
   key: string,
+  average: IAverage[]
   pwz: Pwz[],
 }
 export interface Article {
@@ -27,36 +31,54 @@ export interface Article {
   city_id: string,
   keys: Key[]
 }
-export interface CreateArticleResponse{
+export interface CreateArticle {
+  _id: string,
+  article: string,
+  productName: string,
+  userId: string,
+  city: string,
+  city_id: string,
+  keys: string[]
+}
+export interface FindByCityResponse {
   data: Article[]
 }
+export interface CreateArticleResponse{
+  data: CreateArticle[]
+}
+export interface RemoveArticleResponse{
+  data: {
+    message: string
+  }
+}
+export interface RemoveKeyResponse{
+  data: {
+    message: {
+      message: string
+    }
+  }
+}
+
 export interface CreateArticleRequest{
-  telegramId: string,
-  // email: string,
-  userId: string,
   article: string,
   keys: string[],
-  towns: Town[]
+  towns: CreateArticleTown[]
 }
 export interface findByCityRequest{
-  userId: string,
   city: string,
   periods: string[]
 }
 export interface addKeyByArticleRequest{
   article: string,
   cityId: string,
-  userId: string,
   keys: string[]
 }
 export interface removeArticleRequest{
   article: string,
   cityId: string,
-  userId: string
 }
 export interface removeKeyRequest{
   article: string,
   cityId: string,
-  userId: string,
   keyId: string
 }

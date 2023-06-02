@@ -21,7 +21,8 @@ const Table = ({article}: ITable) => {
     setLocalKeys([...localKeys, {
       _id: '',
       key: '',
-      pwz: []
+      pwz: [],
+      average: []
     }])
   }
 

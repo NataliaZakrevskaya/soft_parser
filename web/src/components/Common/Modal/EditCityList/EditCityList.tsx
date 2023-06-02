@@ -5,29 +5,26 @@ import {nanoid} from "nanoid";
 import {geoApi} from "@api/geo/geo-api";
 import {ResponseCity} from "@api/geo/types";
 import {userApi} from "@api/user/user-api";
-import {Town, UpdateTownBody, UpdateUserData} from "@api/user/types";
+import {Town, UpdateTownBody} from "@api/user/types";
 import {UserContext} from "../../../../App";
 import {ModalPropsType} from './types'
 import {UserContextType} from "../../../../types";
+
 const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
 
   const {user, addUser} = useContext(UserContext) as UserContextType
-  const [activeCityResult, setActiveCityResult] = useState<Town[]>([])
+  const [activeCityResult, setActiveCityResult] = useState<UpdateTownBody[]>([])
   const [searchCity, setSearchCity] = useState<string>('')
   const [cities, setCities] = useState<ResponseCity[]>([])
   const [disabledSaveBtn, setDisabledSaveBtn] = useState<boolean>(true)
 
   const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => setSearchCity(e.target.value.trim())
   const chooseCity = (city: ResponseCity) => {
-    const changedCity = {
-      _id: city._id,
+    const changedCity: UpdateTownBody  = {
       city: city.city,
-      pwz: city.addresses.map(address => {
-        return ({
-          _id: address._id,
-          name: address.address
-        })
-      })
+      addresses: city.addresses
+        .filter((address, index) => index < 3)
+        .map(address => address.address)
     }
     setActiveCityResult([changedCity, ...activeCityResult])
   }
@@ -35,20 +32,21 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
     closeModal()
     openDefaultCityModal()
   }
-  const onLeftMoveClick = (city: Town) => {
-    setActiveCityResult(activeCityResult.filter((activeCity: Town) => activeCity._id !== city._id))
+  const onLeftMoveClick = (city: UpdateTownBody) => {
+    setActiveCityResult(activeCityResult.filter((activeCity: UpdateTownBody) => activeCity.city !== city.city))
   }
   const updateUser = async(data: any) => {
     await userApi.updateUser(data)
     await userApi.fetchUser().then(res => addUser(res.data))
   }
   const onSaveClick = () => {
-    const data: UpdateTownBody[] = activeCityResult.map(city => {
-      return ({
-        city: city.city,
-        addresses: city.pwz.map(pwz => pwz.name)
-      })
-    })
+    console.log('activeCityResult', activeCityResult)
+    // const data: UpdateTownBody[] = activeCityResult.map((city: Town) => {
+    //   return ({
+    //     city: city.city,
+    //     addresses: city.addresses.map(address => address.address)
+    //   })
+    // })
     let changes = {
       towns: activeCityResult
     }
@@ -60,7 +58,15 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
     geoApi.fetchCities().then(res => {
       setCities(res.data.towns)
     })
-    setActiveCityResult(user.towns)
+    const data: UpdateTownBody[]  = user.towns
+      .map((town: Town) => {
+        return ({
+          city: town.city,
+          addresses: town.addresses
+            .map(address => address.address)
+        })
+      })
+    setActiveCityResult(data)
   }, [])
   useEffect(() => {
     if(activeCityResult.length){
@@ -76,7 +82,7 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
         .toLowerCase()
         .includes(searchCity.toLowerCase()))
       .filter((city: ResponseCity) => !activeCityResult
-        .find((cityResult: Town) => cityResult.city === city.city))
+        .find((cityResult: UpdateTownBody) => cityResult.city === city.city))
   }, [cities, searchCity, activeCityResult])
 
   return (
@@ -120,11 +126,11 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
           <div className={styles.scrollResult}>
             {activeCityResult.length ? (
               <ul className={styles.searchCityResultList}>
-                {activeCityResult.map((city: Town) => {
+                {activeCityResult.map((city: UpdateTownBody) => {
                   return (
                     <>
                       <li
-                        key={`${city._id}${nanoid()}`}
+                        key={nanoid()}
                         className={styles.cityItemResult}
                       >
                         <div
