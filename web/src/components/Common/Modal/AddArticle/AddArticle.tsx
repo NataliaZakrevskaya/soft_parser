@@ -74,7 +74,7 @@ const AddArticle = ({closeModal}: IModalProps) => {
       })
     }
     const data = {
-      city: chosenCity._id,
+      city: chosenCity.city_id,
       periods: chosenPeriod
     }
     await statisticsApi.findByCity(data)

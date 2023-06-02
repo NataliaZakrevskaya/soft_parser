@@ -11,14 +11,13 @@ import {useOnClickOutside} from "../../utils/hook";
 import logo from '../../assets/logo.svg'
 import {hrefEnum} from "../../mock";
 import support from '../../assets/icons/help.svg'
-import supportHover from '../../assets/icons/help.svg'
+import supportHover from '../../assets/icons/helpHover.svg'
 
 import mobNav1 from '../../assets/images/header/mobnav-1.png'
 import mobNav1Acitve from '../../assets/images/header/mobnav-1-active.png'
 import mobNav2 from '../../assets/images/header/mobnav-2.png'
 import mobNav2Acitve from '../../assets/images/header/mobnav-2-active.png'
 import mobNav3 from '../../assets/images/header/mobnav-3.png'
-import mobNav3Acitve from '../../assets/images/header/mobnav-3-active.png'
 import noAvatar from '../../assets/no-avatar.svg'
 import exit from '../../assets/icons/exit.svg'
 import {ShProfileContext} from "../../../App";

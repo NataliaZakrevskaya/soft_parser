@@ -94,7 +94,7 @@ export const App: React.FC = () => {
     }
     await statisticsApi.removeKey(data)
     const dataUser = {
-      city: chosenCity._id,
+      city: chosenCity.city_id,
       periods: chosenPeriod
     }
     await statisticsApi.findByCity(dataUser)
@@ -141,7 +141,11 @@ export const App: React.FC = () => {
       if(data.errors.length > 0){
         await userApi.createUser()
       }
-      await userApi.fetchUser().then(res => setUser(res.data))
+      await userApi.fetchUser().then(res => {
+        setUser(res.data)
+        const data = res.data.towns
+        console.log('towns', data)
+      })
     }
   }
 
