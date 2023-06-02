@@ -24,10 +24,10 @@ const Mobile = ({
     const [firstDay, setFirstDay] = useState<Date>(new Date())
     const [secondDay, setSecondDay] = useState<Date | null>(null)
     const [searchArticle, setSearchActive] = useState<string>('')
-    const [showPlug, setShowPlug] = useState(true)
+    // const [showPlug, setShowPlug] = useState(true)
 
     const onArticleInputChange = (value: string) => setSearchActive(value)
-    const hideVersionPlug = () => setShowPlug(false)
+    // const hideVersionPlug = () => setShowPlug(false)
 
     useEffect(() => {
         const sixDaysAgo = new Date()
@@ -51,11 +51,11 @@ const Mobile = ({
             searchArticle={searchArticle}
             onArticleInputChange={onArticleInputChange}
           />
-          {showPlug && <FullVersionPlug
-              fullVersion={fullVersion}
-              changeVersion={changeVersion}
-              hideVersionPlug={hideVersionPlug}/>
-          }
+          {/*{showPlug && <FullVersionPlug*/}
+          {/*    fullVersion={fullVersion}*/}
+          {/*    changeVersion={changeVersion}*/}
+          {/*    hideVersionPlug={hideVersionPlug}/>*/}
+          {/*}*/}
           {
             tablesData.length > 0 && (
               <div className="tablesWrapper">

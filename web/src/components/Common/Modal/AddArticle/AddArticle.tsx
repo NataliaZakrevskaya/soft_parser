@@ -4,18 +4,8 @@ import {Button} from '../../Button/Button'
 import DynamicKeyInputs, {IInput} from './modules/DynamicKeyInputs/DynamicKeyInputs'
 import {nanoid} from "nanoid";
 import {statisticsApi} from "@api/statistics/statistics-api";
-import {
-  ChosenCityContext, LoadingContext,
-  PeriodContext, TablesContext,
-  UserContext
-} from "../../../../App";
-import {
-  ChosenCityContextType,
-  LoadingContextType,
-  PeriodContextType,
-  TablesContextType,
-  UserContextType
-} from "../../../../types";
+import {ChosenCityContext, LoadingContext, PeriodContext, TablesContext} from "../../../../App";
+import {ChosenCityContextType, LoadingContextType, PeriodContextType, TablesContextType} from "../../../../types";
 import {toast} from "react-toastify";
 
 interface IModalProps{
@@ -45,7 +35,7 @@ const AddArticle = ({closeModal}: IModalProps) => {
     setInputs(inputs.filter((input: IInput) => input.id !== id))
   }
   const onArticleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if(e.target.value.length < 20) setArticle(e.target.value.trim())
+    if(e.target.value.length < 20) setArticle(e.target.value)
   }
   const createArticle = async() => {
     setLoadingStatus(true)

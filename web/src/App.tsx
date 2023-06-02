@@ -197,11 +197,11 @@ export const App: React.FC = () => {
                     <>
                       <ToastContainer/>
                       <Loading active={loading}/>
-                      <Helmet>
-                        <meta name="viewport"
-                              content={fullVersion ? "width=device-1920, initial-scale=0.25, min-scale=0.2, max-scale=1" : "width=device-width, initial-scale=1"}/>
-                        <title>{fullVersion ? 'full version' : 'mobile version'}</title>
-                      </Helmet>
+                      {/*<Helmet>*/}
+                      {/*  <meta name="viewport"*/}
+                      {/*        content={fullVersion ? "width=device-1920, initial-scale=0.25, min-scale=0.2, max-scale=1" : "width=device-width, initial-scale=1"}/>*/}
+                      {/*  <title>{fullVersion ? 'full version' : 'mobile version'}</title>*/}
+                      {/*</Helmet>*/}
                       {isMobile && !fullVersion ? (
                         <Mobile
                           tablesData={tablesData}

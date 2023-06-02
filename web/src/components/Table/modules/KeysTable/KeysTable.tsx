@@ -40,12 +40,12 @@ const KeysTable = ({
   }
   const addNewKey = () => {
     setNewKeyValue('')
-    addKey(newKeyValue, article)
+    addKey(newKeyValue.trim(), article)
   }
   const onDeleteKeyClick = (index: number, keyId: string) => {
     if(localKeys.length < 2) return
     deleteKey(keyId, article)
-    setNewKeyValue('')   //todo проверить
+    setNewKeyValue('')
   }
 
   useEffect(() => {
@@ -110,7 +110,7 @@ const KeysTable = ({
                         className={styles.keyInput}
                         placeholder='Введите ключ'
                         onChange={(e) => {
-                          if(e.target.value.length < 100) setNewKeyValue(e.target.value.trim())
+                          if(e.target.value.length < 100) setNewKeyValue(e.target.value)
                         }}
                         onKeyDown={addNewKeyByEnter}
                       />

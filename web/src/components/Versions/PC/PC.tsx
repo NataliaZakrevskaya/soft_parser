@@ -12,14 +12,13 @@ import ActionsBlock from "@components/Layout/ActionsBlock/ActionsBlock";
 import {PeriodContext} from "../../../App";
 import {PeriodContextType} from "../../../types";
 import {IProps} from "@components/Versions/PC/types";
-import FullVersionPlug from "@components/Versions/Mobile/modules/fullVersionPlug/fullVersionPlug";
 import DefaultPVZ from "@components/Common/Modal/DefaultPVZ/DefaultPVZ";
 
 const Pc = ({
               tablesData,
               changeVersion,
               fullVersion,
-              isMobile
+              // isMobile
             }: IProps) => {
 
   const {setPeriod} = useContext(PeriodContext) as PeriodContextType
@@ -27,7 +26,7 @@ const Pc = ({
   const [searchArticle, setSearchActive] = useState<string>('')
   const [firstDay, setFirstDay] = useState<Date>(new Date())
   const [secondDay, setSecondDay] = useState<Date | null>(null)
-  const [showPlug, setShowPlug] = useState<boolean>(false)
+  // const [showPlug, setShowPlug] = useState<boolean>(false)
 
   const openPVZModal = () => dispatch(modalReducerActions.openPVZModal())
   const closePVZModal = () => dispatch(modalReducerActions.closePVZModal())
@@ -53,21 +52,22 @@ const Pc = ({
       setPeriod(dates)
     }
   }, [firstDay, secondDay])
-  const hideVersionPlug = () => setShowPlug(false)
-  useEffect(() => {
-    if(fullVersion){
-      setShowPlug(true)
-    } else{
-      setShowPlug(false)
-    }
-  }, [fullVersion])
+  // const hideVersionPlug = () => setShowPlug(false)
+  // useEffect(() => {
+  //   if(fullVersion){
+  //     setShowPlug(true)
+  //   } else{
+  //     setShowPlug(false)
+  //   }
+  // }, [fullVersion])
   return (
     <Layout>
-      {showPlug && <FullVersionPlug
-          fullVersion={fullVersion}
-          changeVersion={changeVersion}
-          hideVersionPlug={hideVersionPlug}/>
-      }
+      {/*{showPlug && <FullVersionPlug*/}
+      {/*    fullVersion={fullVersion}*/}
+      {/*    changeVersion={changeVersion}*/}
+      {/*    hideVersionPlug={hideVersionPlug}*/}
+      {/*/>*/}
+      {/*}*/}
       <ActionsBlock
         openPVZModal={openPVZModal}
         openAddArticleModal={openAddArticleModal}
