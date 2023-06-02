@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { FC, useEffect, useRef, useState } from 'react'
+import {FC, useEffect, useMemo, useRef, useState} from 'react'
 import utils from '../../styles/utils.module.scss'
 
 import styles from './TopNavLarge.module.scss'
@@ -14,12 +14,14 @@ import mainService1 from '../../assets/images/header/main-services-1-icon.png'
 import mainService2 from '../../assets/images/header/main-services-2-icon.png'
 import '../../styles/breakpoints.scss'
 import { ITopNavCatalog } from '../Header/Header'
+import { layoutApi } from '../../api'
+import {BOT_URL} from "../../utils/constant";
 const mainServices = [
     {
         image: mainService1,
         title: 'Мониторинг позиций',
         subtitle: 'Сравнение позиций по ПВЗ + расширенный отчет',
-        link: '',
+        link: '/',
         isDraft: false,
     },
     {
@@ -34,16 +36,17 @@ const mainServices = [
 const telegramBots = [
     {
         name: 'Мониторинг позиций по ПВЗ',
-        link: '',
+        link: BOT_URL,
     },
-    {
+    /*{
         name: 'СПП калькулятор',
         link: '',
+        isDraft: true,
     },
     {
         name: 'Шпион за чужими артикулами',
         link: '',
-    },
+    },*/
 ]
 
 const mainHubs = [
@@ -301,7 +304,7 @@ export const TopNavLarge = (props: ITopNavLarge) => {
                         Сервисы
                     </button>
                 </div>
-                <div className={styles.navItem}>
+                {/*<div className={styles.navItem}>
                     <button
                         type='button'
                         className={cn(styles.navItemBtn, {
@@ -319,7 +322,7 @@ export const TopNavLarge = (props: ITopNavLarge) => {
                     >
                         Хабы
                     </button>
-                </div>
+                </div>*/}
                 <div className={styles.navItem}>
                     <button
                         type='button'
@@ -340,7 +343,7 @@ export const TopNavLarge = (props: ITopNavLarge) => {
                     </button>
                 </div>
                 <div className={styles.navItemBtn}>
-                    <a href="" className={styles.navLink}>
+                    <a href={layoutApi.createLink('/blog')} className={styles.navLink}>
                         Блог
                     </a>
                 </div>
@@ -418,7 +421,7 @@ const ServicesDropdown: FC<IServicesDropdownProps> = () => {
                 </div>
                 <div className={styles.layoutMainServices_itemsWrapper}>
                     {telegramBots?.map((item) => (
-                        <a key={item?.name} className={styles.layoutMainServices_item} href={item?.link}>{item?.name}</a>
+                        <a key={item?.name} target='_blank' className={styles.layoutMainServices_item} href={item?.link} rel="noreferrer">{item?.name}</a>
                     ))}
                 </div>
             </div>
@@ -509,7 +512,7 @@ interface ICatalogDropdownProps {
 }
 
 const CatalogDropdown: FC<ICatalogDropdownProps> = ({ touch, nav }) => {
-    const [openNavItem, setOpenNavItem] = useState<number | null | string>('1')
+    const [openNavItem, setOpenNavItem] = useState<number | null | string>(1)
 
     const handleMouseMoveL2 = (itemId: any) => {
         if (touch) {
@@ -530,11 +533,14 @@ const CatalogDropdown: FC<ICatalogDropdownProps> = ({ touch, nav }) => {
     }
 
     const handleClickParentElement = (slug: string, href: string) => {
-        window.location.href = `${hrefEnum.catalog}/${href}`
+        window.location.href = href
         setOpenNavItem(slug)
     }
-    console.log(openNavItem)
-    console.log(nav)
+
+    const mainServices = useMemo(() => nav?.filter((item) => openNavItem === item.id)?.[0]?.['services']?.filter(item => item.isPrimary), [openNavItem, nav])
+    const otherServices = useMemo(() => nav?.filter((item) => openNavItem === item.id)?.[0]?.['services']?.filter(item => !item.isPrimary), [openNavItem, nav])
+    const activeService = useMemo(() => nav?.filter((item) => openNavItem === item.id)?.[0], [openNavItem])
+
     return (
         <>
             <div className={styles.layoutAsideCatalog}>
@@ -543,7 +549,7 @@ const CatalogDropdown: FC<ICatalogDropdownProps> = ({ touch, nav }) => {
                         type='button'
                         key={item.name}
                         className={cn(styles.layoutAsideCatalog_item, {
-                            [styles.layoutAsideCatalog_itemActive]: openNavItem === item.id.toString(),
+                            [styles.layoutAsideCatalog_itemActive]: openNavItem === item.id,
                         })}
                         onClick={() => {
                             handleClickParentElement(item.id.toString(), item.link || '')
@@ -560,9 +566,9 @@ const CatalogDropdown: FC<ICatalogDropdownProps> = ({ touch, nav }) => {
                 ))}
             </div>
             <div className={styles.layoutMainCatalog}>
-                <div className={styles.layoutMainCatalog_title}>Специалисты</div>
+                <div className={styles.layoutMainCatalog_title}>{activeService?.name}</div>
                 <div className={styles.layoutMainCatalog_itemsWrapper}>
-                    {nav?.filter((item) => openNavItem === item.id)?.[0]?.['services']?.map((item) => (
+                    {mainServices?.map((item) => (
                         <a key={item?.title} className={styles.layoutMainCatalog_item} href={item?.link}>
                             <div className={styles.layoutMainCatalog_itemMain}>
                                 {item?.image ? (
@@ -594,12 +600,16 @@ const CatalogDropdown: FC<ICatalogDropdownProps> = ({ touch, nav }) => {
                 </div>
             </div>
             <div className={styles.mainBlockAsideCatalog}>
-                <div className={styles.mainBlockAsideCatalog_title}>Остальное в разделе</div>
-                <div className={styles.mainBlockAsideCatalog_itemsWrapper}>
-                    {mainCatalog?.filter((item) => item?.name === 'Специалисты')?.[0]?.['otherServices']?.map((item) => (
-                        <a key={item?.name} href={item?.link} className={styles.mainBlockAsideCatalog_item}>{item?.name}</a>
-                    ))}
-                </div>
+                {otherServices && otherServices.length > 0 && (
+                    <>
+                        <div className={styles.mainBlockAsideCatalog_title}>Остальное в разделе</div>
+                        <div className={styles.mainBlockAsideCatalog_itemsWrapper}>
+                            {otherServices?.map((item) => (
+                                <a key={item?.title} href={item?.link} style={{textDecoration: 'none'}} className={styles.mainBlockAsideCatalog_item}>{item?.title}</a>
+                            ))}
+                        </div>
+                    </>
+                )}
             </div>
         </>
     )

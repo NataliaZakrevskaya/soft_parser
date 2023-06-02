@@ -40,7 +40,7 @@ const Footer = () => {
                                     {group.items?.length && (
                                         <div className={styles.navList}>
                                             {group.items.map(item => (
-                                                <a key={item.id} href={item.href || ''} className={styles.navLink}>
+                                                <a key={item.id} href={'https://sellershub.ru' + item.href || ''} className={styles.navLink}>
                                                     {item.title}
                                                 </a>
                                             ))}
@@ -54,13 +54,13 @@ const Footer = () => {
                 <div className={styles.bottom}>
                     <div className={styles.bottomCopy}>© 2023 Sellershub.</div>
                     <div className={styles.bottomLinks}>
-                        <a className={cn(styles.bottomLink, styles.advertising)} href={hrefEnum.paidOptions}>
+                        <a className={cn(styles.bottomLink, styles.advertising)} href={'https://sellershub.ru' + hrefEnum.paidOptions}>
                             Реклама на сайте
                         </a>
-                        <a className={styles.bottomLink} href={hrefEnum.privacy}>
+                        <a className={styles.bottomLink} href={'https://sellershub.ru' + hrefEnum.privacy}>
                             Политика конфиденциальности
                         </a>
-                        <a className={styles.bottomLink} href={hrefEnum.userAgreement}>
+                        <a className={styles.bottomLink} href={'https://sellershub.ru' + hrefEnum.userAgreement}>
                             Пользовательское соглашение
                         </a>
                     </div>

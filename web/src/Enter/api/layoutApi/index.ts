@@ -9,8 +9,12 @@ class LayoutApi extends BaseApi{
             const response = await this.axiosInstanse.get<T>(FETCH_CATEGORIES_URL)
             return response.data
         } catch (e: any) {
-            Promise.reject(e.message)
+            return Promise.reject(e.message)
         }
+    }
+    
+    createLink(path: string) {
+        return `${this.shWebPath}/${path}`
     }
 }
 
