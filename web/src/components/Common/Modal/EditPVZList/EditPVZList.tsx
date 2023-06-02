@@ -7,8 +7,15 @@ import {geoApi} from "@api/geo/geo-api";
 import {ModalPropsType} from "./types";
 import {userApi} from "@api/user/user-api";
 import {Town, UpdateTownBody, UpdateUserData} from "@api/user/types";
-import {UserContext} from "../../../../App";
-import {UserContextType} from "../../../../types";
+import {ChosenCityContext, LoadingContext, PeriodContext, TablesContext, UserContext} from "../../../../App";
+import {
+  ChosenCityContextType,
+  LoadingContextType,
+  PeriodContextType,
+  TablesContextType,
+  UserContextType
+} from "../../../../types";
+import {statisticsApi} from "@api/statistics/statistics-api";
 
 const EditPvzList = ({
                        closeModal,
@@ -16,6 +23,10 @@ const EditPvzList = ({
                        openDefaultPVZModal
 }: ModalPropsType) => {
 
+  const {setLoadingStatus} = useContext(LoadingContext) as LoadingContextType
+  const {setNewTableData} = useContext(TablesContext) as TablesContextType
+  const {chosenCity} = useContext(ChosenCityContext) as ChosenCityContextType
+  const {chosenPeriod} = useContext(PeriodContext) as PeriodContextType
   const {user, addUser} = useContext(UserContext) as UserContextType
   const [cities, setCities] = useState<Town[]>([])
   const [activeCity, setActiveCity] = useState<Town | null>(null)
@@ -31,6 +42,16 @@ const EditPvzList = ({
   const updatePwz = async(data: UpdateUserData) => {
     await userApi.updateUser(data)
     await userApi.fetchUser().then(res => addUser(res.data))
+    const dataUser = {
+      city: chosenCity.city_id,
+      periods: chosenPeriod
+    }
+    await statisticsApi.findByCity(dataUser)
+      .then(res => {
+        console.log('tabl', res.data)
+        setNewTableData(res.data)
+      })
+      .finally(() => setLoadingStatus(false))
   }
   const onSaveClick = () => {
     // const data: UpdateTownBody[] = sessionChanges.map(change => {

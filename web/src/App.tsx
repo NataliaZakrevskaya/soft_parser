@@ -80,7 +80,6 @@ export const App: React.FC = () => {
       city: chosenCity.city_id,
       periods: chosenPeriod
     }
-    console.log('dataUser', dataUser)
     await statisticsApi.findByCity(dataUser)
       .then(res => setTablesData(res.data))
       .finally(() => setLoading(false))
@@ -143,8 +142,13 @@ export const App: React.FC = () => {
       }
       await userApi.fetchUser().then(res => {
         setUser(res.data)
-        const data = res.data.towns
-        console.log('towns', data)
+        const data = res.data.towns.find(town => town.city_id === "6478fd9630e79c580489ba43")
+        if(data){
+          setChosenCity(data)
+        } else {
+          if(res.data?.towns?.length > 0)
+          setChosenCity(res.data.towns[0])
+        }
       })
     }
   }

@@ -12,7 +12,6 @@ export const shProfileApi = {
           Authorization: `Bearer ${token}`,
         },
       }).then(res => res.data)
-      console.log('respo',response)
       const result: IUserSHProfile = {
         id: response?.data?.id,
         avatar: {

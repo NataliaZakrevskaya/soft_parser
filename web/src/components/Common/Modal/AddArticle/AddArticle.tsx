@@ -24,7 +24,6 @@ interface IModalProps{
 
 const AddArticle = ({closeModal}: IModalProps) => {
 
-  const {user} = useContext(UserContext) as UserContextType
   const {chosenCity} = useContext(ChosenCityContext) as ChosenCityContextType
   const {chosenPeriod} = useContext(PeriodContext) as PeriodContextType
   const {setNewTableData} = useContext(TablesContext) as TablesContextType
@@ -54,17 +53,14 @@ const AddArticle = ({closeModal}: IModalProps) => {
       const requestData = {
         article: article.trim(),
         keys: inputs.map((input: IInput) => input.value.trim()),
-        towns: user.towns.map(town => {
-          return ({
-            city: town.city,
-            _id: town.city_id,
-            pwz: town.addresses.map(address => {
+        towns: [{
+            city: chosenCity.city,
+            _id: chosenCity.city_id,
+            pwz: chosenCity.addresses.map(address => {
               return ({
                 name: address.address
               })
-            })
-          })
-        })
+        })}]
       }
       await statisticsApi.createArticle(requestData)
     } catch(e: any){

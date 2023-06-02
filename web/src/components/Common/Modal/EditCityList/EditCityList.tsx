@@ -6,12 +6,13 @@ import {geoApi} from "@api/geo/geo-api";
 import {ResponseCity} from "@api/geo/types";
 import {userApi} from "@api/user/user-api";
 import {Town, UpdateTownBody} from "@api/user/types";
-import {UserContext} from "../../../../App";
+import {ChosenCityContext, UserContext} from "../../../../App";
 import {ModalPropsType} from './types'
-import {UserContextType} from "../../../../types";
+import {ChosenCityContextType, UserContextType} from "../../../../types";
 
 const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
 
+  const {chooseCity} = useContext(ChosenCityContext) as ChosenCityContextType
   const {user, addUser} = useContext(UserContext) as UserContextType
   const [activeCityResult, setActiveCityResult] = useState<UpdateTownBody[]>([])
   const [searchCity, setSearchCity] = useState<string>('')
@@ -19,7 +20,7 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
   const [disabledSaveBtn, setDisabledSaveBtn] = useState<boolean>(true)
 
   const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => setSearchCity(e.target.value.trim())
-  const chooseCity = (city: ResponseCity) => {
+  const addCity = (city: ResponseCity) => {
     const changedCity: UpdateTownBody  = {
       city: city.city,
       addresses: city.addresses
@@ -37,10 +38,18 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
   }
   const updateUser = async(data: any) => {
     await userApi.updateUser(data)
-    await userApi.fetchUser().then(res => addUser(res.data))
+    await userApi.fetchUser().then(res => {
+      addUser(res.data)
+      const data = res.data.towns.find(town => town.city_id === "6478fd9630e79c580489ba43")
+      if(data){
+        chooseCity(data)
+      } else {
+        if(res.data?.towns?.length > 0)
+          chooseCity(res.data.towns[0])
+      }
+    })
   }
   const onSaveClick = () => {
-    console.log('activeCityResult', activeCityResult)
     // const data: UpdateTownBody[] = activeCityResult.map((city: Town) => {
     //   return ({
     //     city: city.city,
@@ -110,7 +119,7 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
                         <p className={styles.itemText}>{city.city}</p>
                         <div
                           className={styles.moveRightIcon}
-                          onClick={() => chooseCity(city)}
+                          onClick={() => addCity(city)}
                         />
                       </li>
                       <div className={styles.separator}/>
