@@ -1,18 +1,20 @@
 import cn from 'classnames'
-import { Dispatch, FC, SetStateAction, useRef, useState } from 'react'
+import {FC, useRef, useState} from 'react'
 import styles from './TopNavMobile.module.scss'
-import { PanelHeader } from '../Header/Header'
-import { Button } from '../Button/Button'
-import { Icon } from '../Icon/Icon'
-import { hrefEnum } from '../../mock'
-import { useOnEscape, useOnResize } from '../../utils/hook'
-import { breakpoints } from '../../utils/breakpoints'
+import {PanelHeader} from '../Header/Header'
+import {Button} from '../Button/Button'
+import {Icon} from '../Icon/Icon'
+import {hrefEnum} from '../../mock'
+import {useOnEscape, useOnResize} from '../../utils/hook'
+import {breakpoints} from '../../utils/breakpoints'
 import logo from '../../assets/logo.svg'
 import exit from '../../assets/icons/exit.svg'
+import {IUserSHProfile} from "@api/shProfile/types";
+
 interface IProps {
     nav: any
     profile: any
-    setProfile: Dispatch<SetStateAction<null>>
+    setProfile: (profile: IUserSHProfile | null) => void
     onClose?: () => void
     open: boolean
     login: () => void

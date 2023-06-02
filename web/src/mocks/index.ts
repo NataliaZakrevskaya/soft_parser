@@ -3,6 +3,7 @@ import {formatDate} from '../utils/helpers/date'
 
 import Qwe from '@static/images/add-key-hover.svg'
 import {Town, UserResponse} from "@api/user/types";
+import {IUserSHProfile} from "@api/shProfile/types";
 
 const oneDayAgo = new Date()
 oneDayAgo.setDate(oneDayAgo.getDate() - 1)
@@ -875,4 +876,15 @@ export const userInitial: UserResponse = {
 export interface IArticleOption{
   id: number
   name: string
+}
+export const shProfileInitial: IUserSHProfile = {
+  id: 0,
+  avatar: {
+    url: '',
+  },
+  first_name: '',
+  last_name: '',
+  nickname: '',
+  real_name: '',
+  company: '',
 }

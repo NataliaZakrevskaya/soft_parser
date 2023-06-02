@@ -6,14 +6,14 @@ import {ResponseAddress} from "@api/geo/types";
 import {geoApi} from "@api/geo/geo-api";
 import {ChangeType, IPWZ, ModalPropsType} from "./types";
 import {userApi} from "@api/user/user-api";
-import {Town} from "@api/user/types";
+import {Town, UpdateTownBody} from "@api/user/types";
 import {UserContext} from "../../../../App";
 import {UserContextType} from "../../../../types";
 
 const EditPvzList = ({
                        closeModal,
                        openCityModal,
-                       // openDefaultPVZModal
+                       openDefaultPVZModal
 }: ModalPropsType) => {
 
   const {user, addUser} = useContext(UserContext) as UserContextType
@@ -33,6 +33,12 @@ const EditPvzList = ({
     await userApi.fetchUser().then(res => addUser(res.data))
   }
   const onSaveClick = () => {
+    const data: UpdateTownBody[] = sessionChanges.map(change => {
+      return ({
+        city: change.city,
+        addresses: change.pwz.map(pwz => pwz.name)
+      })
+    })
     let changes = {
       towns: sessionChanges
     }
@@ -65,10 +71,10 @@ const EditPvzList = ({
     closeModal()
     openCityModal()
   }
-  // const onDefaultClick = () => {
-  //   closeModal()
-  //   // openDefaultPVZModal()
-  // }
+  const onDefaultClick = () => {
+    closeModal()
+    openDefaultPVZModal()
+  }
   const deletePVZ = (pvz: IPWZ) => {
     setSessionChanges((prev: ChangeType[]) => {
       if(!activeCity) return prev
@@ -88,7 +94,7 @@ const EditPvzList = ({
   useEffect(() => {
     setCities(user.towns)
     setSessionChanges(user.towns)
-  }, [])
+  }, [user.towns])
   useEffect(
     () => {
       const fetchData = async() => {
@@ -210,11 +216,11 @@ const EditPvzList = ({
         </div>
       </div>
       <div className={styles.controlsWrapper}>
-        {/*<Button*/}
-        {/*  text="Восстановить по умолчанию"*/}
-        {/*  alternative*/}
-        {/*  onClick={onDefaultClick}*/}
-        {/*/>*/}
+        <Button
+          text="Восстановить по умолчанию"
+          alternative
+          onClick={onDefaultClick}
+        />
         <div className={styles.buttonsWrapper}>
           <Button
             text="Отмена"

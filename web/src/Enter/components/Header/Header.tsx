@@ -1,6 +1,6 @@
 import cn from 'classnames'
 
-import {FC, useEffect, useRef, useState} from 'react'
+import {FC, useContext, useEffect, useRef, useState} from 'react'
 import {Button} from '../Button/Button'
 import {TopNavLarge} from '../TopNavLarge/TopNavLarge'
 import {TopNavMobile} from '../TopNavMobile/TopNavMobile'
@@ -21,6 +21,8 @@ import mobNav3 from '../../assets/images/header/mobnav-3.png'
 import mobNav3Acitve from '../../assets/images/header/mobnav-3-active.png'
 import noAvatar from '../../assets/no-avatar.svg'
 import exit from '../../assets/icons/exit.svg'
+import {ShProfileContext} from "../../../App";
+import {ShProfileContextType} from "../../../types";
 import { layoutApi } from '../../api'
 
 const user = {
@@ -342,8 +344,9 @@ const convertCategoryResponseToAvalibleArray = (categories: ICategory[]): { topN
 }
 
 export const Header = (props: { fullWidth?: boolean }) => {
-    const [profile, setProfile] = useState(null)
     const [catalog, setCatalog] = useState<{ topNav: ITopNavCatalog[], mobileNav: IMobileNavMenu[]}>({topNav: [], mobileNav: []})
+    // const [profile, setProfile] = useState(null)
+    const{profile, setProfile} = useContext(ShProfileContext) as ShProfileContextType
     const [navMob, setNavMob] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
     const toggleMenu = () => {
@@ -500,8 +503,18 @@ interface PanelHeaderProps {
 }
 
 export const PanelHeader: FC<PanelHeaderProps> = ({className, navMob, onClose}) => {
-    const profile = {}
+    const {profile} = useContext(ShProfileContext) as ShProfileContextType
     const nameDisplayed = () => {
+        if (profile?.first_name || profile?.last_name) {
+            return (
+              <span style={{wordWrap: 'break-word'}}>
+          {profile?.first_name || ''} {profile?.last_name || ''}
+        </span>
+            )
+        }
+        if (profile?.company) {
+            return profile.company
+        }
         return 'Нет имени'
     }
 
@@ -516,7 +529,7 @@ export const PanelHeader: FC<PanelHeaderProps> = ({className, navMob, onClose}) 
 
             <div className={styles.profile_menu_header_info}>
                 <div className={styles.profile_menu_header_info_name}>{nameDisplayed()}</div>
-                <a href={hrefEnum.me} onClick={onClose} className={styles.profile_menu_header_info_link}>
+                <a href={`https://sellershub.ru/${hrefEnum.me}`} onClick={onClose} className={styles.profile_menu_header_info_link}>
                     Перейти в профиль
                 </a>
             </div>

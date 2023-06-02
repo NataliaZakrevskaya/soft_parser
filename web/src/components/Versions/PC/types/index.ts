@@ -1,7 +1,7 @@
 import {Article} from "@api/statistics/types";
 
 export interface IProps{
-  changeVersion?: () => void
+  changeVersion: () => void
   fullVersion: boolean
   isMobile: boolean
   tablesData: Article[]

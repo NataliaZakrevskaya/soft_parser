@@ -5,7 +5,7 @@ import {nanoid} from "nanoid";
 import {geoApi} from "@api/geo/geo-api";
 import {ResponseCity} from "@api/geo/types";
 import {userApi} from "@api/user/user-api";
-import {Town} from "@api/user/types";
+import {Town, UpdateTownBody, UpdateUserData} from "@api/user/types";
 import {UserContext} from "../../../../App";
 import {ModalPropsType} from './types'
 import {UserContextType} from "../../../../types";
@@ -43,6 +43,12 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
     await userApi.fetchUser().then(res => addUser(res.data))
   }
   const onSaveClick = () => {
+    const data: UpdateTownBody[] = activeCityResult.map(city => {
+      return ({
+        city: city.city,
+        addresses: city.pwz.map(pwz => pwz.name)
+      })
+    })
     let changes = {
       towns: activeCityResult
     }

@@ -12,7 +12,7 @@ interface ModalPropsType{
 const DefaultCity = ({closeModal}: ModalPropsType) => {
   const {addUser} = useContext(UserContext) as UserContextType
   const setDefault = async () => {
-    await userApi.setDefaultSettings()
+    await userApi.setDefaultCitySettings()
     await userApi.fetchUser().then(res => {
       addUser(res.data)
     })

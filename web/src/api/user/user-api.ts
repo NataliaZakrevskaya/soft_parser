@@ -1,5 +1,11 @@
-import {CREATE_PROFILE_URL, DEFAULT_PROFILE_URL, FETCH_PROFILE_URL, UPDATE_PROFILE_URL} from './constants'
-import {CreateUserResponse} from "./types";
+import {
+  CREATE_PROFILE_URL,
+  DEFAULT_CITY_URL,
+  DEFAULT_PWZ_URL,
+  FETCH_PROFILE_URL,
+  UPDATE_PROFILE_URL
+} from './constants'
+import {CreateUserResponse, UpdateUserData} from "./types";
 import {instance} from "@api/config";
 
 export const userApi = {
@@ -9,7 +15,7 @@ export const userApi = {
   async fetchUser(){
     return await instance.get<CreateUserResponse>(FETCH_PROFILE_URL).then(res => res.data)
   },
-  async updateUser(data: any){
+  async updateUser(data: UpdateUserData){
     return await instance.put<CreateUserResponse>(UPDATE_PROFILE_URL, data, {
       headers: {
         'Content-Type': 'application/json',
@@ -17,7 +23,10 @@ export const userApi = {
       }
     }).then(res => res.data)
   },
-  async setDefaultSettings(){
-    return await instance.put<CreateUserResponse>(DEFAULT_PROFILE_URL).then(res => res.data)
+  async setDefaultCitySettings(){
+    return await instance.put<CreateUserResponse>(DEFAULT_CITY_URL).then(res => res.data)
+  },
+  async setDefaultPwzSettings(){
+    return await instance.get<CreateUserResponse>(DEFAULT_PWZ_URL).then(res => res.data)
   },
 }

@@ -47,11 +47,6 @@ const Onboard = ({openAddArticleModal}: IProps) => {
             onClick={openAddArticleModal}
           />
         </div>
-        {/*<div className={cn(styles.onboardImage, {*/}
-        {/*  [styles.onboardImageOne]: activeOption === 1,*/}
-        {/*  [styles.onboardImageTwo]: activeOption === 2,*/}
-        {/*  [styles.onboardImageThree]: activeOption === 3,*/}
-        {/*})}/>*/}
         {activeOption === 1 && (
           <img
             src="/images/onboard/onboardOne.png"
