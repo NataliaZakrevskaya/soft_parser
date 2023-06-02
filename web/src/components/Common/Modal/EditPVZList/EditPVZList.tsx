@@ -38,7 +38,7 @@ const EditPvzList = ({
     setActiveCity(city)
     setSearchPVZ('')
   }
-  const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => setSearchPVZ(e.target.value.trim())
+  const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => setSearchPVZ(e.target.value.trimStart())
   const updatePwz = async(data: UpdateUserData) => {
     await userApi.updateUser(data)
     await userApi.fetchUser().then(res => addUser(res.data))
@@ -48,7 +48,6 @@ const EditPvzList = ({
     }
     await statisticsApi.findByCity(dataUser)
       .then(res => {
-        console.log('tabl', res.data)
         setNewTableData(res.data)
       })
       .finally(() => setLoadingStatus(false))

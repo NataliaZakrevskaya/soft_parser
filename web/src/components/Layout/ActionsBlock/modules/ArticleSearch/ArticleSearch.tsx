@@ -9,7 +9,7 @@ interface IArticleProps{
 const ArticleSearch = ({searchArticle, onArticleInputChange}: IArticleProps) => {
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onArticleInputChange(e.target.value.trim())
+    onArticleInputChange(e.target.value.trimStart())
   }
 
   return (

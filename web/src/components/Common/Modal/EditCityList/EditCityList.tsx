@@ -19,7 +19,7 @@ const EditCityList = ({closeModal, openDefaultCityModal}: ModalPropsType) => {
   const [cities, setCities] = useState<ResponseCity[]>([])
   const [disabledSaveBtn, setDisabledSaveBtn] = useState<boolean>(true)
 
-  const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => setSearchCity(e.target.value.trim())
+  const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => setSearchCity(e.target.value.trimStart())
   const addCity = (city: ResponseCity) => {
     const changedCity: UpdateTownBody  = {
       city: city.city,
